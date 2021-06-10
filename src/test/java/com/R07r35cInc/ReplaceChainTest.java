@@ -1,0 +1,58 @@
+package com.R07r35cInc;
+
+import com.BaseTest;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class ReplaceChainTest extends BaseTest {
+
+    Blockchain blockchain;
+    Blockchain newChain;
+    List<Block> originalChain;
+
+    @BeforeEach
+    void init() {
+        blockchain = new Blockchain();
+        newChain = new Blockchain();
+        originalChain = blockchain.getChain();
+    }
+
+    @Test
+    void notLongerChain() {
+        RuntimeException thrown = assertThrows(
+                RuntimeException.class,
+                () -> blockchain.replaceChain(newChain.getChain()),
+                "Expected replaceChain() to throw, but it didn't"
+        );
+        assertTrue(thrown.getMessage().contains("The incoming chain must be longer"),
+                "the new chain is not longer");
+    }
+
+    @Test
+    void longerButInvalidChain() {
+        newChain.addBlock("additional block");
+        ((Block) newChain.getChain().get(1)).setPreviousHash("some-fake-hash");
+
+        RuntimeException thrown = assertThrows(
+                RuntimeException.class,
+                () -> blockchain.replaceChain(newChain.getChain()),
+                "Expected replaceChain() to throw, but it didn't"
+        );
+        assertTrue(thrown.getMessage().contains("The incoming chain must be valid"),
+                "the new chain is invalid");
+    }
+
+    @Test
+    void chainIsValid() {
+        newChain.addBlock("additional block");
+        assertDoesNotThrow(() -> {
+            blockchain.replaceChain(newChain.getChain());
+        });
+    }
+
+}

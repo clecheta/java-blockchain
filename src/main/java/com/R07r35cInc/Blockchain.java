@@ -1,5 +1,7 @@
 package com.R07r35cInc;
 
+import com.google.gson.GsonBuilder;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,8 +36,12 @@ public class Blockchain<T> {
         );
     }
 
-    /** Chain Validation - inspect a Blockchain (inspect each block was construct correctly) */
     public Boolean isValidChain() {
+        return isValidChain(this.chain);
+    }
+
+    /** Chain Validation - inspect a Blockchain (inspect each block was construct correctly) */
+    public Boolean isValidChain(List<Block> chain) {
         if (!Block.genesis().equals(chain.get(0))) return false; //genesis block validation
         Block block;
         String lastHash;
@@ -59,6 +65,22 @@ public class Blockchain<T> {
             }
         }
         return true;
+    }
+
+    /** Necessary because of the blockchain network interaction
+     * not static method as it is specific to each instance of the blockchain **/
+    void replaceChain(List<Block> chain) {
+        if (chain.size() <= this.chain.size()) {
+            throw new RuntimeException("The incoming chain must be longer");
+        }
+
+        if (!this.isValidChain(chain)) {
+            throw new RuntimeException("The incoming chain must be valid");
+        }
+
+        String chainJson = new GsonBuilder().setPrettyPrinting().create().toJson(chain);
+        System.out.println("Replacing chain with: \n" + chainJson );
+        this.chain = chain;
     }
 
     public List<Block> getChain() {

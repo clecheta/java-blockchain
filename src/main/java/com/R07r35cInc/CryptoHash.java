@@ -17,10 +17,7 @@ public class CryptoHash {
             byte[] bytes = digest.digest(input.getBytes(StandardCharsets.UTF_8));
             StringBuffer hexString = new StringBuffer(); // This will contain hash as hexidecimal
             for (int i = 0; i < bytes.length; i++) {
-                //hexString.append(Integer.toString((hash[i] & 0xff) + 0x100, 16).substring(1));
-                String hex = Integer.toHexString(0xff & bytes[i]);
-                if (hex.length() == 1) hexString.append('0');
-                hexString.append(hex);
+                hexString.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
             }
             hash = hexString.toString();
         } catch (NoSuchAlgorithmException e) {

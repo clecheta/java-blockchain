@@ -1,10 +1,12 @@
-package blockchain.concept;
+package concept;
 
 import com.google.gson.GsonBuilder;
 
 public class TestChain {
 
     public static void main(String[] args) {
+        System.out.println("\nVisualize the Blockchain Concept in practice\n");
+
         //Test 1
         Block genesisBlock = Block.genesis();
         System.out.println("Hash for block 1 : " + genesisBlock.getHash());

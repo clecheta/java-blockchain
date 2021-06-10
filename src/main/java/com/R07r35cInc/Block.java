@@ -8,7 +8,7 @@ public class Block<T> {
     private String hash;
     private T data;
 
-    Block(Long timestamp, String previousHash, String hash, T data) {
+    public Block(Long timestamp, String previousHash, String hash, T data) {
         this.timestamp = timestamp;
         this.previousHash = previousHash;
         this.hash = hash;

@@ -1,4 +1,4 @@
-package blockchain.concept;
+package concept;
 
 import java.util.Date;
 
