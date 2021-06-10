@@ -1,6 +1,5 @@
 package com.R07r35cInc;
 
-import java.util.Date;
 import java.util.Objects;
 
 public class Block<T> {
@@ -17,8 +16,9 @@ public class Block<T> {
     }
 
     public static Block genesis() {
+        Long beforeWorldEvenExists = 0L;
         return new Block(
-                new Date().getTime(),
+                beforeWorldEvenExists,
                 "Yes-I-am-coming-soon.Amen.Come-Lord-Jesus",
                 "The-stone-the-builders-rejected-has-become-the-cornerstone",
                 "Book of Genesis 1.1");
@@ -52,4 +52,14 @@ public class Block<T> {
     public int hashCode() {
         return Objects.hash(timestamp, previousHash, hash, data);
     }
+
+    /* the set methods here were create for test purpose only */
+
+    public void setData(T data) { //@see BlockChainTest.fakeGenesisBlock()
+        this.data = data;
+    }
+    public void setPreviousHash(String aHash) { //@see BlockChainTest.isValidChain()
+        this.previousHash = aHash;
+    }
+
 }

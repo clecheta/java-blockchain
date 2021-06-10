@@ -5,6 +5,9 @@ import com.BaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BlockchainTest extends BaseTest {
@@ -14,6 +17,44 @@ public class BlockchainTest extends BaseTest {
     @BeforeEach
     void init() {
         blockchain = new Blockchain();
+    }
+
+    @Test
+    void testChain() {
+        assertTrue(blockchain.getChain() instanceof ArrayList, "contains a `chain` List instance");
+        Block actualBlock = (Block) blockchain.getChain().get(0);
+        Block expectedBlock = Block.genesis();
+        assertEquals(expectedBlock, actualBlock, "starts with the genesis block");
+        BigDecimal newData = BigDecimal.TEN;
+        blockchain.addBlock(newData);
+        Block lastBlock = (Block) blockchain.getChain().get(blockchain.getChain().size()-1);
+        assertEquals(newData, lastBlock.getData(), "adds a new block to the chain");
+    }
+
+    @Test
+    void fakeGenesisBlock() {
+        ((Block)blockchain.getChain().get(0)).setData("fake-genesis");
+        assertFalse(blockchain.isValidChain(), "the chain does not start with the genesis block");
+    }
+
+    @Test
+    //FIXME its printing twice current-hashes-not-equal but expected at least one to be the previous hash message
+    void isValidChain() {
+        blockchain.addBlock("Exodus");
+        blockchain.addBlock("Leviticus");
+        blockchain.addBlock("A LEGO GIFT FROM GOD!");
+
+        String originalHash = ((Block)blockchain.getChain().get(2)).getPreviousHash();
+        ((Block)blockchain.getChain().get(2)).setPreviousHash("broken-previous-hash");
+        assertFalse(blockchain.isValidChain(), "previous hash reference has changed");
+        ((Block)blockchain.getChain().get(2)).setPreviousHash(originalHash);
+        assertTrue(blockchain.isValidChain(), "fix previous hash reference");
+
+        String originalData = (String) ((Block)blockchain.getChain().get(3)).getData();
+        ((Block)blockchain.getChain().get(3)).setData("it's not a present from our God.");
+        assertFalse(blockchain.isValidChain(), "chain contains a block wih an invalid field");
+        ((Block)blockchain.getChain().get(3)).setData(originalData);
+        assertTrue(blockchain.isValidChain(), "chain does not contain any invalid blocks");
     }
 
     @Test
@@ -30,11 +71,11 @@ public class BlockchainTest extends BaseTest {
         assertNotNull(minedBlock.getTimestamp(), "sets a `timestamp`");
         assertEquals(minedBlock.getHash(), generatedHash, "creates a SHA-256 `hash` based on the proper inputs");
 
-        logToConsole(minedBlock);
+        logToConsole(minedBlock, "mined block");
     }
 
-    @Test
-    void testSimpleChain() {
+    @Test //initial concept validation
+    void outputSimpleChain() {
         Block genesisBlock = Block.genesis();
         System.out.println("Hash for block 1 : " + genesisBlock.getHash());
 
@@ -44,7 +85,11 @@ public class BlockchainTest extends BaseTest {
         Block thirdBlock = blockchain.mineBlock(secondBlock, "Hey im the third block");
         System.out.println("Hash for block 3 : " + thirdBlock.getHash());
 
-        //System.out.println("\nValid: " + blockchain.isValidChain());
-        logToConsole(blockchain);
+        blockchain.addBlock("Yo im the second block");
+        blockchain.addBlock("Hey im the third block");
+
+        System.out.print("\nValid: " + blockchain.isValidChain());
+        logToConsole(blockchain, "Simple-Chain|OUTPUT");
     }
+
 }

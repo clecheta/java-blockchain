@@ -33,20 +33,19 @@ public class CryptoHash {
         return applySha256(value);
     }
 
+    //TODO test coverage
     public static String calculateHash(Long timestamp, String previousHash, Object data) {
         String serializedData = new GsonBuilder().setPrettyPrinting().create().toJson(data);
         return applySha256(timestamp + previousHash + serializedData);
     }
 
-    /*
+    //TODO test coverage
     public static String calculateHash(Block block) {
-        Jsonb jsonb = JsonbBuilder.create();
-        String serializedData = jsonb.toJson(block.getData());
+        String serializedData = new GsonBuilder().setPrettyPrinting().create().toJson(block.getData());
         return applySha256(
                 Long.toString(block.getTimestamp()) +
                         block.getPreviousHash() +
                         serializedData
         );
     }
-    */
 }

@@ -29,18 +29,18 @@ public class BlockTest extends BaseTest {
     }
 
     @Test
-    public void instantiate() {
+    void instantiate() {
         Block genesisBlock = Block.genesis();
         assertNotNull(genesisBlock);
         assertTrue(genesisBlock instanceof Block);
         assertEquals("Yes-I-am-coming-soon.Amen.Come-Lord-Jesus", genesisBlock.getPreviousHash());
         assertEquals("The-stone-the-builders-rejected-has-become-the-cornerstone", genesisBlock.getHash());
         assertEquals("Book of Genesis 1.1", genesisBlock.getData());
-        logToConsole(genesisBlock);
+        logToConsole(genesisBlock, null);
     }
 
     @Test
-    public void addDomainModelAsData() {
+    void addDomainModelAsData() {
         User user = new User();
         user.username = "user1";
         user.password = "pass1";
@@ -52,12 +52,25 @@ public class BlockTest extends BaseTest {
                 user);
         assertNotNull(userBlock);
         assertTrue(userBlock.getData() instanceof User);
-        logToConsole(userBlock);
+        logToConsole(userBlock, "user data model (value object) block example");
     }
 
     class User {
         public String username;
         public String password;
+    }
+
+    @Test
+    void testEqualsAndHashcode() {
+        Block block1 = Block.genesis();
+        Block block2 = new Block(
+                block1.getTimestamp(),
+                block1.getPreviousHash(),
+                block1.getHash(),
+                block1.getData());
+        assertEquals(block1, block2);
+        assertFalse(block1 == block2, "ensure its not the same memory object reference");
+        assertTrue(block1.hashCode() == block2.hashCode());
     }
 
 }
