@@ -1,2 +1,1 @@
-# Java Blockchain
-
+## Jesus Java Blockchain (JBlock)
