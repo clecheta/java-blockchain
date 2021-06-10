@@ -1,1 +1,32 @@
+image: maven:3.6-jdk-11
 
+stages:
+  - test
+
+include:
+  - template: Security/Secret-Detection.gitlab-ci.yml
+  - template: Code-Quality.gitlab-ci.yml
+
+before_script:
+  - echo "before script"
+  - echo $CI_COMMIT_BRANCH
+
+code_quality:
+  tags:
+    - cq-sans-dind # Set this job to only run on our specialized runner
+  artifacts:
+    paths: [gl-code-quality-report.json]
+
+secret_detection:
+  image: docker:dind
+  tags:
+    - dind
+
+Junit:
+  stage: test
+  script:
+    - mvn test
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - target/surefire-reports
