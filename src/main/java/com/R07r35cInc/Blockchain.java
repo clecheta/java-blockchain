@@ -41,19 +41,20 @@ public class Blockchain<T> {
         String lastHash;
         String validatedHash;
         //loop through blockchain to check hashes
-        for(int i=1; i < chain.size(); i++) { //0 index already validated in the first line of the method
+        for(int i=1; i < chain.size(); i++) { //skip the genesis block at position 0 (already validated in 1st line)
             block = chain.get(i);
             lastHash = chain.get(i-1).getHash();
 
-            //compare registered hash and calculated hash:
+            /** validate actual lashHash reference (links to block-to-block) */
+            if(!lastHash.equals(block.getPreviousHash()) ) {
+                System.out.println(LocalDateTime.now() + "|Previous-hashes-not-equal");
+                return false;
+            }
+
+            /** have valid hash */
             validatedHash = CryptoHash.calculateHash(block);
             if(!block.getHash().equals(validatedHash) ){
                 System.out.println(LocalDateTime.now() + "|Current-hashes-not-equal");
-                return false;
-            }
-            //compare previous hash and registered previous hash
-            if(!lastHash.equals(block.getPreviousHash()) ) {
-                System.out.println(LocalDateTime.now() + "|Previous-hashes-not-equal");
                 return false;
             }
         }

@@ -38,7 +38,6 @@ public class BlockchainTest extends BaseTest {
     }
 
     @Test
-    //FIXME its printing twice current-hashes-not-equal but expected at least one to be the previous hash message
     void isValidChain() {
         blockchain.addBlock("Exodus");
         blockchain.addBlock("Leviticus");

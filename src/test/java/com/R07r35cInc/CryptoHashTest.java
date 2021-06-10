@@ -12,15 +12,13 @@ public class CryptoHashTest extends BaseTest {
         assertEquals("077af691b59e1e08dbf12c5cb4b83640600c8a11e67a5919d7f2daa7494b1d08",
                 CryptoHash.generateHash("JesusLives"),
                 "generates a SHA-256 hashed output");
+
+        String expectedHash = CryptoHash.generateHash("aValue" + "another");
+        String actualHash = CryptoHash.generateHash("aValue" + "another");
+        assertEquals(expectedHash, actualHash, "produces the same hash with the same input arguments");
     }
 
-    /*
-    @Test
-    public void testCalculateHash() {
-        Long timestamp = new Date().getTime();
-        String hash1 = CryptoHash.generateHash(timestamp + "A" + "B");
-        String hash2 = CryptoHash.generateHash("B" + "A" + timestamp);
-        assertEquals(hash1, hash2, "produces the same hash with the same input arguments in any order");
-    }*/
+
+    //TODO: test the other methods of this utilitary class
 
 }
