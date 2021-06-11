@@ -81,15 +81,15 @@ public class BlockchainTest extends BaseTest {
         Block lastBlock = Block.genesis();
         String data = "mined data";
         Block minedBlock = blockchain.mineBlock(lastBlock, data);
-        String generatedHash = CryptoHash.calculateHash(minedBlock.getTimestamp(),
-                lastBlock.getHash(), data, minedBlock.getIndex());
+        String calculatedHash = CryptoHash.calculateHash(minedBlock.getTimestamp(),
+                lastBlock.getHash(), data, minedBlock.getIndex(), minedBlock.getNonce());
 
         assertTrue(minedBlock instanceof Block, "returns a Block instance");
         assertEquals(minedBlock.getPreviousHash(), lastBlock.getHash(),
                 "sets the `lastHash` to be the `hash` of the lastBlock");
         assertEquals(minedBlock.getData(), data, "sets the `data`");
         assertNotNull(minedBlock.getTimestamp(), "sets a `timestamp`");
-        assertEquals(minedBlock.getHash(), generatedHash, "creates a SHA-256 `hash` based on the proper inputs");
+        assertEquals(minedBlock.getHash(), calculatedHash, "creates a SHA-256 `hash` based on the proper inputs");
 
         logToConsole(minedBlock, "mined block");
     }

@@ -23,12 +23,11 @@ public class Blockchain<T> {
     }
 
     //This is here instead of Block class because we could not use static method with generic type
-    public Block mineBlock(Block lastBlock, T data) {
+    public Block mineBlock(Block lastBlock, T data) { //here we can use a prof=true/false to decide use it or not
         Long timestamp = new Date().getTime();
         String previousHash = lastBlock.getHash();
         long index = lastBlock.getIndex()+1;
-        String hash = CryptoHash.calculateHash(timestamp, previousHash, data, index);
-        return new Block(timestamp, previousHash, hash, data, index);
+        return Miner.proofOfWork(timestamp, previousHash, data, index);
     }
 
     public Boolean isValidChain() {

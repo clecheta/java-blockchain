@@ -26,22 +26,23 @@ public class CryptoHash {
         return hash;
     }
 
+    /** To be used for unit test purpose only */
     public static String generateHash(String value) {
         return applySha256(value);
     }
 
-    //TODO test coverage
-    public static String calculateHash(Long timestamp, String previousHash, Object data, long index) {
+    //TODO: add nounce to the hash proccess
+
+    public static String calculateHash(Long timestamp, String previousHash, Object data, long index, String nonce) {
         String serializedData = new GsonBuilder().setPrettyPrinting().create().toJson(data);
-        return applySha256(timestamp + previousHash + serializedData + Long.toString(index));
+        return applySha256(timestamp + previousHash + serializedData + Long.toString(index) + nonce);
     }
 
-    //TODO test coverage
     public static String calculateHash(Block block) {
         String serializedData = new GsonBuilder().setPrettyPrinting().create().toJson(block.getData());
         return applySha256(
-                Long.toString(block.getTimestamp()) +
-                        block.getPreviousHash() + serializedData + Long.toString(block.getIndex())
+                Long.toString(block.getTimestamp()) + block.getPreviousHash() + serializedData +
+                        Long.toString(block.getIndex()) + block.getNonce()
         );
     }
 }

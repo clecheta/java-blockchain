@@ -23,13 +23,14 @@ public class CryptoHashTest extends BaseTest {
     @Test
     void changeMethodsSameResult() {
         long index = 0L;
+        String nonce = "0";
         Block aBlock = new Block(1000L,
                 "previous-hash", "hash",
-                "a-block", index);
+                "a-block", index, nonce);
 
         String serializedData = new GsonBuilder().setPrettyPrinting().create().toJson(aBlock.getData());
         String generatedHash = CryptoHash.generateHash(aBlock.getTimestamp() +
-                        aBlock.getPreviousHash() + serializedData + index);
+                        aBlock.getPreviousHash() + serializedData + index + nonce);
 
         String calculatedHashBlock = CryptoHash.calculateHash(aBlock);
 
@@ -37,7 +38,8 @@ public class CryptoHashTest extends BaseTest {
                 aBlock.getTimestamp(),
                 aBlock.getPreviousHash(),
                 aBlock.getData(),
-                aBlock.getIndex());
+                aBlock.getIndex(),
+                aBlock.getNonce());
 
         assertEquals(calculatedHashBlock, generatedHash);
         assertEquals(calculatedHashArguments, generatedHash);

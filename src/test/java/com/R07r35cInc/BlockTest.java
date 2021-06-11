@@ -49,7 +49,7 @@ public class BlockTest extends BaseTest {
                 new Date().getTime(),
                 "The-stone-the-builders-rejected-has-become-the-cornerstone",
                 "A-user-hash",
-                user, 0);
+                user, 0, "0");
         assertNotNull(userBlock);
         assertTrue(userBlock.getData() instanceof User);
         logToConsole(userBlock, "user data model (value object) block example");
@@ -68,7 +68,7 @@ public class BlockTest extends BaseTest {
                 block1.getPreviousHash(),
                 block1.getHash(),
                 block1.getData(),
-                0);
+                0, "0");
         assertEquals(block1, block2);
         assertFalse(block1 == block2, "ensure its not the same memory object reference");
         assertTrue(block1.hashCode() == block2.hashCode());
