@@ -36,9 +36,13 @@ public class ReplaceChainTest extends BaseTest {
     @Test
     void longerButInvalidChain() {
         newChain.addBlock("additional block");
-        ((Block) newChain.getChain().get(1)).setPreviousHash("some-fake-hash");
-
         RuntimeException thrown = assertThrows(
+                RuntimeException.class,
+                () -> ((Block) newChain.getChain().get(1)).setPreviousHash("some-fake-hash")
+        );
+        assertTrue(thrown.getMessage().contains("please dont try to change the previous hash"));
+
+        thrown = assertThrows(
                 RuntimeException.class,
                 () -> blockchain.replaceChain(newChain.getChain()),
                 "Expected replaceChain() to throw, but it didn't"

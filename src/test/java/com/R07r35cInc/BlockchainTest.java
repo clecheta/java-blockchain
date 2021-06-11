@@ -27,13 +27,17 @@ public class BlockchainTest extends BaseTest {
         assertEquals(expectedBlock, actualBlock, "starts with the genesis block");
         BigDecimal newData = BigDecimal.TEN;
         blockchain.addBlock(newData);
-        Block lastBlock = (Block) blockchain.getChain().get(blockchain.getChain().size()-1);
+        Block lastBlock = (Block) blockchain.getChain().get(blockchain.getChain().size() - 1);
         assertEquals(newData, lastBlock.getData(), "adds a new block to the chain");
     }
 
     @Test
     void fakeGenesisBlock() {
-        ((Block)blockchain.getChain().get(0)).setData("fake-genesis");
+        RuntimeException thrown = assertThrows(
+                RuntimeException.class,
+                () -> ((Block) blockchain.getChain().get(0)).setData("fake-genesis")
+        );
+        assertTrue(thrown.getMessage().contains("you cannot change a block data"));
         assertFalse(blockchain.isValidChain(), "the chain does not start with the genesis block");
     }
 
@@ -43,16 +47,31 @@ public class BlockchainTest extends BaseTest {
         blockchain.addBlock("Leviticus");
         blockchain.addBlock("A LEGO GIFT FROM GOD!");
 
-        String originalHash = ((Block)blockchain.getChain().get(2)).getPreviousHash();
-        ((Block)blockchain.getChain().get(2)).setPreviousHash("broken-previous-hash");
+        String originalHash = ((Block) blockchain.getChain().get(2)).getPreviousHash();
+        assertThrows(
+                RuntimeException.class,
+                () -> ((Block) blockchain.getChain().get(2)).setPreviousHash("broken-previous-hash")
+        );
         assertFalse(blockchain.isValidChain(), "previous hash reference has changed");
-        ((Block)blockchain.getChain().get(2)).setPreviousHash(originalHash);
+
+        assertThrows(
+                RuntimeException.class,
+                () -> ((Block) blockchain.getChain().get(2)).setPreviousHash(originalHash)
+        );
         assertTrue(blockchain.isValidChain(), "fix previous hash reference");
 
-        String originalData = (String) ((Block)blockchain.getChain().get(3)).getData();
-        ((Block)blockchain.getChain().get(3)).setData("it's not a present from our God.");
+        String originalData = (String) ((Block) blockchain.getChain().get(3)).getData();
+        assertThrows(
+                RuntimeException.class,
+                () -> ((Block) blockchain.getChain().get(3)).setData("it's not a present from our God.")
+        );
+
         assertFalse(blockchain.isValidChain(), "chain contains a block wih an invalid field");
-        ((Block)blockchain.getChain().get(3)).setData(originalData);
+
+        assertThrows(
+                RuntimeException.class,
+                () -> ((Block) blockchain.getChain().get(3)).setData(originalData)
+        );
         assertTrue(blockchain.isValidChain(), "chain does not contain any invalid blocks");
     }
 
@@ -73,7 +92,8 @@ public class BlockchainTest extends BaseTest {
         logToConsole(minedBlock, "mined block");
     }
 
-    @Test //initial concept validation
+    @Test
+        //initial concept validation
     void outputSimpleChain() {
         Block genesisBlock = Block.genesis();
         System.out.println("Hash for block 1 : " + genesisBlock.getHash());

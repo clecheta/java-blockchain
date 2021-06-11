@@ -8,7 +8,7 @@ public class Block<T> {
     private String hash;
     private T data;
 
-    public Block(Long timestamp, String previousHash, String hash, T data) {
+    Block(Long timestamp, String previousHash, String hash, T data) {
         this.timestamp = timestamp;
         this.previousHash = previousHash;
         this.hash = hash;
@@ -53,13 +53,18 @@ public class Block<T> {
         return Objects.hash(timestamp, previousHash, hash, data);
     }
 
-    /* the set methods here were create for test purpose only */
-
-    public void setData(T data) { //@see BlockChainTest.fakeGenesisBlock()
+    /* these sets methods were create for test purpose only
+     * @See BlockChainTest.fakeGenesisBlock()
+     * @See BlockChainTest.isValidChain()
+     * @See ReplaceChainTest.longerButInvalidChain()
+     */
+    public void setData(T data) {
         this.data = data;
+        throw new RuntimeException("you cannot change a block data");
     }
-    public void setPreviousHash(String aHash) { //@see BlockChainTest.isValidChain()
+    public void setPreviousHash(String aHash) {
         this.previousHash = aHash;
+        throw new RuntimeException("please dont try to change the previous hash");
     }
 
 }
