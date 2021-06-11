@@ -14,7 +14,7 @@ public class BlockTest extends BaseTest {
     @Test
     void testFields() {
         Field[] fields = Block.class.getDeclaredFields();
-        assertTrue(fields.length == 4, "class fields violated");
+        assertTrue(fields.length >= 4, "class fields violated");
         assertEquals(true, Arrays.stream(fields).anyMatch(f -> f.getName().equals("timestamp")));
         assertEquals(true, Arrays.stream(fields).anyMatch(f -> f.getName().equals("previousHash")));
         assertEquals(true, Arrays.stream(fields).anyMatch(f -> f.getName().equals("hash")));
@@ -35,7 +35,7 @@ public class BlockTest extends BaseTest {
         assertTrue(genesisBlock instanceof Block);
         assertEquals("Yes-I-am-coming-soon.Amen.Come-Lord-Jesus", genesisBlock.getPreviousHash());
         assertEquals("The-stone-the-builders-rejected-has-become-the-cornerstone", genesisBlock.getHash());
-        assertEquals("Book of Genesis 1.1", genesisBlock.getData());
+        assertEquals("Book of Genesis", genesisBlock.getData());
         logToConsole(genesisBlock, null);
     }
 
@@ -49,7 +49,7 @@ public class BlockTest extends BaseTest {
                 new Date().getTime(),
                 "The-stone-the-builders-rejected-has-become-the-cornerstone",
                 "A-user-hash",
-                user);
+                user, 0);
         assertNotNull(userBlock);
         assertTrue(userBlock.getData() instanceof User);
         logToConsole(userBlock, "user data model (value object) block example");
@@ -67,7 +67,8 @@ public class BlockTest extends BaseTest {
                 block1.getTimestamp(),
                 block1.getPreviousHash(),
                 block1.getHash(),
-                block1.getData());
+                block1.getData(),
+                0);
         assertEquals(block1, block2);
         assertFalse(block1 == block2, "ensure its not the same memory object reference");
         assertTrue(block1.hashCode() == block2.hashCode());

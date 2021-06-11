@@ -53,7 +53,7 @@ public class ReplaceChainTest extends BaseTest {
 
     @Test
     void chainIsValid() {
-        newChain.addBlock("additional block");
+        newChain.addBlock("Book of Exodus");
         assertDoesNotThrow(() -> {
             blockchain.replaceChain(newChain.getChain());
         });

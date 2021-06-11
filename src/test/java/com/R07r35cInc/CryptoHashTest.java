@@ -22,24 +22,22 @@ public class CryptoHashTest extends BaseTest {
 
     @Test
     void changeMethodsSameResult() {
-        Block aBlock = new Block(
-                1000L,
-                "previous-hash",
-                "hash",
-                "a-block");
+        long index = 0L;
+        Block aBlock = new Block(1000L,
+                "previous-hash", "hash",
+                "a-block", index);
 
         String serializedData = new GsonBuilder().setPrettyPrinting().create().toJson(aBlock.getData());
-        String generatedHash = CryptoHash.generateHash(
-                aBlock.getTimestamp() +
-                        aBlock.getPreviousHash() +
-                        serializedData);
+        String generatedHash = CryptoHash.generateHash(aBlock.getTimestamp() +
+                        aBlock.getPreviousHash() + serializedData + index);
 
         String calculatedHashBlock = CryptoHash.calculateHash(aBlock);
 
         String calculatedHashArguments = CryptoHash.calculateHash(
                 aBlock.getTimestamp(),
                 aBlock.getPreviousHash(),
-                aBlock.getData());
+                aBlock.getData(),
+                aBlock.getIndex());
 
         assertEquals(calculatedHashBlock, generatedHash);
         assertEquals(calculatedHashArguments, generatedHash);

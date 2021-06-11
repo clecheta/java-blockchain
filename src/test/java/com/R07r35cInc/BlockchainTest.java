@@ -80,7 +80,8 @@ public class BlockchainTest extends BaseTest {
         Block lastBlock = Block.genesis();
         String data = "mined data";
         Block minedBlock = blockchain.mineBlock(lastBlock, data);
-        String generatedHash = CryptoHash.calculateHash(minedBlock.getTimestamp(), lastBlock.getHash(), data);
+        String generatedHash = CryptoHash.calculateHash(minedBlock.getTimestamp(),
+                lastBlock.getHash(), data, minedBlock.getIndex());
 
         assertTrue(minedBlock instanceof Block, "returns a Block instance");
         assertEquals(minedBlock.getPreviousHash(), lastBlock.getHash(),
@@ -98,14 +99,14 @@ public class BlockchainTest extends BaseTest {
         Block genesisBlock = Block.genesis();
         System.out.println("Hash for block 1 : " + genesisBlock.getHash());
 
-        Block secondBlock = blockchain.mineBlock(genesisBlock, "Yo im the second block");
+        Block secondBlock = blockchain.mineBlock(genesisBlock, "Book of Exodus");
         System.out.println("Hash for block 2 : " + secondBlock.getHash());
 
-        Block thirdBlock = blockchain.mineBlock(secondBlock, "Hey im the third block");
+        Block thirdBlock = blockchain.mineBlock(secondBlock, "Book of Leviticus");
         System.out.println("Hash for block 3 : " + thirdBlock.getHash());
 
-        blockchain.addBlock("Yo im the second block");
-        blockchain.addBlock("Hey im the third block");
+        blockchain.addBlock("Book of Numbers");
+        blockchain.addBlock("Book of Deuteronomy");
 
         System.out.print("\nValid: " + blockchain.isValidChain());
         logToConsole(blockchain, "Simple-Chain|OUTPUT");

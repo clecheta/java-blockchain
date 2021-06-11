@@ -3,13 +3,12 @@ package com.R07r35cInc;
 import com.google.gson.GsonBuilder;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class Blockchain<T> {
 
     private List<Block> chain;
+    public Map<String, Long> map = new HashMap<String, Long>();
 
     Blockchain() {
         this.chain = new ArrayList<Block>();
@@ -21,19 +20,16 @@ public class Blockchain<T> {
         Block lastBlock = this.chain.get(this.chain.size()-1); //the end of the local chain
         Block newBlock = mineBlock(lastBlock, data);
         this.chain.add(newBlock);
+        this.map.put(newBlock.getHash(), chain.size()-1L);
     }
 
     //This is here instead of Block class because we could not use static method with generic type
     public Block mineBlock(Block lastBlock, T data) {
         Long timestamp = new Date().getTime();
         String previousHash = lastBlock.getHash();
-        String hash = CryptoHash.calculateHash(timestamp, previousHash, data);
-        return new Block(
-                timestamp,
-                previousHash,
-                hash,
-                data
-        );
+        long index = lastBlock.getIndex()+1;
+        String hash = CryptoHash.calculateHash(timestamp, previousHash, data, index);
+        return new Block(timestamp, previousHash, hash, data, index);
     }
 
     public Boolean isValidChain() {

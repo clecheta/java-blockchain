@@ -31,9 +31,9 @@ public class CryptoHash {
     }
 
     //TODO test coverage
-    public static String calculateHash(Long timestamp, String previousHash, Object data) {
+    public static String calculateHash(Long timestamp, String previousHash, Object data, long index) {
         String serializedData = new GsonBuilder().setPrettyPrinting().create().toJson(data);
-        return applySha256(timestamp + previousHash + serializedData);
+        return applySha256(timestamp + previousHash + serializedData + Long.toString(index));
     }
 
     //TODO test coverage
@@ -41,8 +41,7 @@ public class CryptoHash {
         String serializedData = new GsonBuilder().setPrettyPrinting().create().toJson(block.getData());
         return applySha256(
                 Long.toString(block.getTimestamp()) +
-                        block.getPreviousHash() +
-                        serializedData
+                        block.getPreviousHash() + serializedData + Long.toString(block.getIndex())
         );
     }
 }

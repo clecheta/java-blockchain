@@ -4,15 +4,17 @@ import java.util.Objects;
 
 public class Block<T> {
     private long timestamp;
+    private long index;
     private String previousHash;
     private String hash;
     private T data;
 
-    Block(Long timestamp, String previousHash, String hash, T data) {
+    Block(Long timestamp, String previousHash, String hash, T data, long index) {
         this.timestamp = timestamp;
         this.previousHash = previousHash;
         this.hash = hash;
         this.data = data;
+        this.index = index;
     }
 
     public static Block genesis() {
@@ -21,7 +23,11 @@ public class Block<T> {
                 beforeWorldEvenExists,
                 "Yes-I-am-coming-soon.Amen.Come-Lord-Jesus",
                 "The-stone-the-builders-rejected-has-become-the-cornerstone",
-                "Book of Genesis 1.1");
+                "Book of Genesis", 0);
+    }
+
+    public long getIndex() {
+        return index;
     }
 
     public long getTimestamp() {
