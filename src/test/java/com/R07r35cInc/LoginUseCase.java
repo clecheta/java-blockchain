@@ -4,10 +4,7 @@ import com.BaseTest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -17,6 +14,7 @@ public class LoginUseCase extends BaseTest {
 
     static Blockchain blockchain;
     static List<String> userList;
+    static Map<String, Long> map = new HashMap<String, Long>();
 
     @BeforeAll
     static void init() {
@@ -32,6 +30,7 @@ public class LoginUseCase extends BaseTest {
 
             addedBLock = (Block) blockchain.getChain().get(blockchain.getChain().size()-1);
             userList.add(addedBLock.getHash());
+            map.put(addedBLock.getHash(), blockchain.getChain().size()-1L);
         }
     }
 
@@ -47,7 +46,7 @@ public class LoginUseCase extends BaseTest {
         for (int i=0; i<GENERATE_USERS; i++) {
             randomInt = random.nextInt(blockchain.getChain().size()-1);
             userHash = userList.get(randomInt);
-            userIndex = (Long) blockchain.map.get(userHash);
+            userIndex = (Long) map.get(userHash);
             actualBlock = (Block) blockchain.getChain().get(userIndex.intValue());
             actualUser = (User) actualBlock.getData();
             expectedUser = "user" + randomInt;

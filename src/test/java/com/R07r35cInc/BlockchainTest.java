@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BlockchainTest extends BaseTest {
 
     Blockchain blockchain;
+    Block minedBlock; //just to satisfy method return;
 
     @BeforeEach
     void init() {
@@ -26,7 +27,7 @@ public class BlockchainTest extends BaseTest {
         Block expectedBlock = Block.genesis();
         assertEquals(expectedBlock, actualBlock, "starts with the genesis block");
         BigDecimal newData = BigDecimal.TEN;
-        blockchain.addBlock(newData);
+        minedBlock = blockchain.addBlock(newData);
         Block lastBlock = (Block) blockchain.getChain().get(blockchain.getChain().size() - 1);
         assertEquals(newData, lastBlock.getData(), "adds a new block to the chain");
     }
@@ -105,8 +106,8 @@ public class BlockchainTest extends BaseTest {
         Block thirdBlock = blockchain.mineBlock(secondBlock, "Book of Leviticus");
         System.out.println("Hash for block 3 : " + thirdBlock.getHash());
 
-        blockchain.addBlock("Book of Numbers");
-        blockchain.addBlock("Book of Deuteronomy");
+        minedBlock = blockchain.addBlock("Book of Numbers");
+        minedBlock = blockchain.addBlock("Book of Deuteronomy");
 
         System.out.print("\nValid: " + blockchain.isValidChain());
         logToConsole(blockchain, "Simple-Chain|OUTPUT");

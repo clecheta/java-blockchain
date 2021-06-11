@@ -8,7 +8,6 @@ import java.util.*;
 public class Blockchain<T> {
 
     private List<Block> chain;
-    public Map<String, Long> map = new HashMap<String, Long>();
 
     Blockchain() {
         this.chain = new ArrayList<Block>();
@@ -16,11 +15,11 @@ public class Blockchain<T> {
     }
 
     /** add a new block to the chain based on the last block that came before it */
-    public void addBlock(T data) {
+    public Block addBlock(T data) {
         Block lastBlock = this.chain.get(this.chain.size()-1); //the end of the local chain
         Block newBlock = mineBlock(lastBlock, data);
         this.chain.add(newBlock);
-        this.map.put(newBlock.getHash(), chain.size()-1L);
+        return newBlock;
     }
 
     //This is here instead of Block class because we could not use static method with generic type

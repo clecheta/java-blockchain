@@ -1,7 +1,6 @@
 package com.R07r35cInc;
 
 import com.BaseTest;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,6 +13,7 @@ public class ReplaceChainTest extends BaseTest {
     Blockchain blockchain;
     Blockchain newChain;
     List<Block> originalChain;
+    Block minedBlock; //just to satisfy method return;
 
     @BeforeEach
     void init() {
@@ -35,7 +35,7 @@ public class ReplaceChainTest extends BaseTest {
 
     @Test
     void longerButInvalidChain() {
-        newChain.addBlock("additional block");
+        minedBlock = newChain.addBlock("additional block");
         RuntimeException thrown = assertThrows(
                 RuntimeException.class,
                 () -> ((Block) newChain.getChain().get(1)).setPreviousHash("some-fake-hash")
@@ -53,7 +53,7 @@ public class ReplaceChainTest extends BaseTest {
 
     @Test
     void chainIsValid() {
-        newChain.addBlock("Book of Exodus");
+        minedBlock = newChain.addBlock("Book of Exodus");
         assertDoesNotThrow(() -> {
             blockchain.replaceChain(newChain.getChain());
         });
