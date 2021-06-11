@@ -53,13 +53,21 @@ public class LoginUseCase extends BaseTest {
             expectedUser = "user" + randomInt;
             assertEquals(userIndex, actualBlock.getIndex(), "index must match");
             assertEquals(expectedUser, actualUser.username, "must find exact user in the chain");
+            assertEquals("88169f6e-f67c-4835-873e-b5f0d7711c65", actualUser.tenantId);
         }
     }
 
     @Test
     void findUserByUsername() {
-        //!there is the concept in cryptochain to consult a transaction by hash, so there must be a way to quick
-        // navigate in the chain data records
+        /*
+         Storing Blocks in mongo after they were mined/added to the chain is one approach, it allows me to:
+         - find user by hash or e-mail directly in the database, use the block index to validated is the
+         just loaded block is equal the ones in the chain
+         - load the list of blocks findAll() into a blockchain by using the replaceChain() method, and thus validate
+         the whole block list.
+
+         to use this approach we might return Block in addBlock() function of BlockChain
+        */
     }
 
 }
@@ -67,7 +75,7 @@ public class LoginUseCase extends BaseTest {
 class User {
     public String username;
     public String password;
-    public String tenantId;
+    public String tenantId = "88169f6e-f67c-4835-873e-b5f0d7711c65";
 
     @Override
     public String toString() {
