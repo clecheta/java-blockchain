@@ -2,6 +2,7 @@ image: maven:3.6-jdk-11
 
 stages:
   - test
+  - package
 
 include:
   - template: Security/Secret-Detection.gitlab-ci.yml
@@ -30,3 +31,8 @@ Junit:
     expire_in: 1 day
     paths:
       - target/surefire-reports
+
+package-repository:
+  stage: package
+  script:
+    - 'mvn deploy -s ci_settings.xml'
