@@ -76,6 +76,20 @@ public class BlockTest extends BaseTest {
         assertTrue(block1.hashCode() == block2.hashCode());
     }
 
+    @Test
+    void testGenesisClone() {
+        Block genesisBlock = Block.genesis();
+        Block sameFirstBlock = new Block(
+                genesisBlock.getDate(),
+                genesisBlock.getPreviousHash(),
+                genesisBlock.getHash(),
+                genesisBlock.getData(),
+                genesisBlock.getIndex(),
+                genesisBlock.getNonce()
+        );
+        assertEquals(genesisBlock, sameFirstBlock, "genesis block clones must match genesis data");
+    }
+
     class User {
         public String username;
         public String password;

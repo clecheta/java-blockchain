@@ -38,7 +38,9 @@ public class SimpleChain<T> implements Blockchain {
 
     /** Chain Validation - inspect a Blockchain (inspect each block was construct correctly) */
     public Boolean isValidChain(List<Block> chain) {
-        if (!Block.genesis().equals(chain.get(0))) return false; //genesis block validation
+        if (!Block.genesis().equals(chain.get(0))) {
+            return false; //genesis block validation
+        }
         Block block;
         String lastHash;
         String validatedHash;
