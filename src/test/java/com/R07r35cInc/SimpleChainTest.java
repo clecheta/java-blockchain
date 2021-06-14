@@ -80,15 +80,15 @@ public class SimpleChainTest extends BaseTest {
     void testMineBlock() {
         Block lastBlock = Block.genesis();
         String data = "mined data";
-        Block minedBlock = simpleChain.mineBlock(lastBlock, data);
-        String calculatedHash = CryptoHash.calculateHash(minedBlock.getTimestamp(),
+        minedBlock = simpleChain.mineBlock(lastBlock, data);
+        String calculatedHash = CryptoHash.calculateHash(minedBlock.getDate(),
                 lastBlock.getHash(), data, minedBlock.getIndex(), minedBlock.getNonce());
 
         assertTrue(minedBlock instanceof Block, "returns a Block instance");
         assertEquals(minedBlock.getPreviousHash(), lastBlock.getHash(),
                 "sets the `lastHash` to be the `hash` of the lastBlock");
         assertEquals(minedBlock.getData(), data, "sets the `data`");
-        assertNotNull(minedBlock.getTimestamp(), "sets a `timestamp`");
+        assertNotNull(minedBlock.getDate(), "sets a `timestamp`");
         assertEquals(minedBlock.getHash(), calculatedHash, "creates a SHA-256 `hash` based on the proper inputs");
 
         logToConsole(minedBlock, "mined block");

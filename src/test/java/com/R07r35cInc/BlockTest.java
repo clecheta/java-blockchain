@@ -15,7 +15,6 @@ public class BlockTest extends BaseTest {
     void testFields() {
         Field[] fields = Block.class.getDeclaredFields();
         assertTrue(fields.length >= 4, "class fields violated");
-        assertEquals(true, Arrays.stream(fields).anyMatch(f -> f.getName().equals("timestamp")));
         assertEquals(true, Arrays.stream(fields).anyMatch(f -> f.getName().equals("previousHash")));
         assertEquals(true, Arrays.stream(fields).anyMatch(f -> f.getName().equals("hash")));
         assertEquals(true, Arrays.stream(fields).anyMatch(f -> f.getName().equals("data")));
@@ -23,7 +22,9 @@ public class BlockTest extends BaseTest {
             if (f.getName().equals("hash")) {
                 assertEquals(0, f.toGenericString().indexOf("private"));
                 assertEquals(true, f.toGenericString().contains("String"));
-                break;
+            } else if (f.getName().equals("date")) {
+                assertEquals(0, f.toGenericString().indexOf("private"));
+                assertEquals(true, f.toGenericString().contains("Date"));
             }
         }
     }
@@ -46,10 +47,10 @@ public class BlockTest extends BaseTest {
         user.password = "pass1";
 
         Block userBlock = new Block<User>(
-                new Date().getTime(),
+                new Date(),
                 "The-stone-the-builders-rejected-has-become-the-cornerstone",
                 "A-user-hash",
-                user, 0, "0");
+                user, 0, 00);
         assertNotNull(userBlock);
         assertTrue(userBlock.getData() instanceof User);
         logToConsole(userBlock, "user data model (value object) block example");
@@ -64,11 +65,11 @@ public class BlockTest extends BaseTest {
     void testEqualsAndHashcode() {
         Block block1 = Block.genesis();
         Block block2 = new Block(
-                block1.getTimestamp(),
+                block1.getDate(),
                 block1.getPreviousHash(),
                 block1.getHash(),
                 block1.getData(),
-                0, "0");
+                0, 00);
         assertEquals(block1, block2);
         assertFalse(block1 == block2, "ensure its not the same memory object reference");
         assertTrue(block1.hashCode() == block2.hashCode());

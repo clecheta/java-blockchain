@@ -1,7 +1,9 @@
 package com.R07r35cInc;
 
+import java.util.Date;
+
 /**
- * Simulates a Miner that performs a Proof of Work consensus mechanism
+ * Miner that performs a Proof of Work consensus mechanism
  * transactions created in the network.
  * <p>
  * This is used for Unit testing, in a real blockchain network,
@@ -11,21 +13,22 @@ package com.R07r35cInc;
  */
 public class Miner<T> {
 
-    static Block proofOfWork(Long timestamp, String previousHash, Object data, long index) {
-        String nonceKey = Block.genesis().getNonce();
+    public static final String nonceKey = "00";
+
+    static Block proofOfWork(Date timestamp, String previousHash, Object data, long index) {
         long nonce = 0;
         boolean nonceFound = false;
         String nonceHash = "";
 
         while (!nonceFound) {
             nonce++;
-            nonceHash = CryptoHash.calculateHash(timestamp, previousHash, data, index, Long.toString(nonce));
+            nonceHash = CryptoHash.calculateHash(timestamp, previousHash, data, index, nonce);
             nonceFound = nonceHash.startsWith(nonceKey);
         }
 
         return new Block(timestamp,
                 previousHash, nonceHash,
-                data, index, Long.toString(nonce)
+                data, index, nonce
         );
     }
 

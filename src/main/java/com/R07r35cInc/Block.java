@@ -1,18 +1,20 @@
 package com.R07r35cInc;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 
 public class Block<T> {
-    private long timestamp;
+    private Date date;
     private String previousHash;
     private String hash;
     private T data;
-
-    private String nonce;
+    private long nonce;
     private long index;
 
-    Block(Long timestamp, String previousHash, String hash, T data, long index, String nonce) {
-        this.timestamp = timestamp;
+    Block(Date date, String previousHash, String hash, T data, long index, long nonce) {
+        this.date = date;
         this.previousHash = previousHash;
         this.hash = hash;
         this.data = data;
@@ -21,16 +23,21 @@ public class Block<T> {
     }
 
     public static Block genesis() {
-        Long beforeWorldEvenExists = 0L;
-        return new Block(
-                beforeWorldEvenExists,
-                "Yes-I-am-coming-soon.Amen.Come-Lord-Jesus",
-                "The-stone-the-builders-rejected-has-become-the-cornerstone",
-                "Book of Genesis", 0, "00");
+        String beforeWorldEvenExists = "00/00/0000 00:00:00";
+        try {
+            return new Block(
+                    new SimpleDateFormat(CryptoHash.timestampFormat).parse(beforeWorldEvenExists),
+                    "Yes-I-am-coming-soon.Amen.Come-Lord-Jesus",
+                    "The-stone-the-builders-rejected-has-become-the-cornerstone",
+                    "Book of Genesis", 0, 0);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    public long getTimestamp() {
-        return timestamp;
+    public Date getDate() {
+        return date;
     }
 
     public String getPreviousHash() {
@@ -49,7 +56,7 @@ public class Block<T> {
         return index;
     }
 
-    public String getNonce() {
+    public long getNonce() {
         return nonce;
     }
 
@@ -58,12 +65,12 @@ public class Block<T> {
         if (this == o) return true;
         if (!(o instanceof Block)) return false;
         Block<?> block = (Block<?>) o;
-        return timestamp == block.timestamp && Objects.equals(previousHash, block.previousHash) && Objects.equals(hash, block.hash) && Objects.equals(data, block.data);
+        return date.equals(block.date) && Objects.equals(previousHash, block.previousHash) && Objects.equals(hash, block.hash) && Objects.equals(data, block.data);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(timestamp, previousHash, hash, data);
+        return Objects.hash(date, previousHash, hash, data);
     }
 
     /* these sets methods were create for test purpose only

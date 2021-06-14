@@ -24,10 +24,10 @@ public class SimpleChain<T> implements Blockchain {
 
     //This is here instead of Block class because we could not use static method with generic type
     public Block mineBlock(Block lastBlock, T data) {
-        Long timestamp = new Date().getTime();
+        Date timestamp = new Date();
         String previousHash = lastBlock.getHash();
         long index = lastBlock.getIndex()+1;
-        String nonce = "0";
+        long nonce = 00;
         String hash = CryptoHash.calculateHash(timestamp, previousHash, data, index, nonce);
         return new Block(timestamp, previousHash, hash, data, index, nonce);
     }

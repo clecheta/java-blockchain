@@ -4,9 +4,14 @@ import com.BaseTest;
 import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.Test;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CryptoHashTest extends BaseTest {
+
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat(CryptoHash.timestampFormat);
 
     @Test
     void generateHash() {
@@ -23,19 +28,20 @@ public class CryptoHashTest extends BaseTest {
     @Test
     void changeMethodsSameResult() {
         long index = 0L;
-        String nonce = "0";
-        Block aBlock = new Block(1000L,
+        long nonce = 0L;
+        Block aBlock = new Block(new Date(),
                 "previous-hash", "hash",
                 "a-block", index, nonce);
 
         String serializedData = new GsonBuilder().setPrettyPrinting().create().toJson(aBlock.getData());
-        String generatedHash = CryptoHash.generateHash(aBlock.getTimestamp() +
+        String timestamp  = dateFormat.format(aBlock.getDate());
+        String generatedHash = CryptoHash.generateHash(timestamp +
                         aBlock.getPreviousHash() + serializedData + index + nonce);
 
         String calculatedHashBlock = CryptoHash.calculateHash(aBlock);
 
         String calculatedHashArguments = CryptoHash.calculateHash(
-                aBlock.getTimestamp(),
+                aBlock.getDate(),
                 aBlock.getPreviousHash(),
                 aBlock.getData(),
                 aBlock.getIndex(),

@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class NonceTest {
 
 	@Test
-	public void baseAlgorithm() {
+	public void algorithmConcept() {
 		String message = "Jesus love you!";
 		System.out.println("Message: " + message);
 

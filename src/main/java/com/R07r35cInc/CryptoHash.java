@@ -3,10 +3,15 @@ package com.R07r35cInc;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import com.google.gson.GsonBuilder;
 
 public class CryptoHash {
+
+    public static final String timestampFormat = "dd/MM/yyyy HH:mm:ss";
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat(timestampFormat);
 
     //Applies Sha256 to a string and returns the result.
     private static String applySha256(String input) {
@@ -31,18 +36,19 @@ public class CryptoHash {
         return applySha256(value);
     }
 
-    //TODO: add nounce to the hash proccess
-
-    public static String calculateHash(Long timestamp, String previousHash, Object data, long index, String nonce) {
+    public static String calculateHash(Date date, String previousHash, Object data, long index, long nonce) {
         String serializedData = new GsonBuilder().setPrettyPrinting().create().toJson(data);
-        return applySha256(timestamp + previousHash + serializedData + Long.toString(index) + nonce);
+        String timestamp  = dateFormat.format(date);
+        String indexString = Long.toString(index);
+        String nonceString = Long.toString(nonce);
+        return applySha256(timestamp + previousHash + serializedData + indexString + nonceString);
     }
 
     public static String calculateHash(Block block) {
         String serializedData = new GsonBuilder().setPrettyPrinting().create().toJson(block.getData());
-        return applySha256(
-                Long.toString(block.getTimestamp()) + block.getPreviousHash() + serializedData +
-                        Long.toString(block.getIndex()) + block.getNonce()
-        );
+        String timestamp = dateFormat.format(block.getDate());
+        String indexString = Long.toString(block.getIndex());
+        String nonceString = Long.toString(block.getNonce());
+        return applySha256(timestamp + block.getPreviousHash() + serializedData + indexString + nonceString);
     }
 }
