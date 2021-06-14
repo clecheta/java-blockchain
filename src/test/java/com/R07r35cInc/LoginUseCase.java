@@ -12,13 +12,13 @@ public class LoginUseCase extends BaseTest {
 
     private static final int GENERATE_USERS = 100000;
 
-    static Blockchain blockchain;
+    static SimpleChain simpleChain;
     static List<String> userList;
     static Map<String, Long> map = new HashMap<String, Long>();
 
     @BeforeAll
     static void init() {
-        blockchain = new Blockchain();
+        simpleChain = new SimpleChain();
         userList = new ArrayList<String>();
         User user;
         Block addedBLock;
@@ -26,11 +26,11 @@ public class LoginUseCase extends BaseTest {
             user = new User();
             user.username = "user" + i;
             user.password = UUID.randomUUID().toString().substring(0,8);
-            blockchain.addBlock(user);
+            simpleChain.addBlock(user);
 
-            addedBLock = (Block) blockchain.getChain().get(blockchain.getChain().size()-1);
+            addedBLock = (Block) simpleChain.getChain().get(simpleChain.getChain().size()-1);
             userList.add(addedBLock.getHash());
-            map.put(addedBLock.getHash(), blockchain.getChain().size()-1L);
+            map.put(addedBLock.getHash(), simpleChain.getChain().size()-1L);
         }
     }
 
@@ -44,10 +44,10 @@ public class LoginUseCase extends BaseTest {
         User actualUser;
         String expectedUser;
         for (int i=0; i<GENERATE_USERS; i++) {
-            randomInt = random.nextInt(blockchain.getChain().size()-1);
+            randomInt = random.nextInt(simpleChain.getChain().size()-1);
             userHash = userList.get(randomInt);
             userIndex = (Long) map.get(userHash);
-            actualBlock = (Block) blockchain.getChain().get(userIndex.intValue());
+            actualBlock = (Block) simpleChain.getChain().get(userIndex.intValue());
             actualUser = (User) actualBlock.getData();
             expectedUser = "user" + randomInt;
             assertEquals(userIndex, actualBlock.getIndex(), "index must match");

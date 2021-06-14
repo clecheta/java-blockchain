@@ -10,23 +10,23 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ReplaceChainTest extends BaseTest {
 
-    Blockchain blockchain;
-    Blockchain newChain;
+    SimpleChain simpleChain;
+    SimpleChain newChain;
     List<Block> originalChain;
     Block minedBlock; //just to satisfy method return;
 
     @BeforeEach
     void init() {
-        blockchain = new Blockchain();
-        newChain = new Blockchain();
-        originalChain = blockchain.getChain();
+        simpleChain = new SimpleChain();
+        newChain = new SimpleChain();
+        originalChain = simpleChain.getChain();
     }
 
     @Test
     void notLongerChain() {
         RuntimeException thrown = assertThrows(
                 RuntimeException.class,
-                () -> blockchain.replaceChain(newChain.getChain()),
+                () -> simpleChain.replaceChain(newChain.getChain()),
                 "Expected replaceChain() to throw, but it didn't"
         );
         assertTrue(thrown.getMessage().contains("The incoming chain must be longer"),
@@ -44,7 +44,7 @@ public class ReplaceChainTest extends BaseTest {
 
         thrown = assertThrows(
                 RuntimeException.class,
-                () -> blockchain.replaceChain(newChain.getChain()),
+                () -> simpleChain.replaceChain(newChain.getChain()),
                 "Expected replaceChain() to throw, but it didn't"
         );
         assertTrue(thrown.getMessage().contains("The incoming chain must be valid"),
@@ -55,7 +55,7 @@ public class ReplaceChainTest extends BaseTest {
     void chainIsValid() {
         minedBlock = newChain.addBlock("Book of Exodus");
         assertDoesNotThrow(() -> {
-            blockchain.replaceChain(newChain.getChain());
+            simpleChain.replaceChain(newChain.getChain());
         });
     }
 

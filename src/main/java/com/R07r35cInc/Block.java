@@ -26,7 +26,7 @@ public class Block<T> {
                 beforeWorldEvenExists,
                 "Yes-I-am-coming-soon.Amen.Come-Lord-Jesus",
                 "The-stone-the-builders-rejected-has-become-the-cornerstone",
-                "Book of Genesis", 0, "0");
+                "Book of Genesis", 0, "00");
     }
 
     public long getTimestamp() {
