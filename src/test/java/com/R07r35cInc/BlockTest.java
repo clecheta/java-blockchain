@@ -25,6 +25,12 @@ public class BlockTest extends BaseTest {
             } else if (f.getName().equals("date")) {
                 assertEquals(0, f.toGenericString().indexOf("private"));
                 assertEquals(true, f.toGenericString().contains("Date"));
+            } else if (f.getName().equals("index")) { //necessary Object class to json deserialization
+                assertEquals(0, f.toGenericString().indexOf("private"));
+                assertEquals(true, f.toGenericString().contains("Long"));
+            } else if (f.getName().equals("nonce")) { //necessary Object class to json deserialization
+                assertEquals(0, f.toGenericString().indexOf("private"));
+                assertEquals(true, f.toGenericString().contains("Long"));
             }
         }
     }
@@ -56,11 +62,6 @@ public class BlockTest extends BaseTest {
         logToConsole(userBlock, "user data model (value object) block example");
     }
 
-    class User {
-        public String username;
-        public String password;
-    }
-
     @Test
     void testEqualsAndHashcode() {
         Block block1 = Block.genesis();
@@ -73,6 +74,11 @@ public class BlockTest extends BaseTest {
         assertEquals(block1, block2);
         assertFalse(block1 == block2, "ensure its not the same memory object reference");
         assertTrue(block1.hashCode() == block2.hashCode());
+    }
+
+    class User {
+        public String username;
+        public String password;
     }
 
 }

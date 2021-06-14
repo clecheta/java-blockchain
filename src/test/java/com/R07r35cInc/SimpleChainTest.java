@@ -5,8 +5,10 @@ import com.BaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,6 +20,18 @@ public class SimpleChainTest extends BaseTest {
     @BeforeEach
     void init() {
         simpleChain = new SimpleChain();
+    }
+
+    @Test
+    void testMethods() {
+        Method[] methods = SimpleChain.class.getDeclaredMethods();
+        assertEquals(true, Arrays.stream(methods).anyMatch(m -> m.getName().equals("isValidChain")));
+        for (Method m : methods) {
+            if (m.getName().equals("replaceChain")) {
+                assertEquals(0, m.toGenericString().indexOf("public"));
+                assertEquals(true, m.toGenericString().contains("void"));
+            }
+        }
     }
 
     @Test

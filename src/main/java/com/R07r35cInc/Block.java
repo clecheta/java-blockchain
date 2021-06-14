@@ -10,8 +10,8 @@ public class Block<T> {
     private String previousHash;
     private String hash;
     private T data;
-    private long nonce;
-    private long index;
+    private Long nonce;
+    private Long index;
 
     /** you must save the block with the timestamp that generated the crypto hash */
     Block(Date date, String previousHash, String hash, T data, long index, long nonce) {

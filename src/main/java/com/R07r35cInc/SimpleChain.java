@@ -66,7 +66,7 @@ public class SimpleChain<T> implements Blockchain {
     /** Necessary because of the blockchain network interaction
      * not static method as it is specific to each instance of the blockchain **/
     public void replaceChain(List<Block> chain) {
-        if (chain.size() <= this.chain.size()) {
+        if (chain == null || (chain.size() <= this.chain.size())) {
             throw new RuntimeException("The incoming chain must be longer");
         }
 
