@@ -35,7 +35,8 @@ public class NonceTest {
 		System.out.println(String.format("Nonce Hash: %s", nonceHash));
 		System.out.println(String.format("Nonce Search Time: %s ms", ms));
 		
-		assertTrue(isNonceFound);
+		assertTrue(nonce > 0);
+		assertTrue(nonceHash.startsWith("00000"));
 	}
 
 }

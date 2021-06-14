@@ -13,6 +13,7 @@ public class Block<T> {
     private long nonce;
     private long index;
 
+    /** you must save the block with the timestamp that generated the crypto hash */
     Block(Date date, String previousHash, String hash, T data, long index, long nonce) {
         this.date = date;
         this.previousHash = previousHash;

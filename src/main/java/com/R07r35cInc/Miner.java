@@ -13,20 +13,21 @@ import java.util.Date;
  */
 public class Miner<T> {
 
-    public static final String nonceKey = "00";
+    public static final String nonceKey = "000";
 
-    static Block proofOfWork(Date timestamp, String previousHash, Object data, long index) {
+    static Block proofOfWork(Date date, String previousHash, Object data, long index) {
         long nonce = 0;
         boolean nonceFound = false;
         String nonceHash = "";
 
         while (!nonceFound) {
+            date = new Date();
             nonce++;
-            nonceHash = CryptoHash.calculateHash(timestamp, previousHash, data, index, nonce);
+            nonceHash = CryptoHash.calculateHash(date, previousHash, data, index, nonce);
             nonceFound = nonceHash.startsWith(nonceKey);
         }
 
-        return new Block(timestamp,
+        return new Block(date,
                 previousHash, nonceHash,
                 data, index, nonce
         );
