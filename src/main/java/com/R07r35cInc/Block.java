@@ -30,7 +30,7 @@ public class Block<T> {
                     new SimpleDateFormat(CryptoHash.timestampFormat).parse(beforeWorldEvenExists),
                     "Yes-I-am-coming-soon.Amen.Come-Lord-Jesus",
                     "The-stone-the-builders-rejected-has-become-the-cornerstone",
-                    "Book of Genesis", 0, 0000);
+                    "Book of Genesis", 0, 0);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -57,7 +57,7 @@ public class Block<T> {
         return index;
     }
 
-    public long getNonce() {
+    public Long getNonce() {
         return nonce;
     }
 
@@ -66,7 +66,10 @@ public class Block<T> {
         if (this == o) return true;
         if (!(o instanceof Block)) return false;
         Block<?> block = (Block<?>) o;
-        return date.equals(block.date) && Objects.equals(previousHash, block.previousHash) && Objects.equals(hash, block.hash) && Objects.equals(data, block.data);
+        return date.equals(block.date) &&
+                Objects.equals(previousHash, block.previousHash) &&
+                Objects.equals(hash, block.hash) &&
+                Objects.equals(data, block.data);
     }
 
     @Override

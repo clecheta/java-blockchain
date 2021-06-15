@@ -84,10 +84,13 @@ public class BlockTest extends BaseTest {
                 genesisBlock.getPreviousHash(),
                 genesisBlock.getHash(),
                 genesisBlock.getData(),
-                genesisBlock.getIndex(),
-                genesisBlock.getNonce()
+                0,
+                0
         );
         assertEquals(genesisBlock, sameFirstBlock, "genesis block clones must match genesis data");
+        //extra validation for the fields outside equals and hashCode
+        assertEquals(genesisBlock.getIndex(), 0, "genesis block clones must match index data");
+        assertEquals(genesisBlock.getNonce(), 0, "genesis block clones must match nonce data");
     }
 
     class User {
