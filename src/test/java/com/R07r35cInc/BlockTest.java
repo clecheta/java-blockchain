@@ -1,11 +1,14 @@
 package com.R07r35cInc;
 
 import com.BaseTest;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -91,6 +94,40 @@ public class BlockTest extends BaseTest {
         //extra validation for the fields outside equals and hashCode
         assertEquals(genesisBlock.getIndex(), 0L, "genesis block clones must match index data");
         assertEquals(genesisBlock.getNonce(), 0L, "genesis block clones must match nonce data");
+    }
+
+    @Test
+    void testGsonSerializeDeserialize() {
+        GsonBuilder builder = new GsonBuilder();
+        //builder.serializeNulls();
+        Gson gson = builder.create();
+        String genesisJson = gson.toJson(Block.genesis());
+
+        Block blockParsed = gson.fromJson(genesisJson, Block.class);
+        assertEquals(Block.genesis(), blockParsed, "parsed block must be the genesis block");
+        assertEquals(blockParsed.getIndex(), Block.genesis().getIndex());
+        assertEquals(blockParsed.getNonce(), Block.genesis().getNonce());
+        /*
+        Date today = new Date();
+        Block aBlock = new Block(
+                today,
+                "previousHash",
+                "hash",
+                UUID.randomUUID().toString(),
+                1L, 11L);
+        String blockJson = gson.toJson(aBlock);
+
+        blockParsed = gson.fromJson(blockJson, Block.class);
+        assertTrue(blockParsed instanceof Block, "parsed block must be com.R07r35cInc.Block");
+        assertFalse(aBlock == blockParsed, "parsed block must be different memory instance");
+        assertTrue(blockParsed.getDate().compareTo(today)==0);
+        assertEquals(aBlock.getPreviousHash(), blockParsed.getPreviousHash());
+        assertEquals(aBlock.getHash(), blockParsed.getHash());
+        assertEquals(aBlock.getData(), blockParsed.getData());
+        assertEquals(aBlock.getIndex(), blockParsed.getIndex());
+        assertEquals(aBlock.getNonce(), blockParsed.getNonce());
+        assertEquals(aBlock, blockParsed, "parsed block must match initial block instance");
+         */
     }
 
     class User {

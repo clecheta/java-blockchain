@@ -24,7 +24,7 @@ public class Block<T> {
     }
 
     public static Block genesis() {
-        String beforeWorldEvenExists = "00/00/0000 00:00:00";
+        String beforeWorldEvenExists = "18/06/2008 00:00:00";
         try {
             return new Block(
                     new SimpleDateFormat(CryptoHash.timestampFormat).parse(beforeWorldEvenExists),
