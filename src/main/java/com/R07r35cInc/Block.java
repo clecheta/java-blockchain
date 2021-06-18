@@ -1,5 +1,6 @@
 package com.R07r35cInc;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -66,7 +67,10 @@ public class Block<T> {
         if (this == o) return true;
         if (!(o instanceof Block)) return false;
         Block<?> block = (Block<?>) o;
-        return date.equals(block.date) &&
+        DateFormat dateFormat = new SimpleDateFormat(CryptoHash.timestampFormat);
+        String thisDate = dateFormat.format(date);
+        String oDate = dateFormat.format(block.getDate());
+        return Objects.equals(thisDate, oDate) &&
                 Objects.equals(previousHash, block.previousHash) &&
                 Objects.equals(hash, block.hash) &&
                 Objects.equals(data, block.data);
@@ -77,18 +81,32 @@ public class Block<T> {
         return Objects.hash(date, previousHash, hash, data);
     }
 
-    /* these sets methods were create for test purpose only
-     * @See BlockChainTest.fakeGenesisBlock()
-     * @See BlockChainTest.isValidChain()
-     * @See ReplaceChainTest.longerButInvalidChain()
-     */
+    /* Setter methods and default constructor added to be possible to
+     * unmarshaller block objects thru kafka channels */
+
+    public Block() { }
+
     public void setData(T data) {
         this.data = data;
-        throw new RuntimeException("you cannot change a block data");
     }
     public void setPreviousHash(String aHash) {
         this.previousHash = aHash;
-        throw new RuntimeException("please dont try to change the previous hash");
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
+
+    public void setNonce(Long nonce) {
+        this.nonce = nonce;
+    }
+
+    public void setIndex(Long index) {
+        this.index = index;
     }
 
 }

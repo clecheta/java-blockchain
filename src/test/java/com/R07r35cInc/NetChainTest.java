@@ -45,4 +45,9 @@ public class NetChainTest extends BaseTest {
         logToConsole(netChain.getChain(), "netChain");
     }
 
+    @Test
+    void testGsonSerializeDeserialize() {
+        //TODO
+    }
+
 }

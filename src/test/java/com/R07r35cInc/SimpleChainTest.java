@@ -1,6 +1,5 @@
 package com.R07r35cInc;
 
-
 import com.BaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -48,11 +47,7 @@ public class SimpleChainTest extends BaseTest {
 
     @Test
     void fakeGenesisBlock() {
-        RuntimeException thrown = assertThrows(
-                RuntimeException.class,
-                () -> ((Block) simpleChain.getChain().get(0)).setData("fake-genesis")
-        );
-        assertTrue(thrown.getMessage().contains("you cannot change a block data"));
+        ((Block) simpleChain.getChain().get(0)).setData("fake-genesis");
         assertFalse(simpleChain.isValidChain(), "the chain does not start with the genesis block");
     }
 
@@ -63,30 +58,17 @@ public class SimpleChainTest extends BaseTest {
         simpleChain.addBlock("A LEGO GIFT FROM GOD!");
 
         String originalHash = ((Block) simpleChain.getChain().get(2)).getPreviousHash();
-        assertThrows(
-                RuntimeException.class,
-                () -> ((Block) simpleChain.getChain().get(2)).setPreviousHash("broken-previous-hash")
-        );
+        ((Block) simpleChain.getChain().get(2)).setPreviousHash("broken-previous-hash");
         assertFalse(simpleChain.isValidChain(), "previous hash reference has changed");
 
-        assertThrows(
-                RuntimeException.class,
-                () -> ((Block) simpleChain.getChain().get(2)).setPreviousHash(originalHash)
-        );
+        ((Block) simpleChain.getChain().get(2)).setPreviousHash(originalHash);
         assertTrue(simpleChain.isValidChain(), "fix previous hash reference");
 
         String originalData = (String) ((Block) simpleChain.getChain().get(3)).getData();
-        assertThrows(
-                RuntimeException.class,
-                () -> ((Block) simpleChain.getChain().get(3)).setData("it's not a present from our God.")
-        );
-
+        ((Block) simpleChain.getChain().get(3)).setData("it's not a present from our God.");
         assertFalse(simpleChain.isValidChain(), "chain contains a block wih an invalid field");
 
-        assertThrows(
-                RuntimeException.class,
-                () -> ((Block) simpleChain.getChain().get(3)).setData(originalData)
-        );
+        ((Block) simpleChain.getChain().get(3)).setData(originalData);
         assertTrue(simpleChain.isValidChain(), "chain does not contain any invalid blocks");
     }
 

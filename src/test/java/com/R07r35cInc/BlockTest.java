@@ -6,6 +6,8 @@ import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.UUID;
@@ -107,7 +109,7 @@ public class BlockTest extends BaseTest {
         assertEquals(Block.genesis(), blockParsed, "parsed block must be the genesis block");
         assertEquals(blockParsed.getIndex(), Block.genesis().getIndex());
         assertEquals(blockParsed.getNonce(), Block.genesis().getNonce());
-        /*
+
         Date today = new Date();
         Block aBlock = new Block(
                 today,
@@ -120,14 +122,17 @@ public class BlockTest extends BaseTest {
         blockParsed = gson.fromJson(blockJson, Block.class);
         assertTrue(blockParsed instanceof Block, "parsed block must be com.R07r35cInc.Block");
         assertFalse(aBlock == blockParsed, "parsed block must be different memory instance");
-        assertTrue(blockParsed.getDate().compareTo(today)==0);
         assertEquals(aBlock.getPreviousHash(), blockParsed.getPreviousHash());
         assertEquals(aBlock.getHash(), blockParsed.getHash());
         assertEquals(aBlock.getData(), blockParsed.getData());
         assertEquals(aBlock.getIndex(), blockParsed.getIndex());
         assertEquals(aBlock.getNonce(), blockParsed.getNonce());
         assertEquals(aBlock, blockParsed, "parsed block must match initial block instance");
-         */
+
+        DateFormat dateFormat = new SimpleDateFormat(CryptoHash.timestampFormat);
+        String blockDate = dateFormat.format(aBlock.getDate());
+        String parsedDate = dateFormat.format(blockParsed.getDate());
+        assertEquals(blockDate, parsedDate, "dates must match in the proper format comparison");
     }
 
     class User {

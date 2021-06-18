@@ -36,13 +36,9 @@ public class ReplaceChainTest extends BaseTest {
     @Test
     void longerButInvalidChain() {
         minedBlock = newChain.addBlock("additional block");
-        RuntimeException thrown = assertThrows(
-                RuntimeException.class,
-                () -> ((Block) newChain.getChain().get(1)).setPreviousHash("some-fake-hash")
-        );
-        assertTrue(thrown.getMessage().contains("please dont try to change the previous hash"));
+        ((Block) newChain.getChain().get(1)).setPreviousHash("some-fake-hash");
 
-        thrown = assertThrows(
+        RuntimeException thrown = assertThrows(
                 RuntimeException.class,
                 () -> simpleChain.replaceChain(newChain.getChain()),
                 "Expected replaceChain() to throw, but it didn't"
