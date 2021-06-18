@@ -14,7 +14,7 @@ public class Block<T> {
     private Long index;
 
     /** you must save the block with the timestamp that generated the crypto hash */
-    Block(Date date, String previousHash, String hash, T data, long index, long nonce) {
+    Block(Date date, String previousHash, String hash, T data, Long index, Long nonce) {
         this.date = date;
         this.previousHash = previousHash;
         this.hash = hash;
@@ -30,7 +30,7 @@ public class Block<T> {
                     new SimpleDateFormat(CryptoHash.timestampFormat).parse(beforeWorldEvenExists),
                     "Yes-I-am-coming-soon.Amen.Come-Lord-Jesus",
                     "The-stone-the-builders-rejected-has-become-the-cornerstone",
-                    "Book of Genesis", 0, 0);
+                    "Book of Genesis", 0L, 0L);
         } catch (ParseException e) {
             e.printStackTrace();
         }

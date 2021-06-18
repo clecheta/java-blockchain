@@ -56,7 +56,7 @@ public class BlockTest extends BaseTest {
                 new Date(),
                 "The-stone-the-builders-rejected-has-become-the-cornerstone",
                 "A-user-hash",
-                user, 0, 00);
+                user, 0L, 0L);
         assertNotNull(userBlock);
         assertTrue(userBlock.getData() instanceof User);
         logToConsole(userBlock, "user data model (value object) block example");
@@ -70,7 +70,7 @@ public class BlockTest extends BaseTest {
                 block1.getPreviousHash(),
                 block1.getHash(),
                 block1.getData(),
-                0, 00);
+                0L, 0L);
         assertEquals(block1, block2);
         assertFalse(block1 == block2, "ensure its not the same memory object reference");
         assertTrue(block1.hashCode() == block2.hashCode());
@@ -84,13 +84,13 @@ public class BlockTest extends BaseTest {
                 genesisBlock.getPreviousHash(),
                 genesisBlock.getHash(),
                 genesisBlock.getData(),
-                0,
-                0
+                0L,
+                0L
         );
         assertEquals(genesisBlock, sameFirstBlock, "genesis block clones must match genesis data");
         //extra validation for the fields outside equals and hashCode
-        assertEquals(genesisBlock.getIndex(), 0, "genesis block clones must match index data");
-        assertEquals(genesisBlock.getNonce(), 0, "genesis block clones must match nonce data");
+        assertEquals(genesisBlock.getIndex(), 0L, "genesis block clones must match index data");
+        assertEquals(genesisBlock.getNonce(), 0L, "genesis block clones must match nonce data");
     }
 
     class User {
