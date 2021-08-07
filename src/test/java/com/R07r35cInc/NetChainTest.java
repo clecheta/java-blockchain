@@ -1,6 +1,5 @@
 package com.R07r35cInc;
 
-
 import com.BaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class NetChainTest extends BaseTest {
 
-    private static final int GENERATE_BLOCKS = 100;
+    private static final int GENERATE_BLOCKS = 10;
 
     NetChain netChain;
     Block block;

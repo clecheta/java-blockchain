@@ -47,7 +47,7 @@ public class BlockTest extends BaseTest {
         assertTrue(genesisBlock instanceof Block);
         assertEquals("Yes-I-am-coming-soon.Amen.Come-Lord-Jesus", genesisBlock.getPreviousHash());
         assertEquals("The-stone-the-builders-rejected-has-become-the-cornerstone", genesisBlock.getHash());
-        assertEquals("Book of Genesis", genesisBlock.getData());
+        assertEquals("Book of Genesis 1.1", genesisBlock.getData());
         logToConsole(genesisBlock, null);
     }
 
