@@ -1,6 +1,8 @@
-package com.R07r35cInc;
+package com.R07r35cInc.usecases;
 
 import com.BaseTest;
+import com.R07r35cInc.Block;
+import com.R07r35cInc.SimpleChain;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

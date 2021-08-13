@@ -37,7 +37,7 @@ public class CryptoHash {
     }
 
     public static String calculateHash(Date date, String previousHash, Object data, long index, long nonce) {
-        String serializedData = new GsonBuilder().setPrettyPrinting().create().toJson(data);
+        String serializedData = new GsonBuilder().create().toJson(data);
         String timestamp  = dateFormat.format(date);
         String indexString = Long.toString(index);
         String nonceString = Long.toString(nonce);
@@ -45,7 +45,7 @@ public class CryptoHash {
     }
 
     public static String calculateHash(Block block) {
-        String serializedData = new GsonBuilder().setPrettyPrinting().create().toJson(block.getData());
+        String serializedData = new GsonBuilder().create().toJson(block.getData());
         String timestamp = dateFormat.format(block.getDate());
         String indexString = Long.toString(block.getIndex());
         String nonceString = Long.toString(block.getNonce());
