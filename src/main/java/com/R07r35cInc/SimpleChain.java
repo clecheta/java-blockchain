@@ -5,12 +5,12 @@ import com.google.gson.GsonBuilder;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class SimpleChain<T> implements Blockchain {
+public class SimpleChain<T> implements Blockchain<T> {
 
-    private List<Block> chain;
+    private List<Block<T>> chain;
 
     public SimpleChain() {
-        this.chain = new ArrayList<Block>();
+        this.chain = new ArrayList<Block<T>>();
         this.chain.add(Block.genesis());
     }
 
@@ -37,7 +37,7 @@ public class SimpleChain<T> implements Blockchain {
     }
 
     /** Chain Validation - inspect a Blockchain (inspect each block was construct correctly) */
-    public Boolean isValidChain(List<Block> chain) {
+    public Boolean isValidChain(List<Block<T>> chain) {
         if (!Block.genesis().equals(chain.get(0))) {
             return false; //genesis block validation
         }
@@ -67,7 +67,7 @@ public class SimpleChain<T> implements Blockchain {
 
     /** Necessary because of the blockchain network interaction
      * not static method as it is specific to each instance of the blockchain **/
-    public void replaceChain(List<Block> chain) {
+    public void replaceChain(List<Block<T>> chain) {
         if (chain == null || (chain.size() <= this.chain.size())) {
             throw new RuntimeException("The incoming chain must be longer");
         }
@@ -81,8 +81,8 @@ public class SimpleChain<T> implements Blockchain {
         this.chain = chain;
     }
 
-    public List<Block> getChain() {
-        return chain;
+    public List<Block<T>> getChain() {
+        return this.chain;
     }
 
 }

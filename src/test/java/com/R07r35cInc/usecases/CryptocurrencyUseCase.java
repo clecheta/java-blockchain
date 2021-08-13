@@ -14,18 +14,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CryptocurrencyUseCase extends BaseTest {
 
-    NetChain netChain;
-    List<Map<String, BigDecimal>> listOfTransactions;
+    NetChain<List<MockTransaction>> netChain;
+    List<MockTransaction> listOfTransactions;
 
     @BeforeEach
     void init() {
-        netChain = new NetChain();
-        listOfTransactions = new ArrayList<Map<String,BigDecimal>>();
+        netChain = new NetChain<List<MockTransaction>>();
+        listOfTransactions = new ArrayList<MockTransaction>();
         for (int i=0; i<6; i++) {
-            HashMap<String, BigDecimal> transactions = new HashMap<String,BigDecimal>();
-            transactions.put("Transaction"+i, new BigDecimal(i));
-            transactions.put("Transaction"+i+1, new BigDecimal(i+i));
-            listOfTransactions.add(transactions);
+            HashMap<String, BigDecimal> outputMap = new HashMap<String,BigDecimal>();
+            outputMap.put("Transaction"+i, new BigDecimal(i));
+            outputMap.put("Transaction"+i+1, new BigDecimal(i+i));
+            listOfTransactions.add(new MockTransaction(outputMap));
         }
         netChain.addBlock(listOfTransactions);
     }
@@ -39,15 +39,24 @@ public class CryptocurrencyUseCase extends BaseTest {
 
     @Test
     void dataObjectListChangedOrder() {
-        Map<String, BigDecimal> someObjectInTheMiddle = listOfTransactions.get(2);
+        Object someObjectInTheMiddle = listOfTransactions.get(2);
         listOfTransactions.remove(2);
-        listOfTransactions.add(someObjectInTheMiddle);
+        listOfTransactions.add((MockTransaction) someObjectInTheMiddle);
         assertTrue(listOfTransactions.indexOf(someObjectInTheMiddle)==5);
 
         Block lastBlock = (Block) netChain.getChain().get(netChain.getChain().size()-1);
         String validatedHash = CryptoHash.calculateHash(lastBlock);
         assertNotEquals(((Block<?>) netChain.getChain().get(netChain.getChain().size()-1)).getHash(), validatedHash,
                 "change in the object list order will not produce the same json parsed value");
+
+        NetChain broadcastChain = new NetChain();
+        RuntimeException thrown = assertThrows(
+                RuntimeException.class,
+                () -> broadcastChain.replaceChain(netChain.getChain()),
+                "Expected replaceChain() to throw"
+        );
+        assertTrue(thrown.getMessage().contains("The incoming chain must be valid"),
+                "the new chain is valid");
     }
 
     @Test
@@ -56,5 +65,14 @@ public class CryptocurrencyUseCase extends BaseTest {
         broadcastChain.replaceChain(netChain.getChain());
         assertTrue(broadcastChain.getChain().size()==netChain.getChain().size());
     }
+}
 
+class MockTransaction {
+    public UUID id;
+    public Map<String, BigDecimal> outputMap;
+
+    public MockTransaction(Map<String, BigDecimal> outputMap) {
+        this.id = UUID.randomUUID();
+        this.outputMap = outputMap;
+    }
 }

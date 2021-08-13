@@ -36,6 +36,7 @@ public class CryptoHash {
         return applySha256(value);
     }
 
+    //IN
     public static String calculateHash(Date date, String previousHash, Object data, long index, long nonce) {
         String serializedData = new GsonBuilder().create().toJson(data);
         String timestamp  = dateFormat.format(date);
@@ -44,6 +45,9 @@ public class CryptoHash {
         return applySha256(timestamp + previousHash + serializedData + indexString + nonceString);
     }
 
+    //OUT-Validation
+    //FIXME the objects coming from api.blockchain are parsed with chaging in blocks order, and the date format
+    //is different as well, so that, the hash is not validating the chain
     public static String calculateHash(Block block) {
         String serializedData = new GsonBuilder().create().toJson(block.getData());
         String timestamp = dateFormat.format(block.getDate());

@@ -2,8 +2,8 @@ package com.R07r35cInc;
 
 import java.util.List;
 
-public interface Blockchain {
+public interface Blockchain<T> {
 
-    List<Block> getChain();
+    List<Block<T>> getChain();
 
 }
