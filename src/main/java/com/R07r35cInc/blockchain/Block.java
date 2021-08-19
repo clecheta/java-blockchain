@@ -1,6 +1,7 @@
 package com.R07r35cInc.blockchain;
 
 import com.R07r35cInc.util.CryptoHash;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -8,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
+@JsonPropertyOrder({"date", "previousHash", "hash", "data", "nonce", "index"})
 public class Block<T> {
     private Date date;
     private String previousHash;

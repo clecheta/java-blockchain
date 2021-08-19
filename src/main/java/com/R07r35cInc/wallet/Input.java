@@ -1,5 +1,7 @@
 package com.R07r35cInc.wallet;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
@@ -8,6 +10,7 @@ import java.util.Objects;
  * @author Cleber Lecheta
  * https://encontreijesus.com
  */
+@JsonPropertyOrder({"date", "amount", "address", "signature"})
 public class Input {
     public Date date;
     public BigDecimal amount;

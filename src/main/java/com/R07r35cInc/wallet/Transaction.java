@@ -2,6 +2,7 @@ package com.R07r35cInc.wallet;
 
 import com.R07r35cInc.util.Calculate;
 import com.R07r35cInc.util.ECDSA;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.gson.GsonBuilder;
 
 import java.math.BigDecimal;
@@ -12,14 +13,17 @@ import java.util.*;
  * @author Cleber Lecheta
  * https://encontreijesus.com
  */
+@JsonPropertyOrder({"id", "input", "outputMap"})
 public class Transaction {
 
+    //TODO: read from config file
     public static final String REWARD_INPUT = "*authorized-reward*";
     public static final BigDecimal MINER_REWARD = new BigDecimal(1);
 
     public UUID id;
-    public Map<String, BigDecimal> outputMap;
     public Input input;
+    @JsonPropertyOrder(alphabetic = true)
+    public Map<String, BigDecimal> outputMap;
 
     public Transaction() {
         this.id = UUID.randomUUID();

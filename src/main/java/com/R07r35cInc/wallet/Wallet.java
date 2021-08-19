@@ -20,7 +20,7 @@ public class Wallet {
         ECDSA = new ECDSA();
         this.keyPair = ECDSA.genKeyPair();
         this.publicKey = ECDSA.getPublic();
-        this.balance = new BigDecimal(100);
+        this.balance = new BigDecimal(100); //TODO: read from config file
     }
 
     /**
