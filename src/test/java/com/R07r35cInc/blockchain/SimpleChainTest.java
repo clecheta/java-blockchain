@@ -1,6 +1,9 @@
-package com.R07r35cInc;
+package com.R07r35cInc.blockchain;
 
 import com.BaseTest;
+import com.R07r35cInc.blockchain.Block;
+import com.R07r35cInc.blockchain.SimpleChain;
+import com.R07r35cInc.util.CryptoHash;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

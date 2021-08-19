@@ -1,6 +1,7 @@
-package com.R07r35cInc;
+package com.R07r35cInc.util;
 
 import com.BaseTest;
+import com.R07r35cInc.blockchain.Block;
 import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.Test;
 

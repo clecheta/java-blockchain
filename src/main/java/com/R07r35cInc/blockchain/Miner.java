@@ -1,4 +1,6 @@
-package com.R07r35cInc;
+package com.R07r35cInc.blockchain;
+
+import com.R07r35cInc.util.CryptoHash;
 
 import java.util.Date;
 

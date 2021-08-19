@@ -1,4 +1,6 @@
-package com.R07r35cInc;
+package com.R07r35cInc.blockchain;
+
+import com.R07r35cInc.util.CryptoHash;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -15,7 +17,7 @@ public class Block<T> {
     private Long index;
 
     /** you must save the block with the timestamp that generated the crypto hash */
-    Block(Date date, String previousHash, String hash, T data, Long index, Long nonce) {
+    public Block(Date date, String previousHash, String hash, T data, Long index, Long nonce) {
         this.date = date;
         this.previousHash = previousHash;
         this.hash = hash;

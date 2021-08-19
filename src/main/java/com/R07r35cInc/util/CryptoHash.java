@@ -1,17 +1,22 @@
-package com.R07r35cInc;
+package com.R07r35cInc.util;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 
-import com.google.gson.GsonBuilder;
+import com.R07r35cInc.blockchain.Block;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+//import com.google.gson.GsonBuilder;
 
 public class CryptoHash {
 
     public static final String timestampFormat = "dd/MM/yyyy HH:mm:ss";
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat(timestampFormat);
+    private static ObjectMapper om = new ObjectMapper();
 
     //Applies Sha256 to a string and returns the result.
     private static String applySha256(String input) {
@@ -38,21 +43,33 @@ public class CryptoHash {
 
     //IN
     public static String calculateHash(Date date, String previousHash, Object data, long index, long nonce) {
-        String serializedData = new GsonBuilder().create().toJson(data);
+        //String serializedData = new GsonBuilder().create().toJson(data.toString());
+        String dataAsString = data.toString();
+        try {
+            dataAsString = om.writeValueAsString(data);
+        } catch (JsonProcessingException e) {
+            System.out.println(LocalDateTime.now() + " ERROR [CryptoHash]Fail-parse-data-json-to-string");
+        }
         String timestamp  = dateFormat.format(date);
         String indexString = Long.toString(index);
         String nonceString = Long.toString(nonce);
-        return applySha256(timestamp + previousHash + serializedData + indexString + nonceString);
+        return applySha256(timestamp + previousHash + dataAsString + indexString + nonceString);
     }
 
     //OUT-Validation
     //FIXME the objects coming from api.blockchain are parsed with chaging in blocks order, and the date format
     //is different as well, so that, the hash is not validating the chain
     public static String calculateHash(Block block) {
-        String serializedData = new GsonBuilder().create().toJson(block.getData());
+        //String serializedData = new GsonBuilder().create().toJson(block.getData().toString());
+        String dataAsString = block.getData().toString();
+        try {
+            dataAsString = om.writeValueAsString(block.getData());
+        } catch (JsonProcessingException e) {
+            System.out.println(LocalDateTime.now() + " ERROR [CryptoHash]Fail-parse-block-json-to-string");
+        }
         String timestamp = dateFormat.format(block.getDate());
         String indexString = Long.toString(block.getIndex());
         String nonceString = Long.toString(block.getNonce());
-        return applySha256(timestamp + block.getPreviousHash() + serializedData + indexString + nonceString);
+        return applySha256(timestamp + block.getPreviousHash() + dataAsString + indexString + nonceString);
     }
 }

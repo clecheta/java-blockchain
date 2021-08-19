@@ -1,9 +1,9 @@
-package com.R07r35cInc.usecases;
+package com.R07r35cInc;
 
 import com.BaseTest;
-import com.R07r35cInc.Block;
-import com.R07r35cInc.CryptoHash;
-import com.R07r35cInc.NetChain;
+import com.R07r35cInc.blockchain.Block;
+import com.R07r35cInc.util.CryptoHash;
+import com.R07r35cInc.blockchain.NetChain;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
