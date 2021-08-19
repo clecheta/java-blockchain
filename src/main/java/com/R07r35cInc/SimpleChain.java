@@ -51,14 +51,14 @@ public class SimpleChain<T> implements Blockchain<T> {
 
             /** validate actual lashHash reference (links to block-to-block) */
             if(!lastHash.equals(block.getPreviousHash()) ) {
-                System.out.println(LocalDateTime.now() + "|Previous-hashes-not-equal");
+                System.out.println(LocalDateTime.now() + " ERROR [Blockchain]Previous-hashes-not-equal");
                 return false;
             }
 
             /** have valid hash */
             validatedHash = CryptoHash.calculateHash(block);
             if(!block.getHash().equals(validatedHash) ){
-                System.out.println(LocalDateTime.now() + "|Current-hashes-not-equal");
+                System.out.println(LocalDateTime.now() + " ERROR [Blockchain]Current-hashes-not-equal");
                 return false;
             }
         }
