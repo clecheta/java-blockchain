@@ -1,6 +1,6 @@
 package com;
 
-import com.google.gson.GsonBuilder;
+import com.R07r35cInc.util.Parse;
 
 public class BaseTest {
 
@@ -9,7 +9,7 @@ public class BaseTest {
 
     protected void logToConsole(Object object, String message) {
         if (consoleLog == true) {
-            String blockchainJson = new GsonBuilder().setPrettyPrinting().create().toJson(object);
+            String blockchainJson = new Parse<>().toJson(object);
             if (message != null) {
                 System.out.println("\n" + message);
             }

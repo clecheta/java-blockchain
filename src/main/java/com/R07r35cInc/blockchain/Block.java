@@ -35,7 +35,7 @@ public class Block<T> {
                     new SimpleDateFormat(CryptoHash.timestampFormat).parse(beforeWorldEvenExists),
                     "Yes-I-am-coming-soon.Amen.Come-Lord-Jesus",
                     "The-stone-the-builders-rejected-has-become-the-cornerstone",
-                    "Book of Genesis 1.1", 0L, 0L);
+                    null, 0L, 0L);
         } catch (ParseException e) {
             e.printStackTrace();
         }

@@ -46,7 +46,7 @@ public class CryptoHash {
     //IN
     public static String calculateHash(Date date, String previousHash, Object data, long index, long nonce) {
         //String serializedData = new GsonBuilder().create().toJson(data.toString());
-        String dataAsString = getSerializedData(data);
+        String dataAsString = new Parse().toJson(data);
         String timestamp = dateFormat.format(date);
         String indexString = Long.toString(index);
         String nonceString = Long.toString(nonce);
@@ -58,20 +58,11 @@ public class CryptoHash {
     //is different as well, so that, the hash is not validating the chain
     public static String calculateHash(Block block) {
         //String serializedData = new GsonBuilder().create().toJson(block.getData().toString());
-        String dataAsString = getSerializedData(block.getData());
+        String dataAsString = new Parse().toJson(block.getData());
         String timestamp = dateFormat.format(block.getDate());
         String indexString = Long.toString(block.getIndex());
         String nonceString = Long.toString(block.getNonce());
         return applySha256(timestamp + block.getPreviousHash() + dataAsString + indexString + nonceString);
     }
 
-    private static String getSerializedData(Object data) {
-        String dataAsString = data.toString();
-        try {
-            dataAsString = om.writeValueAsString(data);
-        } catch (JsonProcessingException e) {
-            System.out.println(LocalDateTime.now() + " ERROR [CryptoHash] Fail-parsing-data-json");
-        }
-        return dataAsString;
-    }
 }

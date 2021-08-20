@@ -1,7 +1,6 @@
 package com.R07r35cInc.util;
 
 import com.BaseTest;
-import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -42,7 +41,7 @@ public class ECDSATest extends BaseTest {
 
     @Test
     void signAndVerifyWithSerializedData() {
-        String serializedData = new GsonBuilder().create().toJson(data);
+        String serializedData = new Parse<String>().toJson(data);
 
         String signature = null;
         signature = ec.sign(serializedData);

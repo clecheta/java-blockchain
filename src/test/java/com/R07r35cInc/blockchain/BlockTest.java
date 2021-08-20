@@ -1,10 +1,8 @@
 package com.R07r35cInc.blockchain;
 
 import com.BaseTest;
-import com.R07r35cInc.blockchain.Block;
 import com.R07r35cInc.util.CryptoHash;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.R07r35cInc.util.Parse;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
@@ -49,7 +47,6 @@ public class BlockTest extends BaseTest {
         assertTrue(genesisBlock instanceof Block);
         assertEquals("Yes-I-am-coming-soon.Amen.Come-Lord-Jesus", genesisBlock.getPreviousHash());
         assertEquals("The-stone-the-builders-rejected-has-become-the-cornerstone", genesisBlock.getHash());
-        assertEquals("Book of Genesis 1.1", genesisBlock.getData());
         logToConsole(genesisBlock, null);
     }
 
@@ -102,12 +99,10 @@ public class BlockTest extends BaseTest {
 
     @Test
     void testGsonSerializeDeserialize() {
-        GsonBuilder builder = new GsonBuilder();
-        //builder.serializeNulls();
-        Gson gson = builder.create();
-        String genesisJson = gson.toJson(Block.genesis());
+        Parse<Block> parse = new Parse<Block>(Block.class);
+        String genesisJson = parse.toJson(Block.genesis());
 
-        Block blockParsed = gson.fromJson(genesisJson, Block.class);
+        Block blockParsed = parse.fromJson(genesisJson);
         assertEquals(Block.genesis(), blockParsed, "parsed block must be the genesis block");
         assertEquals(blockParsed.getIndex(), Block.genesis().getIndex());
         assertEquals(blockParsed.getNonce(), Block.genesis().getNonce());
@@ -119,9 +114,9 @@ public class BlockTest extends BaseTest {
                 "hash",
                 UUID.randomUUID().toString(),
                 1L, 11L);
-        String blockJson = gson.toJson(aBlock);
+        String blockJson = parse.toJson(aBlock);
 
-        blockParsed = gson.fromJson(blockJson, Block.class);
+        blockParsed = parse.fromJson(blockJson);
         assertTrue(blockParsed instanceof Block, "parsed block must be com.R07r35cInc.Block");
         assertFalse(aBlock == blockParsed, "parsed block must be different memory instance");
         assertEquals(aBlock.getPreviousHash(), blockParsed.getPreviousHash());

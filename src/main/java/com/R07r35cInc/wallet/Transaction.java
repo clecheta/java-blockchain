@@ -2,8 +2,8 @@ package com.R07r35cInc.wallet;
 
 import com.R07r35cInc.util.Calculate;
 import com.R07r35cInc.util.ECDSA;
+import com.R07r35cInc.util.Parse;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.google.gson.GsonBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -71,7 +71,7 @@ public class Transaction {
         }
 
         ECDSA ECDSA = new ECDSA();
-        String serializedData = new GsonBuilder().create().toJson(outputMap);
+        String serializedData = new Parse<Map<String, BigDecimal>>().toJson(outputMap);
         if (!ECDSA.verifySignature(address, serializedData, signature)) {
             System.out.println(LocalDateTime.now() + " ERROR [Transaction] Invalid signature from address: " + address);
             return false;

@@ -2,7 +2,7 @@ package com.R07r35cInc.wallet;
 
 import com.BaseTest;
 import com.R07r35cInc.util.ECDSA;
-import com.google.gson.GsonBuilder;
+import com.R07r35cInc.util.Parse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -66,7 +66,7 @@ public class TransactionInputTest extends BaseTest {
     @Test
     void signInput() {
         ECDSA ec = new ECDSA();
-        String serializedData = new GsonBuilder().create().toJson(transaction.outputMap);
+        String serializedData = new Parse().toJson(transaction.outputMap);
         assertTrue(ec.verifySignature(senderWallet.publicKey, serializedData, transaction.input.signature),
                 "signs the input");
     }

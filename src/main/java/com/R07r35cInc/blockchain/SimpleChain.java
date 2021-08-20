@@ -1,7 +1,7 @@
 package com.R07r35cInc.blockchain;
 
 import com.R07r35cInc.util.CryptoHash;
-import com.google.gson.GsonBuilder;
+import com.R07r35cInc.util.Parse;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -77,7 +77,7 @@ public class SimpleChain<T> implements Blockchain<T> {
             throw new RuntimeException("The incoming chain must be valid");
         }
 
-        String chainJson = new GsonBuilder().setPrettyPrinting().create().toJson(chain);
+        String chainJson = new Parse<List<Block<T>>>().toJson(chain);
         System.out.println("Replacing chain with: \n" + chainJson );
         this.chain = chain;
     }

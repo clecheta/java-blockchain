@@ -1,7 +1,7 @@
 package com.R07r35cInc.wallet;
 
 import com.R07r35cInc.util.ECDSA;
-import com.google.gson.GsonBuilder;
+import com.R07r35cInc.util.Parse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -53,14 +53,14 @@ public class WalletTest {
         ECDSA ec = new ECDSA();
         /* we must serialize data before call ec.verifySignature as sign() method on Wallet does serialize the data
          * before call the ec.sign() ang generate signature */
-        String serializedData = new GsonBuilder().create().toJson(data);
+        String serializedData = new Parse<>().toJson(data);
         assertTrue(ec.verifySignature(wallet.publicKey, serializedData, signature));
     }
 
     @Test
     void doesNotVerifyInvalidSignature() {
         ECDSA ec = new ECDSA();
-        String serializedData = new GsonBuilder().create().toJson(data);
+        String serializedData = new Parse<>().toJson(data);
         assertFalse(ec.verifySignature(wallet.publicKey, serializedData, new Wallet().sign(serializedData)));
     }
 

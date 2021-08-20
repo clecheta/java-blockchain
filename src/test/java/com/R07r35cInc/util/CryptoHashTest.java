@@ -2,7 +2,6 @@ package com.R07r35cInc.util;
 
 import com.BaseTest;
 import com.R07r35cInc.blockchain.Block;
-import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.Test;
 
 import java.text.SimpleDateFormat;
@@ -34,7 +33,7 @@ public class CryptoHashTest extends BaseTest {
                 "previous-hash", "hash",
                 "a-block", index, nonce);
 
-        String serializedData = new GsonBuilder().setPrettyPrinting().create().toJson(aBlock.getData());
+        String serializedData = new Parse<>().toJson(aBlock.getData());
         String timestamp  = dateFormat.format(aBlock.getDate());
         String generatedHash = CryptoHash.generateHash(timestamp +
                         aBlock.getPreviousHash() + serializedData + index + nonce);
