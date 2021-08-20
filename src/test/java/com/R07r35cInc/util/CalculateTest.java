@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Cleber Lecheta
  * https://encontreijesus.com
  */
-public class MathUtilTest extends BaseTest {
+public class CalculateTest extends BaseTest {
 
     Map<String, BigDecimal> amountValuesMap;
 

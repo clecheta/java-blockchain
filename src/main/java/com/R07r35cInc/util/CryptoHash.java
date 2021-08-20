@@ -1,16 +1,13 @@
 package com.R07r35cInc.util;
 
 import com.R07r35cInc.blockchain.Block;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Date;
-//import com.google.gson.GsonBuilder;
 
 public class CryptoHash {
 
@@ -45,7 +42,6 @@ public class CryptoHash {
 
     //IN
     public static String calculateHash(Date date, String previousHash, Object data, long index, long nonce) {
-        //String serializedData = new GsonBuilder().create().toJson(data.toString());
         String dataAsString = new Parse().toJson(data);
         String timestamp = dateFormat.format(date);
         String indexString = Long.toString(index);
@@ -54,10 +50,7 @@ public class CryptoHash {
     }
 
     //OUT-Validation
-    //FIXME the objects coming from api.blockchain are parsed with chaging in blocks order, and the date format
-    //is different as well, so that, the hash is not validating the chain
     public static String calculateHash(Block block) {
-        //String serializedData = new GsonBuilder().create().toJson(block.getData().toString());
         String dataAsString = new Parse().toJson(block.getData());
         String timestamp = dateFormat.format(block.getDate());
         String indexString = Long.toString(block.getIndex());
