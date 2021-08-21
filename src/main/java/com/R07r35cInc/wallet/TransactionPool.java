@@ -62,14 +62,14 @@ public class TransactionPool {
         for (int i = 0; i < chainBlockList.size(); i++) {
             Block block = chainBlockList.get(i);
             try {
-                List<Transaction> transactionList = (List<Transaction>) block.getData();
-                for (Transaction transaction : transactionList) {
-                    this.transactionMap.remove(transaction.id.toString());
+                if (!block.equals(Block.genesis())) {
+                    List<Transaction> transactionList = (List<Transaction>) block.getData();
+                    for (Transaction transaction : transactionList) {
+                        this.transactionMap.remove(transaction.id.toString());
+                    }
                 }
-            } catch (ClassCastException cce) {
-                if (block.getData() != Block.genesis().getData()) {
-                    throw new RuntimeException("error cleaning blockchain transactions from the pool");
-                }
+            } catch (ClassCastException | NullPointerException exceptions) {
+                throw new RuntimeException("error cleaning blockchain transactions from the pool");
             }
         }
     }

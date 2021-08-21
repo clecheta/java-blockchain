@@ -1,6 +1,7 @@
 package com.R07r35cInc.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.LocalDateTime;
@@ -11,41 +12,28 @@ import java.time.LocalDateTime;
  */
 public class Parse<T> {
 
-    private ObjectMapper om;
-    private Class<T> type;
+    private static final ObjectMapper mapper = new ObjectMapper();
 
     /**
-     * If you only need to parse objects toJson string
-     * you can use the default constructor
+     * Static method - no need to create an instance to use it
      */
-    public Parse() {
-        this.om = new ObjectMapper();
-    }
-
-    /**
-     * Use this constructor whenever you need to parse Json data
-     * to native Object
-     * @param type
-     */
-    public Parse(Class<T> type) {
-        this();
-        this.type = type;
-    }
-
-    public String toJson(T data) {
+    public static String toJson(Object data) {
         String dataAsString = data.toString();
         try {
-            dataAsString = om.writeValueAsString(data);
+            dataAsString = mapper.writeValueAsString(data);
         } catch (JsonProcessingException e) {
             System.out.println(LocalDateTime.now() + " ERROR [Parse] Fail-object-to-json");
         }
         return dataAsString;
     }
 
-    public T fromJson(String json) {
+    /**
+     * Typed method, please instantiate to use
+     */
+    public T fromJson(String json, TypeReference typeReference) {
         T jsonAsObject = null;
         try {
-            jsonAsObject = om.readValue(json, type);
+            jsonAsObject = (T) mapper.readValue(json, typeReference);
         } catch (JsonProcessingException e) {
             System.out.println(LocalDateTime.now() + " ERROR [Parse] Fail-json-to-object");
         }

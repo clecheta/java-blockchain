@@ -3,6 +3,8 @@ package com.R07r35cInc.blockchain;
 import com.BaseTest;
 import com.R07r35cInc.util.CryptoHash;
 import com.R07r35cInc.util.Parse;
+import com.R07r35cInc.wallet.Transaction;
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
@@ -10,6 +12,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -47,6 +50,8 @@ public class BlockTest extends BaseTest {
         assertTrue(genesisBlock instanceof Block);
         assertEquals("Yes-I-am-coming-soon.Amen.Come-Lord-Jesus", genesisBlock.getPreviousHash());
         assertEquals("The-stone-the-builders-rejected-has-become-the-cornerstone", genesisBlock.getHash());
+        assertNull(genesisBlock.getData(), "initial block must not have any data as we don't know" +
+                "what kind of chain will be built and any data in here may fail typed parsing");
         logToConsole(genesisBlock, null);
     }
 
@@ -99,10 +104,10 @@ public class BlockTest extends BaseTest {
 
     @Test
     void testGsonSerializeDeserialize() {
-        Parse<Block> parse = new Parse<Block>(Block.class);
+        Parse<Block> parse = new Parse<Block>();
         String genesisJson = parse.toJson(Block.genesis());
 
-        Block blockParsed = parse.fromJson(genesisJson);
+        Block blockParsed = parse.fromJson(genesisJson, new TypeReference<Block>() {});
         assertEquals(Block.genesis(), blockParsed, "parsed block must be the genesis block");
         assertEquals(blockParsed.getIndex(), Block.genesis().getIndex());
         assertEquals(blockParsed.getNonce(), Block.genesis().getNonce());
@@ -116,7 +121,7 @@ public class BlockTest extends BaseTest {
                 1L, 11L);
         String blockJson = parse.toJson(aBlock);
 
-        blockParsed = parse.fromJson(blockJson);
+        blockParsed = parse.fromJson(blockJson, new TypeReference<Block>() {});
         assertTrue(blockParsed instanceof Block, "parsed block must be com.R07r35cInc.Block");
         assertFalse(aBlock == blockParsed, "parsed block must be different memory instance");
         assertEquals(aBlock.getPreviousHash(), blockParsed.getPreviousHash());
