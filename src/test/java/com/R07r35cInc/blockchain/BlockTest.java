@@ -3,7 +3,6 @@ package com.R07r35cInc.blockchain;
 import com.BaseTest;
 import com.R07r35cInc.util.CryptoHash;
 import com.R07r35cInc.util.Parse;
-import com.R07r35cInc.wallet.Transaction;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +11,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -131,7 +129,7 @@ public class BlockTest extends BaseTest {
         assertEquals(aBlock.getNonce(), blockParsed.getNonce());
         assertEquals(aBlock, blockParsed, "parsed block must match initial block instance");
 
-        DateFormat dateFormat = new SimpleDateFormat(CryptoHash.timestampFormat);
+        DateFormat dateFormat = new SimpleDateFormat(CryptoHash.stringDateFormat);
         String blockDate = dateFormat.format(aBlock.getDate());
         String parsedDate = dateFormat.format(blockParsed.getDate());
         assertEquals(blockDate, parsedDate, "dates must match in the proper format comparison");

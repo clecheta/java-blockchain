@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CryptoHashTest extends BaseTest {
 
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat(CryptoHash.timestampFormat);
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat(CryptoHash.stringDateFormat);
 
     @Test
     void generateHash() {
@@ -23,7 +23,6 @@ public class CryptoHashTest extends BaseTest {
         String actualHash = CryptoHash.generateHash("aValue" + "another");
         assertEquals(expectedHash, actualHash, "produces the same hash with the same input arguments");
     }
-
 
     @Test
     void changeMethodsSameResult() {

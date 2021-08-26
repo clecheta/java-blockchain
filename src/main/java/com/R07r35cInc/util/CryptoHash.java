@@ -11,8 +11,8 @@ import java.util.Date;
 
 public class CryptoHash {
 
-    public static final String timestampFormat = "dd/MM/yyyy HH:mm:ss";
-    public static final SimpleDateFormat dateFormat = new SimpleDateFormat(timestampFormat);
+    public static final String stringDateFormat = "dd/MM/yyyy HH:mm:ss"; //2021-08-26T12:44:50.124+00:00
+    public static final SimpleDateFormat dateFormat = new SimpleDateFormat(stringDateFormat);
     private static final ObjectMapper om = new ObjectMapper();
 
     //Applies Sha256 to a string and returns the result.

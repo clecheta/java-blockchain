@@ -13,7 +13,16 @@ import java.util.Objects;
  */
 @JsonPropertyOrder({"date", "amount", "address", "signature"})
 public class Input {
-    public Date date; //FIXME error on parsing, its producing: 1629981890124 | instead of: 2021-08-26T12:44:50.124+00:00
+    /* Error on parsing date field in api,
+         its producing: 1629981890124 | instead of: 2021-08-26T12:44:50.124+00:00
+
+      Possible Solutions:
+      1- annotate with @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = CryptoHash.stringDateFormat)
+      2- objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+      3- Separated Kafka channel with typed cryptochain messaged (worked as expected)
+      4- Use only string serializer/deserializer in both channels and handle the income message with the util.Parse
+     */
+    public Date date;
     public BigDecimal amount;
     public String address;
     public String signature;
