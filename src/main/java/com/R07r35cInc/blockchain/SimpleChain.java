@@ -77,8 +77,7 @@ public class SimpleChain<T> implements Blockchain<T> {
             throw new RuntimeException("The incoming chain must be valid");
         }
 
-        String chainJson = new Parse<List<Block<T>>>().toJson(chain);
-        System.out.println("Replacing chain with: \n" + chainJson );
+        System.out.println("Replacing chain with: \n" + Parse.toJson(chain) );
         this.chain = chain;
     }
 

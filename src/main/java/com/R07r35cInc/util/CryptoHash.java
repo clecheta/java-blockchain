@@ -12,7 +12,7 @@ import java.util.Date;
 public class CryptoHash {
 
     public static final String timestampFormat = "dd/MM/yyyy HH:mm:ss";
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat(timestampFormat);
+    public static final SimpleDateFormat dateFormat = new SimpleDateFormat(timestampFormat);
     private static final ObjectMapper om = new ObjectMapper();
 
     //Applies Sha256 to a string and returns the result.

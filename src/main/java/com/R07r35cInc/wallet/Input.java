@@ -1,5 +1,6 @@
 package com.R07r35cInc.wallet;
 
+import com.R07r35cInc.util.CryptoHash;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.math.BigDecimal;
@@ -12,7 +13,7 @@ import java.util.Objects;
  */
 @JsonPropertyOrder({"date", "amount", "address", "signature"})
 public class Input {
-    public Date date;
+    public Date date; //FIXME error on parsing, its producing: 1629981890124 | instead of: 2021-08-26T12:44:50.124+00:00
     public BigDecimal amount;
     public String address;
     public String signature;
@@ -28,18 +29,21 @@ public class Input {
 
     //TODO: Make test for equals() and hasCode() comparison implementation
 
-    //FIXME: use data in the comparison breaks RewardTransactionTest but it is a good thing do have date in this comparison
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Input)) return false;
         Input input = (Input) o;
-        return Objects.equals(amount, input.amount) && Objects.equals(address, input.address) && Objects.equals(signature, input.signature);
+        String thisDate = CryptoHash.dateFormat.format(date);
+        String oDate = CryptoHash.dateFormat.format(input.date);
+        return Objects.equals(thisDate, oDate) &&
+                Objects.equals(amount, input.amount) &&
+                Objects.equals(address, input.address) &&
+                Objects.equals(signature, input.signature);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(amount, address, signature);
+        return Objects.hash(date, amount, address, signature);
     }
 }

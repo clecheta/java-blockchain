@@ -71,9 +71,8 @@ public class Block<T> {
         if (this == o) return true;
         if (!(o instanceof Block)) return false;
         Block<?> block = (Block<?>) o;
-        DateFormat dateFormat = new SimpleDateFormat(CryptoHash.timestampFormat);
-        String thisDate = dateFormat.format(date);
-        String oDate = dateFormat.format(block.getDate());
+        String thisDate = CryptoHash.dateFormat.format(date);
+        String oDate = CryptoHash.dateFormat.format(block.getDate());
         return Objects.equals(thisDate, oDate) &&
                 Objects.equals(previousHash, block.previousHash) &&
                 Objects.equals(hash, block.hash) &&
