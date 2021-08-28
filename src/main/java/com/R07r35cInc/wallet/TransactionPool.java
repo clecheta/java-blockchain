@@ -58,7 +58,7 @@ public class TransactionPool {
         return transactions;
     }
 
-    public void clearBlockchainTransactions(List<Block> chainBlockList) {
+    public void clearBlockchainTransactions(List<Block<List<Transaction>>> chainBlockList) {
         for (int i = 0; i < chainBlockList.size(); i++) {
             Block block = chainBlockList.get(i);
             try {

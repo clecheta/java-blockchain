@@ -31,7 +31,7 @@ public class SimpleChainTest extends BaseTest {
         for (Method m : methods) {
             if (m.getName().equals("replaceChain")) {
                 assertEquals(0, m.toGenericString().indexOf("public"));
-                assertEquals(true, m.toGenericString().contains("void"));
+                assertEquals(true, m.toGenericString().contains("Boolean"));
             }
         }
     }
