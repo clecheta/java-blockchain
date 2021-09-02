@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class WalletTest {
 
     private static final int BASE64_LENGHT = 120;
-    private final int STARTING_BALANCE = 100;
+
     Wallet wallet;
     String data = "Jiu-jitsu";
 
@@ -34,7 +34,7 @@ public class WalletTest {
 
     @Test
     void balanceHasRightValue() {
-        BigDecimal startBalance = new BigDecimal(this.STARTING_BALANCE);
+        BigDecimal startBalance = Wallet.STARTING_BALANCE;
         assertTrue(startBalance.compareTo(new BigDecimal(100)) == 0,
                 "wallet balance must have the initial configured starting balance value");
         assertEquals(startBalance, wallet.balance);

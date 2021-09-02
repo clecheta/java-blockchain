@@ -23,7 +23,7 @@ public class UpdateSameRecipientTest extends BaseTest {
     static Wallet senderWallet;
     static String recipient;
     static BigDecimal amount;
-    private final BigDecimal STARTING_BALANCE = new BigDecimal(100);
+
     BigDecimal originalSenderOutput;
     String nextRecipient;
     BigDecimal nextAmount;
@@ -55,7 +55,7 @@ public class UpdateSameRecipientTest extends BaseTest {
         BigDecimal actualAmount = nextAmount.add(addedAmount);
         assertEquals(expectedAmount, actualAmount, "adds to the recipient amount");
 
-        assertEquals(STARTING_BALANCE, Calculate.mapTotal(transaction.outputMap));
+        assertEquals(Wallet.STARTING_BALANCE, Calculate.mapTotal(transaction.outputMap));
     }
 
     @Test
@@ -68,6 +68,6 @@ public class UpdateSameRecipientTest extends BaseTest {
         assertEquals(expectedAmount, actualAmount,
                 "subtracts the amount from the original sender output amount");
 
-        assertEquals(STARTING_BALANCE, Calculate.mapTotal(transaction.outputMap));
+        assertEquals(Wallet.STARTING_BALANCE, Calculate.mapTotal(transaction.outputMap));
     }
 }

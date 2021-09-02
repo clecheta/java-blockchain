@@ -1,16 +1,22 @@
 package com.R07r35cInc.wallet;
 
+import com.R07r35cInc.blockchain.Block;
 import com.R07r35cInc.util.ECDSA;
 import com.R07r35cInc.util.Parse;
 
 import java.math.BigDecimal;
 import java.security.KeyPair;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Cleber Lecheta
  * https://encontreijesus.com
  */
 public class Wallet {
+
+    public static final BigDecimal STARTING_BALANCE = new BigDecimal(100); //TODO: read from config file?
+
     private final ECDSA ECDSA; //utility class to work with ECDSA algorithms
     private final KeyPair keyPair;
     public BigDecimal balance;
@@ -20,7 +26,7 @@ public class Wallet {
         ECDSA = new ECDSA();
         this.keyPair = ECDSA.genKeyPair();
         this.publicKey = ECDSA.getPublic();
-        this.balance = new BigDecimal(100); //TODO: read from config file
+        this.balance = STARTING_BALANCE;
     }
 
     /**
@@ -40,6 +46,29 @@ public class Wallet {
         }
 
         return new Transaction(this, recipient, amount);
+    }
+
+    /** Goes to every transaction in the chain and if the address has an output
+     * within the transaction output map, we add that to the outputs total */
+    public static BigDecimal calculateBalance(List<Block> chain, String address) {
+        BigDecimal outputsTotal = BigDecimal.ZERO;
+
+        Block block;
+        List<Transaction> transactionList;
+        for(int i=0; i < chain.size(); i++) {
+            block = chain.get(i);
+            transactionList = (List<Transaction>) block.getData();
+            if (transactionList != null) { //wallet has received a transaction
+                for (Transaction transaction : transactionList) {
+                    BigDecimal addressOutput = transaction.outputMap.get(address);
+                    if (addressOutput != null) {
+                        outputsTotal = outputsTotal.add(addressOutput);
+                    }
+                }
+            }
+        }
+
+        return STARTING_BALANCE.add(outputsTotal);
     }
 
 }
