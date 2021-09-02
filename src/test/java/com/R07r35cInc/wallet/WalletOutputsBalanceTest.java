@@ -1,8 +1,6 @@
 package com.R07r35cInc.wallet;
 
 import com.R07r35cInc.blockchain.SimpleChain;
-import com.R07r35cInc.util.ECDSA;
-import com.R07r35cInc.util.Parse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +8,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Cleber Lecheta
@@ -45,5 +43,28 @@ public class WalletOutputsBalanceTest {
                 .add(t2.outputMap.get(wallet.publicKey));
         assertEquals(actualBalance, totalAmount, "adds the sum of all outputs to the wallet balance");
     }
+
+    /*
+    @Test
+    void ensureCalculateBalanceIsCalled() { //FIXME not really working
+        Wallet mockWallet = Mockito.mock(Wallet.class);
+        Transaction t3 = mockWallet.createTransaction(wallet.publicKey, new BigDecimal(10),
+                new SimpleChain().getChain());
+        verify(mockWallet, atLeast(1)).calculateBalance(cryptoChain.getChain(), mockWallet.publicKey);
+    }*/
+
+    /*
+    @Test
+    void chainIsPassed() { //FIXME the actual it much bigger then expected by the implemented logic
+        Transaction t3 = wallet.createTransaction(wallet.publicKey, new BigDecimal(10), cryptoChain.getChain());
+        assertNotNull(t3);
+        List<Transaction> transactionList = new ArrayList<Transaction>();
+        transactionList.add(t3);
+        cryptoChain.addBlock(transactionList);
+
+        BigDecimal expectedBalance = new BigDecimal(125);
+        BigDecimal actualBalance = Wallet.calculateBalance(cryptoChain.getChain(), wallet.publicKey);
+        assertEquals(expectedBalance, actualBalance);
+    }*/
 
 }

@@ -48,6 +48,13 @@ public class Wallet {
         return new Transaction(this, recipient, amount);
     }
 
+    public Transaction createTransaction(String recipient, BigDecimal amount, List<Block> chain) {
+        if (chain != null) {
+            this.balance = Wallet.calculateBalance(chain, this.publicKey);
+        }
+        return  this.createTransaction(recipient, amount);
+    }
+
     /** Goes to every transaction in the chain and if the address has an output
      * within the transaction output map, we add that to the outputs total */
     public static BigDecimal calculateBalance(List<Block> chain, String address) {
