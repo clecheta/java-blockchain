@@ -2,7 +2,9 @@ package com.R07r35cInc.blockchain;
 
 import com.R07r35cInc.util.CryptoHash;
 import com.R07r35cInc.util.Parse;
+import com.R07r35cInc.wallet.Transaction;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -31,6 +33,46 @@ public class SimpleChain<T> implements Blockchain<T> {
         long nonce = 00;
         String hash = CryptoHash.calculateHash(timestamp, previousHash, data, index, nonce);
         return new Block(timestamp, previousHash, hash, data, index, nonce);
+    }
+
+    //TODO: make a test to ensure this is a non static method
+    //FIXME Is it really necessary to pass the chain here as argument?
+    public Boolean validTransactionData(List<Block<T>> chain) {
+        List<Transaction> transactionList;
+        for (int i=1; i<chain.size(); i++) { //skip the Genesis block
+            Block block = chain.get(i);
+            transactionList = (List<Transaction>) block.getData();
+            int rewardTransactionCount = 0;
+
+            if (transactionList != null) { //there is transactions in the block
+                for (Transaction transaction : transactionList) {
+                    if (transaction.input.address.equals(Transaction.REWARD_INPUT)) {
+                        rewardTransactionCount += 1;
+
+                        if (rewardTransactionCount > 1) {
+                            System.out.println(LocalDateTime.now() + " ERROR [Blockchain] Miner reward exceed limit");
+                            return false;
+                        }
+
+                        Optional<String> firstKey = transaction.outputMap.keySet().stream().findFirst();
+                        BigDecimal firstValue = null;
+                        if (firstKey.isPresent()) {
+                            firstValue = transaction.outputMap.get(firstKey.get());
+                        }
+                        if (firstValue == null || firstValue.compareTo(Transaction.MINER_REWARD)!=0) {
+                            System.out.println(LocalDateTime.now() + " ERROR [Blockchain] Miner reward amount is invalid");
+                            return false;
+                        }
+                    } else { //not a reward transaction
+                       if (!Transaction.isValidTransaction(transaction)) {
+                           System.out.println(LocalDateTime.now() + " ERROR [Blockchain] Invalid transaction");
+                           return false;
+                       }
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     public Boolean isValidChain() {

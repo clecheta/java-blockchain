@@ -16,7 +16,7 @@ import java.util.*;
 @JsonPropertyOrder({"id", "input", "outputMap"})
 public class Transaction {
 
-    //TODO: read from config file
+    //TODO: read from config file ?
     public static final String REWARD_INPUT = "*authorized-reward*";
     public static final BigDecimal MINER_REWARD = new BigDecimal(1);
 
@@ -125,6 +125,7 @@ public class Transaction {
     }
 
     //TODO: Make test for equals() and hasCode() comparison implementation
+    // Block must not have identical transactions
 
     @Override
     public boolean equals(Object o) {
