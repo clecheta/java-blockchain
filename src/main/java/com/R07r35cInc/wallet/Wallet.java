@@ -58,24 +58,36 @@ public class Wallet {
     /** Goes to every transaction in the chain and if the address has an output
      * within the transaction output map, we add that to the outputs total */
     public static BigDecimal calculateBalance(List<Block> chain, String address) {
+        Boolean hasConductedTransaction = false;
         BigDecimal outputsTotal = BigDecimal.ZERO;
 
         Block block;
         List<Transaction> transactionList;
-        for(int i=0; i < chain.size(); i++) {
+        //iterate top-down as recent transactions are in the top of the list
+        for(int i=chain.size()-1; i >0 ; i--) { //do not iterate over Genesis data
             block = chain.get(i);
             transactionList = (List<Transaction>) block.getData();
             if (transactionList != null) { //wallet has received a transaction
                 for (Transaction transaction : transactionList) {
+                    if (transaction.input.address.equals(address)) {
+                        /* Do not double count outputs. If the address already made a transaction
+                           the balance should start from the output for the address*/
+                        hasConductedTransaction = true;
+                    }
+
                     BigDecimal addressOutput = transaction.outputMap.get(address);
                     if (addressOutput != null) {
                         outputsTotal = outputsTotal.add(addressOutput);
                     }
                 }
             }
+
+            if (hasConductedTransaction) {
+                break;
+            }
         }
 
-        return STARTING_BALANCE.add(outputsTotal);
+        return hasConductedTransaction ? outputsTotal : STARTING_BALANCE.add(outputsTotal);
     }
 
 }

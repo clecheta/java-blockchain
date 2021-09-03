@@ -20,14 +20,15 @@ public class Miner<T> {
     static Block proofOfWork(Date date, String previousHash, Object data, long index) {
         long nonce = 0;
         boolean nonceFound = false;
-        String nonceHash = "";
+        String nonceHash = CryptoHash.calculateHash(date, previousHash, data, index, nonce);;
 
+        /*
         while (!nonceFound) {
             date = new Date();
             nonce++;
             nonceHash = CryptoHash.calculateHash(date, previousHash, data, index, nonce);
             nonceFound = nonceHash.startsWith(nonceKey);
-        }
+        }*/
 
         return new Block(date,
                 previousHash, nonceHash,

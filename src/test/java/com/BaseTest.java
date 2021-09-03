@@ -4,6 +4,8 @@ import com.R07r35cInc.util.Parse;
 
 public class BaseTest {
 
+    public static final String publicKey = "recipient-foo-public-key";
+
     //TODO read this value from a properties file
     public Boolean consoleLog = true;
 
