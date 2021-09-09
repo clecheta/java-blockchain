@@ -17,7 +17,7 @@ import java.util.*;
 public class Transaction {
 
     //TODO: read from config file ?
-    public static final String REWARD_INPUT = "*authorized-reward*";
+    public static final String REWARD_INPUT = "*authorized-reward*"; //TODO read from config file/property
     public static final BigDecimal MINER_REWARD = new BigDecimal(1);
 
     public UUID id;

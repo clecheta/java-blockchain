@@ -2,9 +2,12 @@ package com;
 
 import com.R07r35cInc.util.Parse;
 
+import java.math.BigDecimal;
+
 public class BaseTest {
 
     public static final String publicKey = "recipient-foo-public-key";
+    public static final BigDecimal tooHighAmount = new BigDecimal(9000);
 
     //TODO read this value from a properties file
     public Boolean consoleLog = true;

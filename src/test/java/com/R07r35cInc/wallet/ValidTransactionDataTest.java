@@ -18,17 +18,16 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ValidTransactionDataTest {
     NetChain<List<Transaction>> cryptoNetChain;
     Transaction transaction, rewardTransaction;
-    Wallet wallet;
+    Wallet wallet, minerWallet;
     List<Transaction> transactionList;
-
-    BigDecimal tooHighAmount = new BigDecimal(999999);
 
     @BeforeEach
     void init() {
         cryptoNetChain = new NetChain<>();
         wallet = new Wallet();
-        transaction = new Transaction(wallet, BaseTest.publicKey, new BigDecimal(65));
-        rewardTransaction = Transaction.rewardTransaction(wallet);
+        minerWallet = new Wallet();
+        transaction = wallet.createTransaction(BaseTest.publicKey, new BigDecimal(5));
+        rewardTransaction = Transaction.rewardTransaction(minerWallet);
         transactionList = new ArrayList<>();
     }
 
@@ -57,7 +56,7 @@ public class ValidTransactionDataTest {
 
     @Test
     void notRewardTransaction() {
-        transaction.outputMap.put(wallet.publicKey, tooHighAmount);
+        transaction.outputMap.put(wallet.publicKey, BaseTest.tooHighAmount);
         transactionList.add(transaction);
         transactionList.add(rewardTransaction);
         cryptoNetChain.addBlock(transactionList);
@@ -68,7 +67,7 @@ public class ValidTransactionDataTest {
 
     @Test
     void isRewardTransaction() {
-        rewardTransaction.outputMap.put(wallet.publicKey, tooHighAmount);
+        rewardTransaction.outputMap.put(wallet.publicKey, BaseTest.tooHighAmount);
         transactionList.add(transaction);
         transactionList.add(rewardTransaction);
         cryptoNetChain.addBlock(transactionList);
@@ -77,10 +76,9 @@ public class ValidTransactionDataTest {
                 "the transaction is a reward transaction - valid data?");
     }
 
-    /*
     @Test
     void oneMalformedInput() {
-        wallet.balance = new BigDecimal(9000);
+        wallet.balance = BaseTest.tooHighAmount;
 
         Map<String, BigDecimal> evilOutputMap = new HashMap<>();
         evilOutputMap.put(wallet.publicKey, new BigDecimal(8900));
@@ -115,7 +113,6 @@ public class ValidTransactionDataTest {
         //Enforce the blockchain to have a unique transaction set when it comes in
         assertFalse(cryptoNetChain.validTransactionData(cryptoNetChain.getChain()),
                 "a block contains multiple identical transactions - valid data?");
-
-    }*/
+    }
 
 }
