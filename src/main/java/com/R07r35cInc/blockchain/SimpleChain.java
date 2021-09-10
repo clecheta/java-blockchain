@@ -42,57 +42,61 @@ public class SimpleChain<T> implements Blockchain<T> {
     //FIXME Is it really necessary to pass the chain here as argument?
     public Boolean isValidTransactionData(List<Block<T>> chain) {
         List<Transaction> transactions;
-        for (int i = 1; i < chain.size(); i++) { //skip the Genesis block
-            Block block = chain.get(i);
-            transactions = (List<Transaction>) block.getData();
-            Set<Transaction> transactionSet = new HashSet<>();
-            int rewardTransactionCount = 0;
+        try {
+            for (int i = 1; i < chain.size(); i++) { //skip the Genesis block
+                Block block = chain.get(i);
+                transactions = (List<Transaction>) block.getData();
+                Set<Transaction> transactionSet = new HashSet<>();
+                int rewardTransactionCount = 0;
 
-            if (transactions != null) { //there is transactions in the block
-                for (Transaction transaction : transactions) {
-                    if (transaction.input.address.equals(Transaction.REWARD_INPUT)) {
-                        rewardTransactionCount += 1;
+                if (transactions != null) { //there is transactions in the block
+                    for (Transaction transaction : transactions) {
+                        if (transaction.input.address.equals(Transaction.REWARD_INPUT)) {
+                            rewardTransactionCount += 1;
 
-                        if (rewardTransactionCount > 1) {
-                            System.out.println(LocalDateTime.now() + " ERROR [Blockchain] Miner reward exceed limit");
-                            return false;
-                        }
+                            if (rewardTransactionCount > 1) {
+                                System.out.println(LocalDateTime.now() + " ERROR [Blockchain] Miner reward exceed limit");
+                                return false;
+                            }
 
-                        Optional<String> firstKey = transaction.outputMap.keySet().stream().findFirst();
-                        BigDecimal firstValue = null;
-                        if (firstKey.isPresent()) {
-                            firstValue = transaction.outputMap.get(firstKey.get());
-                        }
-                        if (firstValue == null || firstValue.compareTo(Transaction.MINER_REWARD) != 0) {
-                            System.out.println(LocalDateTime.now() + " ERROR [Blockchain] Miner reward amount is invalid");
-                            return false;
-                        }
-                    } else { //not a reward transaction
-                        if (!Transaction.isValidTransaction(transaction)) {
-                            System.out.println(LocalDateTime.now() + " ERROR [Blockchain] Invalid transaction");
-                            return false;
-                        }
+                            Optional<String> firstKey = transaction.outputMap.keySet().stream().findFirst();
+                            BigDecimal firstValue = null;
+                            if (firstKey.isPresent()) {
+                                firstValue = transaction.outputMap.get(firstKey.get());
+                            }
+                            if (firstValue == null || firstValue.compareTo(Transaction.MINER_REWARD) != 0) {
+                                System.out.println(LocalDateTime.now() + " ERROR [Blockchain] Miner reward amount is invalid");
+                                return false;
+                            }
+                        } else { //not a reward transaction
+                            if (!Transaction.isValidTransaction(transaction)) {
+                                System.out.println(LocalDateTime.now() + " ERROR [Blockchain] Invalid transaction");
+                                return false;
+                            }
 
-                        //Validate Input Balances
-                        BigDecimal trueBalance = Wallet.calculateBalance(this.getNotTypedChain(),
-                                transaction.input.address); //must use this. reference to the chain
-                        if (transaction.input.amount.compareTo(trueBalance)!=0) {
-                            //Make sure that every transaction input is based on the actual blockchain history
-                            System.out.println(LocalDateTime.now() + " ERROR [Blockchain] Invalid input amount");
-                            //return false; FIXME
-                        }
+                            //Validate Input Balances
+                            BigDecimal trueBalance = Wallet.calculateBalance(this.getNotTypedChain(),
+                                    transaction.input.address); //must use this. reference to the chain
+                            if (transaction.input.amount.compareTo(trueBalance) != 0) {
+                                //Make sure that every transaction input is based on the actual blockchain history
+                                System.out.println(LocalDateTime.now() + " ERROR [Blockchain] Invalid input amount");
+                                //return false; FIXME
+                            }
 
-                        //Prevent Duplicate Transactions in Block
-                        if (transactionSet.contains(transaction)) {
-                            System.out.println(LocalDateTime.now() +
-                                    " ERROR [Blockchain] An identical transaction appears more than once in the block");
-                            return false;
-                        } else {
-                            transactionSet.add(transaction);
+                            //Prevent Duplicate Transactions in Block
+                            if (transactionSet.contains(transaction)) {
+                                System.out.println(LocalDateTime.now() +
+                                        " ERROR [Blockchain] An identical transaction appears more than once in the block");
+                                return false;
+                            } else {
+                                transactionSet.add(transaction);
+                            }
                         }
                     }
                 }
             }
+        } catch (ClassCastException cce) {
+            return false;
         }
         return true;
     }

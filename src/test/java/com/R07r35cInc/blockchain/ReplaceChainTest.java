@@ -57,4 +57,16 @@ public class ReplaceChainTest extends BaseTest {
         });
     }
 
+    @Test
+    void validateTransactions() {
+        newChain.addBlock("foo"); //need a bigger chain then original to call replaceChain()
+        RuntimeException thrown = assertThrows(
+                RuntimeException.class,
+                () -> simpleChain.replaceChain(newChain.getChain(), true),
+                "the validateTransactions flag is true"
+        );
+        assertTrue(thrown.getMessage().contains("The incoming chain has invalid data"),
+                "the new chain has invalid data");
+    }
+
 }
