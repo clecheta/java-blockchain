@@ -28,7 +28,7 @@ public class ReplaceChainTest extends BaseTest {
     void notLongerChain() {
         RuntimeException thrown = assertThrows(
                 RuntimeException.class,
-                () -> simpleChain.replaceChain(newChain.getChain()),
+                () -> simpleChain.replaceChain(newChain.getChain(), false),
                 "Expected replaceChain() to throw, but it didn't"
         );
         assertTrue(thrown.getMessage().contains("The incoming chain must be longer"),
@@ -42,7 +42,7 @@ public class ReplaceChainTest extends BaseTest {
 
         RuntimeException thrown = assertThrows(
                 RuntimeException.class,
-                () -> simpleChain.replaceChain(newChain.getChain()),
+                () -> simpleChain.replaceChain(newChain.getChain(), false),
                 "Expected replaceChain() to throw, but it didn't"
         );
         assertTrue(thrown.getMessage().contains("The incoming chain must be valid"),
@@ -53,7 +53,7 @@ public class ReplaceChainTest extends BaseTest {
     void chainIsValid() {
         minedBlock = newChain.addBlock("Book of Exodus");
         assertDoesNotThrow(() -> {
-            simpleChain.replaceChain(newChain.getChain());
+            simpleChain.replaceChain(newChain.getChain(), false);
         });
     }
 

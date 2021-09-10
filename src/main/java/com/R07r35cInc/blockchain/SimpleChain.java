@@ -40,7 +40,7 @@ public class SimpleChain<T> implements Blockchain<T> {
 
     //TODO: make a test to ensure this is a non static method
     //FIXME Is it really necessary to pass the chain here as argument?
-    public Boolean validTransactionData(List<Block<T>> chain) {
+    public Boolean isValidTransactionData(List<Block<T>> chain) {
         List<Transaction> transactions;
         for (int i = 1; i < chain.size(); i++) { //skip the Genesis block
             Block block = chain.get(i);
@@ -136,13 +136,18 @@ public class SimpleChain<T> implements Blockchain<T> {
      * Necessary because of the blockchain network interaction
      * not static method as it is specific to each instance of the blockchain
      **/
-    public Boolean replaceChain(List<Block<T>> chain) {
+    public Boolean replaceChain(List<Block<T>> chain, Boolean validateTransactions) {
         if (chain == null || (chain.size() <= this.chain.size())) {
             throw new RuntimeException("The incoming chain must be longer");
         }
 
         if (!this.isValidChain(chain)) {
             throw new RuntimeException("The incoming chain must be valid");
+        }
+
+        //This can be specialized in a CryptoChain object only maybe...
+        if (validateTransactions && !this.isValidTransactionData(chain)) {
+            throw new RuntimeException("The incoming chain has invalid data");
         }
 
         System.out.println("Replacing chain with: \n" + Parse.toJson(chain));

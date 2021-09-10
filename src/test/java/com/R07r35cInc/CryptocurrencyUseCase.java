@@ -52,7 +52,7 @@ public class CryptocurrencyUseCase extends BaseTest {
         NetChain broadcastChain = new NetChain();
         RuntimeException thrown = assertThrows(
                 RuntimeException.class,
-                () -> broadcastChain.replaceChain(netChain.getChain()),
+                () -> broadcastChain.replaceChain(netChain.getChain(), false),
                 "Expected replaceChain() to throw"
         );
         assertTrue(thrown.getMessage().contains("The incoming chain must be valid"),
@@ -62,7 +62,7 @@ public class CryptocurrencyUseCase extends BaseTest {
     @Test
     void chainReplacement() {
         NetChain broadcastChain = new NetChain();
-        broadcastChain.replaceChain(netChain.getChain());
+        broadcastChain.replaceChain(netChain.getChain(), false);
         assertTrue(broadcastChain.getChain().size()==netChain.getChain().size());
     }
 }
