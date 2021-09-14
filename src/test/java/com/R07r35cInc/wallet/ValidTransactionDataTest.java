@@ -1,6 +1,7 @@
 package com.R07r35cInc.wallet;
 
 import com.BaseTest;
+import com.R07r35cInc.blockchain.CryptoChain;
 import com.R07r35cInc.blockchain.NetChain;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,14 +16,14 @@ import static org.junit.jupiter.api.Assertions.*;
  * https://encontreijesus.com
  */
 public class ValidTransactionDataTest {
-    NetChain<List<Transaction>> cryptoNetChain;
+    CryptoChain cryptoChain;
     Transaction transaction, rewardTransaction;
     Wallet wallet, minerWallet;
     List<Transaction> transactionList;
 
     @BeforeEach
     void init() {
-        cryptoNetChain = new NetChain<>();
+        cryptoChain = new CryptoChain();
         wallet = new Wallet();
         minerWallet = new Wallet();
         transaction = wallet.createTransaction(BaseTest.publicKey, new BigDecimal(5));
@@ -34,9 +35,9 @@ public class ValidTransactionDataTest {
     void dataIsValid() {
         transactionList.add(transaction);
         transactionList.add(rewardTransaction);
-        cryptoNetChain.addBlock(transactionList);
+        cryptoChain.addBlock(transactionList);
 
-        Boolean isValid = cryptoNetChain.isValidTransactionData(cryptoNetChain.getChain());
+        Boolean isValid = cryptoChain.isValidTransactionData(cryptoChain.getChain());
         assertTrue(isValid, "the transaction data is valid");
     }
 
@@ -45,9 +46,9 @@ public class ValidTransactionDataTest {
         transactionList.add(transaction);
         transactionList.add(rewardTransaction);
         transactionList.add(rewardTransaction);
-        cryptoNetChain.addBlock(transactionList);
+        cryptoChain.addBlock(transactionList);
 
-        assertFalse(cryptoNetChain.isValidTransactionData(cryptoNetChain.getChain()),
+        assertFalse(cryptoChain.isValidTransactionData(cryptoChain.getChain()),
                 "the transaction data has multiple rewards");
     }
 
@@ -56,9 +57,9 @@ public class ValidTransactionDataTest {
         transaction.outputMap.put(wallet.publicKey, BaseTest.tooHighAmount);
         transactionList.add(transaction);
         transactionList.add(rewardTransaction);
-        cryptoNetChain.addBlock(transactionList);
+        cryptoChain.addBlock(transactionList);
 
-        assertFalse(cryptoNetChain.isValidTransactionData(cryptoNetChain.getChain()),
+        assertFalse(cryptoChain.isValidTransactionData(cryptoChain.getChain()),
                 "the transaction is not a reward transaction - valid data?");
     }
 
@@ -67,9 +68,9 @@ public class ValidTransactionDataTest {
         rewardTransaction.outputMap.put(wallet.publicKey, BaseTest.tooHighAmount);
         transactionList.add(transaction);
         transactionList.add(rewardTransaction);
-        cryptoNetChain.addBlock(transactionList);
+        cryptoChain.addBlock(transactionList);
 
-        assertFalse(cryptoNetChain.isValidTransactionData(cryptoNetChain.getChain()),
+        assertFalse(cryptoChain.isValidTransactionData(cryptoChain.getChain()),
                 "the transaction is a reward transaction - valid data?");
     }
 

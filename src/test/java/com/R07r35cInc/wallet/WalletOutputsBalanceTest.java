@@ -85,7 +85,7 @@ class ClasseSendoTestada {
         this.dependencia = dependencia;
     }
 
-    void createTransaction(String recipient, BigDecimal amount, List<Block> chain){
+    void createTransaction(String recipient, BigDecimal amount, List<Block<List<Transaction>>> chain){
         dependencia.createTransaction(recipient, amount, chain);
     }
 

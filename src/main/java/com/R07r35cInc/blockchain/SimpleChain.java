@@ -2,13 +2,19 @@ package com.R07r35cInc.blockchain;
 
 import com.R07r35cInc.util.CryptoHash;
 import com.R07r35cInc.util.Parse;
-import com.R07r35cInc.wallet.Transaction;
-import com.R07r35cInc.wallet.Wallet;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
+/**
+ * A generic type<T> blockchain to be directly used inside any application.
+ * Do not make usage of proofOfWork algorithm
+ *
+ * @author Cleber Lecheta
+ * https://encontreijesus.com
+ */
 public class SimpleChain<T> implements Blockchain<T> {
 
     private List<Block<T>> chain;
@@ -36,69 +42,6 @@ public class SimpleChain<T> implements Blockchain<T> {
         long nonce = 00;
         String hash = CryptoHash.calculateHash(timestamp, previousHash, data, index, nonce);
         return new Block(timestamp, previousHash, hash, data, index, nonce);
-    }
-
-    //TODO: make a test to ensure this is a non static method
-    //FIXME Is it really necessary to pass the chain here as argument?
-    public Boolean isValidTransactionData(List<Block<T>> chain) {
-        List<Transaction> transactions;
-        try {
-            for (int i = 1; i < chain.size(); i++) { //skip the Genesis block
-                Block block = chain.get(i);
-                transactions = (List<Transaction>) block.getData();
-                Set<Transaction> transactionSet = new HashSet<>();
-                int rewardTransactionCount = 0;
-
-                if (transactions != null) { //there is transactions in the block
-                    for (Transaction transaction : transactions) {
-                        if (transaction.input.address.equals(Transaction.REWARD_INPUT)) {
-                            rewardTransactionCount += 1;
-
-                            if (rewardTransactionCount > 1) {
-                                System.out.println(LocalDateTime.now() + " ERROR [Blockchain] Miner reward exceed limit");
-                                return false;
-                            }
-
-                            Optional<String> firstKey = transaction.outputMap.keySet().stream().findFirst();
-                            BigDecimal firstValue = null;
-                            if (firstKey.isPresent()) {
-                                firstValue = transaction.outputMap.get(firstKey.get());
-                            }
-                            if (firstValue == null || firstValue.compareTo(Transaction.MINER_REWARD) != 0) {
-                                System.out.println(LocalDateTime.now() + " ERROR [Blockchain] Miner reward amount is invalid");
-                                return false;
-                            }
-                        } else { //not a reward transaction
-                            if (!Transaction.isValidTransaction(transaction)) {
-                                System.out.println(LocalDateTime.now() + " ERROR [Blockchain] Invalid transaction");
-                                return false;
-                            }
-
-                            //Validate Input Balances
-                            BigDecimal trueBalance = Wallet.calculateBalance(this.getNotTypedChain(),
-                                    transaction.input.address); //must use this. reference to the chain
-                            if (transaction.input.amount.compareTo(trueBalance) != 0) {
-                                //Make sure that every transaction input is based on the actual blockchain history
-                                System.out.println(LocalDateTime.now() + " ERROR [Blockchain] Invalid input amount");
-                                //return false; FIXME
-                            }
-
-                            //Prevent Duplicate Transactions in Block
-                            if (transactionSet.contains(transaction)) {
-                                System.out.println(LocalDateTime.now() +
-                                        " ERROR [Blockchain] An identical transaction appears more than once in the block");
-                                return false;
-                            } else {
-                                transactionSet.add(transaction);
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (ClassCastException cce) {
-            return false;
-        }
-        return true;
     }
 
     public Boolean isValidChain() {
@@ -140,18 +83,13 @@ public class SimpleChain<T> implements Blockchain<T> {
      * Necessary because of the blockchain network interaction
      * not static method as it is specific to each instance of the blockchain
      **/
-    public Boolean replaceChain(List<Block<T>> chain, Boolean validateTransactions) {
+    public Boolean replaceChain(List<Block<T>> chain) {
         if (chain == null || (chain.size() <= this.chain.size())) {
             throw new RuntimeException("The incoming chain must be longer");
         }
 
         if (!this.isValidChain(chain)) {
             throw new RuntimeException("The incoming chain must be valid");
-        }
-
-        //This can be specialized in a CryptoChain object only maybe...
-        if (validateTransactions && !this.isValidTransactionData(chain)) {
-            throw new RuntimeException("The incoming chain has invalid data");
         }
 
         System.out.println("Replacing chain with: \n" + Parse.toJson(chain));
@@ -161,12 +99,6 @@ public class SimpleChain<T> implements Blockchain<T> {
 
     public List<Block<T>> getChain() {
         return this.chain;
-    }
-
-    private List<Block> getNotTypedChain() {
-        List<Block> blockList = new ArrayList<>();
-        blockList.addAll(this.chain);
-        return blockList;
     }
 
 }

@@ -2,6 +2,13 @@ package com.R07r35cInc.blockchain;
 
 import java.util.Date;
 
+/**
+ * A Custom type<T> blockchain to be used with Peer Network API.
+ * It does implement proofOfWork
+ *
+ * @author Cleber Lecheta
+ * https://encontreijesus.com
+ */
 public class NetChain<T> extends SimpleChain<T> {
 
     public Block mineBlock(Block lastBlock, T data) { //here we can use a prof=true/false to decide use it or not
