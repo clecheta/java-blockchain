@@ -1,21 +1,23 @@
 package com.R07r35cInc.blockchain;
 
 import com.BaseTest;
-import com.R07r35cInc.wallet.Transaction;
-import com.R07r35cInc.wallet.Wallet;
+import com.R07r35cInc.cryptocurrency.Transaction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Cleber Lecheta
+ * https://encontreijesus.com
+ */
 public class ReplaceChainTest extends BaseTest {
 
-    SimpleChain simpleChain;
-    SimpleChain newChain;
+    BlockChain blockChain;
+    BlockChain newChain;
 
     CryptoChain cryptoChain;
     CryptoChain newCrytoChain;
@@ -25,8 +27,8 @@ public class ReplaceChainTest extends BaseTest {
 
     @BeforeEach
     void init() {
-        simpleChain = new SimpleChain();
-        newChain = new SimpleChain();
+        blockChain = new BlockChain();
+        newChain = new BlockChain();
         //originalChain = simpleChain.getChain();
         cryptoChain = new CryptoChain();
         newCrytoChain = new CryptoChain();
@@ -36,7 +38,7 @@ public class ReplaceChainTest extends BaseTest {
     void notLongerChain() {
         RuntimeException thrown = assertThrows(
                 RuntimeException.class,
-                () -> simpleChain.replaceChain(newChain.getChain()),
+                () -> blockChain.replaceChain(newChain.getChain()),
                 "Expected replaceChain() to throw, but it didn't"
         );
         assertTrue(thrown.getMessage().contains("The incoming chain must be longer"),
@@ -50,7 +52,7 @@ public class ReplaceChainTest extends BaseTest {
 
         RuntimeException thrown = assertThrows(
                 RuntimeException.class,
-                () -> simpleChain.replaceChain(newChain.getChain()),
+                () -> blockChain.replaceChain(newChain.getChain()),
                 "Expected replaceChain() to throw, but it didn't"
         );
         assertTrue(thrown.getMessage().contains("The incoming chain must be valid"),
@@ -61,7 +63,7 @@ public class ReplaceChainTest extends BaseTest {
     void chainIsValid() {
         minedBlock = newChain.addBlock("Book of Exodus");
         assertDoesNotThrow(() -> {
-            simpleChain.replaceChain(newChain.getChain());
+            blockChain.replaceChain(newChain.getChain());
         });
     }
 

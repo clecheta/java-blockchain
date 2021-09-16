@@ -1,12 +1,10 @@
-package com.R07r35cInc.wallet;
+package com.R07r35cInc.cryptocurrency;
 
 import com.R07r35cInc.blockchain.Block;
-import com.R07r35cInc.blockchain.SimpleChain;
+import com.R07r35cInc.blockchain.BlockChain;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
@@ -25,14 +23,14 @@ import static org.mockito.Mockito.*;
 public class WalletOutputsBalanceTest {
 
     Wallet wallet;
-    SimpleChain cryptoChain;
+    BlockChain cryptoChain;
     Transaction t1;
     Transaction t2;
 
     @BeforeEach
     void init() {
         wallet = new Wallet();
-        cryptoChain = new SimpleChain<List<Transaction>>();
+        cryptoChain = new BlockChain<List<Transaction>>();
         t1 = new Wallet().createTransaction(wallet.publicKey, new BigDecimal(5));
         t2 = new Wallet().createTransaction(wallet.publicKey, new BigDecimal(10));
 
@@ -57,7 +55,7 @@ public class WalletOutputsBalanceTest {
         Wallet mockWallet = mock(Wallet.class);
         ClasseSendoTestada classeSendoTestada = new ClasseSendoTestada(mockWallet);
         classeSendoTestada.createTransaction(wallet.publicKey, new BigDecimal(10),
-                new SimpleChain().getChain());
+                new BlockChain().getChain());
         //verify(mockWallet, times(1)).calculateBalance(cryptoChain.getChain(), mockWallet.publicKey);
     }
 
@@ -65,7 +63,7 @@ public class WalletOutputsBalanceTest {
     void chainIsPassed() {
         Transaction t3 = new Wallet().createTransaction(wallet.publicKey, new BigDecimal(10), cryptoChain.getChain());
         assertNotNull(t3);
-        List<Transaction> transactionList = new ArrayList<Transaction>();
+        List<Transaction> transactionList = new ArrayList<>();
         transactionList.add(t3);
         cryptoChain.addBlock(transactionList);
 

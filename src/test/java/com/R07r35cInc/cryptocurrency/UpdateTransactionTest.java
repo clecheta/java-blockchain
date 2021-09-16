@@ -1,4 +1,4 @@
-package com.R07r35cInc.wallet;
+package com.R07r35cInc.cryptocurrency;
 
 import com.BaseTest;
 import com.R07r35cInc.util.Calculate;

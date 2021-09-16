@@ -12,6 +12,10 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Cleber Lecheta
+ * https://encontreijesus.com
+ */
 public class CryptocurrencyUseCase extends BaseTest {
 
     NetChain<List<MockTransaction>> netChain;

@@ -5,13 +5,16 @@ import com.R07r35cInc.util.CryptoHash;
 import java.util.Date;
 
 /**
- * Miner that performs a Proof of Work consensus mechanism
- * transactions created in the network.
+ * Implements a Proof of Work consensus mechanism
+ * for transactions created in the network.
  * <p>
  * This is used for Unit testing, in a real blockchain network,
  * miners would listen for transactions nodes created and then perform
  * POW and create a block, which would be sent back to network, and validated
  * by each node.
+ *
+ * @author Cleber Lecheta
+ * https://encontreijesus.com
  */
 public class Miner<T> {
 

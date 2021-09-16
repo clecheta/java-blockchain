@@ -9,6 +9,10 @@ import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * @author Cleber Lecheta
+ * https://encontreijesus.com
+ */
 public class CryptoHash {
 
     public static final String stringDateFormat = "dd/MM/yyyy HH:mm:ss"; //2021-08-26T12:44:50.124+00:00

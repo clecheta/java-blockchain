@@ -11,6 +11,10 @@ import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Cleber Lecheta
+ * https://encontreijesus.com
+ */
 public class NetChainTest extends BaseTest {
 
     private static final int GENERATE_BLOCKS = 10;

@@ -1,7 +1,7 @@
 package com.R07r35cInc.blockchain;
 
-import com.R07r35cInc.wallet.Transaction;
-import com.R07r35cInc.wallet.Wallet;
+import com.R07r35cInc.cryptocurrency.Transaction;
+import com.R07r35cInc.cryptocurrency.Wallet;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -40,8 +40,8 @@ public class CryptoChain extends NetChain<List<Transaction>> {
         List<Transaction> transactions;
         try {
             for (int i = 1; i < chain.size(); i++) { //skip the Genesis block
-                Block block = chain.get(i);
-                transactions = (List<Transaction>) block.getData();
+                Block<List<Transaction>> block = chain.get(i);
+                transactions = block.getData();
                 Set<Transaction> transactionSet = new HashSet<>();
                 int rewardTransactionCount = 0;
 
@@ -51,7 +51,7 @@ public class CryptoChain extends NetChain<List<Transaction>> {
                             rewardTransactionCount += 1;
 
                             if (rewardTransactionCount > 1) {
-                                System.out.println(LocalDateTime.now() + " ERROR [Blockchain] Miner reward exceed limit");
+                                System.out.println(LocalDateTime.now() + " ERROR [CryptoChain] Miner reward exceed limit");
                                 return false;
                             }
 
@@ -61,12 +61,12 @@ public class CryptoChain extends NetChain<List<Transaction>> {
                                 firstValue = transaction.outputMap.get(firstKey.get());
                             }
                             if (firstValue == null || firstValue.compareTo(Transaction.MINER_REWARD) != 0) {
-                                System.out.println(LocalDateTime.now() + " ERROR [Blockchain] Miner reward amount is invalid");
+                                System.out.println(LocalDateTime.now() + " ERROR [CryptoChain] Miner reward amount is invalid");
                                 return false;
                             }
                         } else { //not a reward transaction
                             if (!Transaction.isValidTransaction(transaction)) {
-                                System.out.println(LocalDateTime.now() + " ERROR [Blockchain] Invalid transaction");
+                                System.out.println(LocalDateTime.now() + " ERROR [CryptoChain] Invalid transaction");
                                 return false;
                             }
 
@@ -75,14 +75,14 @@ public class CryptoChain extends NetChain<List<Transaction>> {
                                     transaction.input.address); //must use this. reference to the chain
                             if (transaction.input.amount.compareTo(trueBalance) != 0) {
                                 //Make sure that every transaction input is based on the actual blockchain history
-                                System.out.println(LocalDateTime.now() + " ERROR [Blockchain] Invalid input amount");
-                                //return false; FIXME
+                                System.out.println(LocalDateTime.now() + " ERROR [CryptoChain] Invalid input amount");
+                                return false;
                             }
 
                             //Prevent Duplicate Transactions in Block
                             if (transactionSet.contains(transaction)) {
                                 System.out.println(LocalDateTime.now() +
-                                        " ERROR [Blockchain] An identical transaction appears more than once in the block");
+                                        " ERROR [CryptoChain] An identical transaction appears more than once in the block");
                                 return false;
                             } else {
                                 transactionSet.add(transaction);

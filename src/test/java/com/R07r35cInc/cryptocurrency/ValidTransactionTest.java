@@ -1,4 +1,4 @@
-package com.R07r35cInc.wallet;
+package com.R07r35cInc.cryptocurrency;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

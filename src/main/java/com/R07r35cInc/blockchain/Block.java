@@ -7,6 +7,10 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ * @author Cleber Lecheta
+ * https://encontreijesus.com
+ */
 @JsonPropertyOrder({"date", "previousHash", "hash", "data", "nonce", "index"})
 public class Block<T> {
     private Date date;

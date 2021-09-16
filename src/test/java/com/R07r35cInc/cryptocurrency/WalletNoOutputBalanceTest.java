@@ -1,6 +1,6 @@
-package com.R07r35cInc.wallet;
+package com.R07r35cInc.cryptocurrency;
 
-import com.R07r35cInc.blockchain.SimpleChain;
+import com.R07r35cInc.blockchain.BlockChain;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,12 +16,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class WalletNoOutputBalanceTest {
 
     Wallet wallet;
-    SimpleChain cryptoChain;
+    BlockChain cryptoChain;
 
     @BeforeEach
     void init() {
         wallet = new Wallet();
-        cryptoChain = new SimpleChain<List<Transaction>>();
+        cryptoChain = new BlockChain<List<Transaction>>();
     }
 
     @Test

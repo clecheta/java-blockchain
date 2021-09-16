@@ -15,6 +15,10 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Cleber Lecheta
+ * https://encontreijesus.com
+ */
 public class BlockTest extends BaseTest {
 
     @Test

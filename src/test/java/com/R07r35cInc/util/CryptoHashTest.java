@@ -9,6 +9,10 @@ import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * @author Cleber Lecheta
+ * https://encontreijesus.com
+ */
 public class CryptoHashTest extends BaseTest {
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat(CryptoHash.stringDateFormat);

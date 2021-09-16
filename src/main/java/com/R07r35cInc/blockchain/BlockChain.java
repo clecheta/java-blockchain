@@ -10,16 +10,16 @@ import java.util.List;
 
 /**
  * A generic type<T> blockchain to be directly used inside any application.
- * Do not make usage of proofOfWork algorithm
+ * Do not make usage of proofOfWork algorithm.
  *
  * @author Cleber Lecheta
  * https://encontreijesus.com
  */
-public class SimpleChain<T> implements Blockchain<T> {
+public class BlockChain<T> implements Chain<T> {
 
     private List<Block<T>> chain;
 
-    public SimpleChain() {
+    public BlockChain() {
         this.chain = new ArrayList<Block<T>>();
         this.chain.add(Block.genesis());
     }

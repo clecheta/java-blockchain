@@ -1,4 +1,4 @@
-package com.R07r35cInc.wallet;
+package com.R07r35cInc.cryptocurrency;
 
 import com.R07r35cInc.blockchain.Block;
 import com.R07r35cInc.util.ECDSA;
@@ -36,12 +36,12 @@ public class Wallet {
         Boolean hasConductedTransaction = false;
         BigDecimal outputsTotal = BigDecimal.ZERO;
 
-        Block block;
+        Block<List<Transaction>> block;
         List<Transaction> transactionList;
         //iterate top-down as recent transactions are in the top of the list
         for (int i = chain.size() - 1; i > 0; i--) { //do not iterate over Genesis data
             block = chain.get(i);
-            transactionList = (List<Transaction>) block.getData();
+            transactionList = block.getData();
             if (transactionList != null) { //wallet has received a transaction
                 for (Transaction transaction : transactionList) {
                     if (transaction.input.address.equals(address)) {
@@ -62,7 +62,8 @@ public class Wallet {
             }
         }
 
-        return hasConductedTransaction ? outputsTotal : STARTING_BALANCE.add(outputsTotal);
+        BigDecimal result = hasConductedTransaction ? outputsTotal : STARTING_BALANCE.add(outputsTotal);
+        return result;
     }
 
     /**

@@ -2,7 +2,7 @@ package com.R07r35cInc;
 
 import com.BaseTest;
 import com.R07r35cInc.blockchain.Block;
-import com.R07r35cInc.blockchain.SimpleChain;
+import com.R07r35cInc.blockchain.BlockChain;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -10,17 +10,21 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * @author Cleber Lecheta
+ * https://encontreijesus.com
+ */
 public class LoginUseCase extends BaseTest {
 
     private static final int GENERATE_USERS = 100000;
 
-    static SimpleChain simpleChain;
+    static BlockChain blockChain;
     static List<String> userList;
     static Map<String, Long> map = new HashMap<String, Long>();
 
     @BeforeAll
     static void init() {
-        simpleChain = new SimpleChain();
+        blockChain = new BlockChain();
         userList = new ArrayList<String>();
         User user;
         Block addedBLock;
@@ -28,11 +32,11 @@ public class LoginUseCase extends BaseTest {
             user = new User();
             user.username = "user" + i;
             user.password = UUID.randomUUID().toString().substring(0,8);
-            simpleChain.addBlock(user);
+            blockChain.addBlock(user);
 
-            addedBLock = (Block) simpleChain.getChain().get(simpleChain.getChain().size()-1);
+            addedBLock = (Block) blockChain.getChain().get(blockChain.getChain().size()-1);
             userList.add(addedBLock.getHash());
-            map.put(addedBLock.getHash(), simpleChain.getChain().size()-1L);
+            map.put(addedBLock.getHash(), blockChain.getChain().size()-1L);
         }
     }
 
@@ -46,10 +50,10 @@ public class LoginUseCase extends BaseTest {
         User actualUser;
         String expectedUser;
         for (int i=0; i<GENERATE_USERS; i++) {
-            randomInt = random.nextInt(simpleChain.getChain().size()-1);
+            randomInt = random.nextInt(blockChain.getChain().size()-1);
             userHash = userList.get(randomInt);
             userIndex = (Long) map.get(userHash);
-            actualBlock = (Block) simpleChain.getChain().get(userIndex.intValue());
+            actualBlock = (Block) blockChain.getChain().get(userIndex.intValue());
             actualUser = (User) actualBlock.getData();
             expectedUser = "user" + randomInt;
             assertEquals(userIndex, actualBlock.getIndex(), "index must match");

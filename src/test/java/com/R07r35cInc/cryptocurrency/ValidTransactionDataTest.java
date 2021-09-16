@@ -1,15 +1,15 @@
-package com.R07r35cInc.wallet;
+package com.R07r35cInc.cryptocurrency;
 
 import com.BaseTest;
 import com.R07r35cInc.blockchain.CryptoChain;
-import com.R07r35cInc.blockchain.NetChain;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Cleber Lecheta
@@ -32,12 +32,13 @@ public class ValidTransactionDataTest {
     }
 
     @Test
-    void dataIsValid() {
+    void dataIsValid() { //TODO: review this method creation concept - what is trying to be achieved?
         transactionList.add(transaction);
         transactionList.add(rewardTransaction);
-        cryptoChain.addBlock(transactionList);
+        CryptoChain newChain = new CryptoChain();
+        newChain.addBlock(transactionList);
 
-        Boolean isValid = cryptoChain.isValidTransactionData(cryptoChain.getChain());
+        Boolean isValid = cryptoChain.isValidTransactionData(newChain.getChain());
         assertTrue(isValid, "the transaction data is valid");
     }
 
@@ -74,7 +75,6 @@ public class ValidTransactionDataTest {
                 "the transaction is a reward transaction - valid data?");
     }
 
-    /* Tests are ok but there is a problem in the code.
     @Test
     void oneMalformedInput() {
         wallet.balance = BaseTest.tooHighAmount;
@@ -95,9 +95,10 @@ public class ValidTransactionDataTest {
 
         transactionList.add(evilTransaction);
         transactionList.add(rewardTransaction);
-        cryptoNetChain.addBlock(transactionList);
+        CryptoChain newChain = new CryptoChain();
+        newChain.addBlock(transactionList);
 
-        assertFalse(cryptoNetChain.validTransactionData(cryptoNetChain.getChain()),
+        assertFalse(cryptoChain.isValidTransactionData(newChain.getChain()),
                 "the transaction data has at least one malformed input - valid data?");
     }
 
@@ -107,11 +108,12 @@ public class ValidTransactionDataTest {
         transactionList.add(transaction);
         transactionList.add(transaction);
         transactionList.add(rewardTransaction);
-        cryptoNetChain.addBlock(transactionList);
+        CryptoChain newChain = new CryptoChain();
+        newChain.addBlock(transactionList);
 
         //Enforce the blockchain to have a unique transaction set when it comes in
-        assertFalse(cryptoNetChain.validTransactionData(cryptoNetChain.getChain()),
+        assertFalse(cryptoChain.isValidTransactionData(newChain.getChain()),
                 "a block contains multiple identical transactions - valid data?");
-    }*/
+    }
 
 }
