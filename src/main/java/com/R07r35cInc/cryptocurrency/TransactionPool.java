@@ -51,11 +51,18 @@ public class TransactionPool {
      * Filter transactions in the poll in order to get only valid transactions
      * based on the static method Transaction.isValidTransaction()
      */
-    public List<Transaction> validTransactions() {
-        List<Transaction> transactions = transactionMap.values().stream()
+    public List<Transaction> getValidTransactions() {
+        /* Before Java 8 way...
+        List<Transaction> transactions = new ArrayList<Transaction>(transactionMap.values());
+        List<Transaction> filteredTransaction = new ArrayList<>();
+        for (Transaction t: transactions) {
+            if (Transaction.isValidTransaction(t)) {
+                filteredTransaction.add(t);
+            }
+        }*/
+        return transactionMap.values().stream()
                 .filter(transaction -> Transaction.isValidTransaction(transaction))
                 .collect(Collectors.toList());
-        return transactions;
     }
 
     public void clearBlockchainTransactions(List<Block<List<Transaction>>> chainBlockList) {

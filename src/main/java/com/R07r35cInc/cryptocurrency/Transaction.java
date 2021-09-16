@@ -16,13 +16,11 @@ import java.util.*;
 @JsonPropertyOrder({"id", "input", "outputMap"})
 public class Transaction {
 
-    //TODO: read from config file ?
     public static final String REWARD_INPUT = "*authorized-reward*"; //TODO read from config file/property
-    public static final BigDecimal MINER_REWARD = new BigDecimal(1);
+    public static final BigDecimal MINER_REWARD = new BigDecimal(1); //TODO: read from config file? - not sure yet
 
     public UUID id;
     public Input input;
-    @JsonPropertyOrder(alphabetic = true)
     public Map<String, BigDecimal> outputMap;
 
     public Transaction() {
