@@ -26,8 +26,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 public class ParseTest extends BaseTest {
 
-    private static final String publicKey = "recipient-public-key";
-
     NetChain<List<Transaction>> cryptoChain;
     List<Transaction> transactions;
 

@@ -19,8 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 public class TransactionInputTest extends BaseTest {
 
-    private static final String publicKey = "recipient-public-key";
-
     Transaction transaction;
     Wallet senderWallet;
     String recipient;

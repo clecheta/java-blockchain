@@ -1,5 +1,6 @@
 package com.R07r35cInc.cryptocurrency;
 
+import com.BaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,9 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Cleber Lecheta
  * https://encontreijesus.com
  */
-public class ValidTransactionTest {
-
-    private static final String publicKey = "recipient-public-key";
+public class ValidTransactionTest extends BaseTest {
 
     Transaction transaction;
     Wallet senderWallet;

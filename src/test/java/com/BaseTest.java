@@ -18,11 +18,11 @@ public class BaseTest {
 
     protected void logToConsole(Object object, String message) {
         if (consoleLog == true) {
-            String blockchainJson = new Parse<>().toJson(object);
+            String json = Parse.toJson(object);
             if (message != null) {
                 System.out.println("\n" + message);
             }
-            System.out.println(blockchainJson);
+            System.out.println(json);
         }
     }
 

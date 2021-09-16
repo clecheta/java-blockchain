@@ -18,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class UpdateSameRecipientTest extends BaseTest {
 
-    private static final String publicKey = "recipient-foo-public-key";
     static Transaction transaction;
     static Wallet senderWallet;
     static String recipient;

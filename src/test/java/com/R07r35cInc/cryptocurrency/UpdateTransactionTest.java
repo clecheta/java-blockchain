@@ -15,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class UpdateTransactionTest extends BaseTest {
 
-    private static final String publicKey = "recipient-foo-public-key";
     BigDecimal tooHighAmount = new BigDecimal(999999);
 
     Transaction transaction;

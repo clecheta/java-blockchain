@@ -18,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 public class TransactionOutputMapTest extends BaseTest {
 
-    private static final String publicKey = "recipient-public-key";
     private static final int UUID_LENGHT = 36;
 
     Transaction transaction;
