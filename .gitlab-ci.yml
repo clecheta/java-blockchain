@@ -22,7 +22,7 @@ Junit:
   script:
     - mvn test
   artifacts:
-    expire_in: 1 day
+    #expire_in: 1 day
     paths:
       - target/surefire-reports
 

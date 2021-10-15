@@ -29,8 +29,7 @@ public class NetChain<T> extends BlockChain<T> {
         Boolean isValid = false;
         if (this != null && this.origin != null && getChain() != null) {
             isValid = !this.origin.equals(currentHost);
-            //used only for debug purpose
-            System.out.println(LocalDateTime.now() + " INFO [CryptoChain] " + currentHost + " isValid: " + isValid);
+            //System.out.println(LocalDateTime.now() + " DEBUG [CryptoChain] " + currentHost + " isValid: " + isValid);
         }
         return isValid;
     }

@@ -161,4 +161,20 @@ public class ParseTest extends BaseTest {
         assertEquals(cryptoChain.getChain().size(), parsedChain.size());
     }
 
+    @Test
+    void wallet() {
+        WalletInfo walletInfo = new WalletInfo();
+        walletInfo.address = "MFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAE6ASsjFjpXSupzBKctGSycNB0QUYLzlFF4agqRJhtPpVUu63Amm28aQsxoG7pfSu5ibELAgqgfmsx+ZUlPj027g==";
+        walletInfo.balance = new BigDecimal(81);
+
+        String expectedJson = "{\"address\":\"MFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAE6ASsjFjpXSupzBKctGSycNB0QUYLzlFF4agqRJhtPpVUu63Amm28aQsxoG7pfSu5ibELAgqgfmsx+ZUlPj027g==\",\"balance\":81}";
+        String actualJson = Parse.toJson(walletInfo);
+        assertEquals(expectedJson, actualJson);
+    }
+
+}
+
+class WalletInfo {
+    public String address;
+    public BigDecimal balance;
 }
