@@ -1,8 +1,6 @@
 package com.R07r35cInc.blockchain;
 
 import com.BaseTest;
-import com.R07r35cInc.blockchain.Block;
-import com.R07r35cInc.blockchain.NetChain;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -53,6 +51,22 @@ public class NetChainTest extends BaseTest {
     @Test
     void testGsonSerializeDeserialize() {
         //TODO
+    }
+
+    @Test
+    void isValidMessage() {
+        String master = "master";
+        String node = "node";
+
+        NetChain chain = new NetChain();
+        assertFalse(chain.isValidForReplacement(""), "missing required fields");
+        chain.origin = master;
+        assertFalse(chain.isValidForReplacement(master), "is hostname different?");
+
+        assertTrue(chain.isValidForReplacement(node), "hostname is different");
+        chain.origin = node;
+        assertFalse(chain.isValidForReplacement(node));
+        assertTrue(chain.isValidForReplacement(master));
     }
 
 }
