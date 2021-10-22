@@ -21,8 +21,7 @@ public class WalletTransactionBalanceTest {
 
     Wallet wallet;
     BlockChain cryptoChain;
-    Transaction t1;
-    Transaction t2;
+    Transaction t1, t2, t3, t4;
 
     @BeforeEach
     void init() {
@@ -39,16 +38,26 @@ public class WalletTransactionBalanceTest {
     }
 
     @Test
-    void walletHasMadeTransaction() {
-        List<Transaction> transactions = new ArrayList<Transaction>();
+    void walletHasMadeTransactions() {
+        List<Transaction> transactions = new ArrayList<>();
 
-        Transaction recentTransaction = wallet.createTransaction(BaseTest.publicKey, new BigDecimal(30));
-        transactions.add(recentTransaction);
+        Transaction fstTransaction = wallet.createTransaction(BaseTest.publicKey, new BigDecimal(20));
+        transactions.add(fstTransaction);
         cryptoChain.addBlock(transactions);
 
-        BigDecimal expectedValue = recentTransaction.outputMap.get(wallet.publicKey);
+        BigDecimal expectedValue = fstTransaction.outputMap.get(wallet.publicKey);
         BigDecimal actualValue = Wallet.calculateBalance(cryptoChain.getChain(), wallet.publicKey);
         assertEquals(expectedValue, actualValue, "must return the output amount of the recent transaction");
+
+        Transaction scdTransaction = wallet.createTransaction(BaseTest.publicKey, new BigDecimal(10));
+        transactions = new ArrayList<>();
+        transactions.add(scdTransaction);
+        cryptoChain.addBlock(transactions);
+
+        expectedValue = scdTransaction.outputMap.get(wallet.publicKey);
+        actualValue = Wallet.calculateBalance(cryptoChain.getChain(), wallet.publicKey);
+        assertEquals(expectedValue, actualValue, "must return the output amount of the recent transaction");
+
     }
 
     /** There are outputs next to and after the recent transaction */

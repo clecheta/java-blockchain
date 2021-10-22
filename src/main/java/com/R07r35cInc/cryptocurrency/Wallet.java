@@ -39,7 +39,7 @@ public class Wallet {
         Block<List<Transaction>> block;
         List<Transaction> transactionList;
         //iterate top-down as recent transactions are in the top of the list
-        for (int i = chain.size() - 1; i > 0; i--) { //do not iterate over Genesis data
+        for (int i = chain.size()-1; i > 0; i--) { //do not iterate over Genesis data
             block = chain.get(i);
             transactionList = block.getData();
             if (transactionList != null) { //wallet has received a transaction
@@ -55,10 +55,10 @@ public class Wallet {
                         outputsTotal = outputsTotal.add(addressOutput);
                     }
                 }
-            }
 
-            if (hasConductedTransaction) {
-                break;
+                if (hasConductedTransaction) {
+                    break;
+                }
             }
         }
 
