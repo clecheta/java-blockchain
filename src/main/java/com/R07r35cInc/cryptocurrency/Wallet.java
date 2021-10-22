@@ -72,7 +72,7 @@ public class Wallet {
      * unless the actual underling wallet gave a proper signature with its private key.
      */
     public String sign(Object data) {
-        String serializedData = new Parse<>().toJson(data);
+        String serializedData = Parse.toJson(data);
         String signature = ECDSA.sign(serializedData);
         return signature;
     }
@@ -85,6 +85,8 @@ public class Wallet {
         return new Transaction(this, recipient, amount);
     }
 
+    /** This is the one that must be used in the network/cryptochain api, always passing the current version
+     * of chain object as argument */
     public Transaction createTransaction(String recipient, BigDecimal amount, List<Block<List<Transaction>>> chain) {
         if (chain != null) {
             this.balance = Wallet.calculateBalance(chain, this.publicKey);

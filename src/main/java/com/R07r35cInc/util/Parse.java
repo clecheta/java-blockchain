@@ -18,9 +18,20 @@ public class Parse<T> {
      * Static method - no need to create an instance to use it
      */
     public static String toJson(Object data) {
+        return getString(data, false);
+    }
+
+    public static String toPrettyJson(Object data) {
+        return getString(data, true);
+    }
+
+    private static String getString(Object data, Boolean pretty) {
         String dataAsString = data.toString();
         try {
             dataAsString = mapper.writeValueAsString(data);
+            if (pretty) {
+                dataAsString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(data);
+            }
         } catch (JsonProcessingException e) {
             System.out.println(LocalDateTime.now() + " ERROR [Parse] Fail-object-to-json");
         }

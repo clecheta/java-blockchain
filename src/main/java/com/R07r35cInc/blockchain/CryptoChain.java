@@ -70,14 +70,15 @@ public class CryptoChain extends NetChain<List<Transaction>> {
                                 return false;
                             }
 
-                            //Validate Input Balances
+                            /* Validate Input Balances
+                             * TODO https://git.okaut.com/Jesus/JBlock/-/issues/13
                             BigDecimal trueBalance = Wallet.calculateBalance(this.getChain(),
                                     transaction.input.address); //must use this. reference to the chain
                             if (transaction.input.amount.compareTo(trueBalance) != 0) {
                                 //Make sure that every transaction input is based on the actual blockchain history
                                 System.out.println(LocalDateTime.now() + " ERROR [CryptoChain] Invalid input amount");
                                 return false;
-                            }
+                            } */
 
                             //Prevent Duplicate Transactions in Block
                             if (transactionSet.contains(transaction)) {

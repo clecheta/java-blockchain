@@ -21,7 +21,7 @@ public class WalletTransactionBalanceTest {
 
     Wallet wallet;
     BlockChain cryptoChain;
-    Transaction t1, t2, t3, t4;
+    Transaction t1, t2;
 
     @BeforeEach
     void init() {
