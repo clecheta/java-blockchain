@@ -38,6 +38,7 @@ public class CryptoChain extends NetChain<List<Transaction>> {
     //FIXME Is it really necessary to pass the chain here as argument?
     public Boolean isValidTransactionData(List<Block<List<Transaction>>> chain) {
         List<Transaction> transactions;
+        Boolean trueBalanceMatch = false;
         try {
             for (int i = 1; i < chain.size(); i++) { //skip the Genesis block
                 Block<List<Transaction>> block = chain.get(i);
@@ -70,15 +71,17 @@ public class CryptoChain extends NetChain<List<Transaction>> {
                                 return false;
                             }
 
-                            /* Validate Input Balances
-                             * TODO https://git.okaut.com/Jesus/JBlock/-/issues/13
+                            /** Validate Input Balances to make sure that every transaction
+                             * input is based on the actual blockchain history
+                             * @link https://git.okaut.com/Jesus/JBlock/-/issues/13
+                             */
                             BigDecimal trueBalance = Wallet.calculateBalance(this.getChain(),
                                     transaction.input.address); //must use this. reference to the chain
-                            if (transaction.input.amount.compareTo(trueBalance) != 0) {
-                                //Make sure that every transaction input is based on the actual blockchain history
-                                System.out.println(LocalDateTime.now() + " ERROR [CryptoChain] Invalid input amount");
-                                return false;
-                            } */
+                            if (transaction.input.amount.compareTo(trueBalance) == 0) {
+                                //System.out.println(LocalDateTime.now() + " ERROR [CryptoChain] Invalid input amount");
+                                //return false;
+                                trueBalanceMatch = true;
+                            }
 
                             //Prevent Duplicate Transactions in Block
                             if (transactionSet.contains(transaction)) {
@@ -95,7 +98,7 @@ public class CryptoChain extends NetChain<List<Transaction>> {
         } catch (ClassCastException | NullPointerException exception) {
             return false;
         }
-        return true;
+        return trueBalanceMatch;
     }
 
 }
