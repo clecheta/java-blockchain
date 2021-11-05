@@ -82,7 +82,6 @@ public class ValidTransactionDataTest {
                 "the transaction is not a reward transaction - valid data?");
     }
 
-    /* TODO https://git.okaut.com/Jesus/JBlock/-/issues/13
     @Test
     void malformedOutputMapIsRewardTransaction() {
         rewardTransaction.outputMap.put(wallet.publicKey, BaseTest.tooHighAmount);
@@ -92,9 +91,8 @@ public class ValidTransactionDataTest {
 
         assertFalse(cryptoChain.isValidTransactionData(cryptoChain.getChain()),
                 "the transaction is a reward transaction - valid data?");
-    }*/
+    }
 
-    /* TODO https://git.okaut.com/Jesus/JBlock/-/issues/13
     @Test
     void oneMalformedInput() {
         wallet.balance = BaseTest.tooHighAmount;
@@ -120,7 +118,7 @@ public class ValidTransactionDataTest {
 
         assertFalse(cryptoChain.isValidTransactionData(newChain.getChain()),
                 "the transaction data has at least one malformed input - valid data?");
-    }*/
+    }
 
     @Test
     void multipleIdenticalTransactions() {

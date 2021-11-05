@@ -38,7 +38,7 @@ public class CryptoChain extends NetChain<List<Transaction>> {
     //FIXME Is it really necessary to pass the chain here as argument?
     public Boolean isValidTransactionData(List<Block<List<Transaction>>> chain) {
         List<Transaction> transactions;
-        Boolean trueBalanceMatch = false;
+        Transaction lastTransaction = null;
         try {
             for (int i = 1; i < chain.size(); i++) { //skip the Genesis block
                 Block<List<Transaction>> block = chain.get(i);
@@ -71,16 +71,8 @@ public class CryptoChain extends NetChain<List<Transaction>> {
                                 return false;
                             }
 
-                            /** Validate Input Balances to make sure that every transaction
-                             * input is based on the actual blockchain history
-                             * @link https://git.okaut.com/Jesus/JBlock/-/issues/13
-                             */
-                            BigDecimal trueBalance = Wallet.calculateBalance(this.getChain(),
-                                    transaction.input.address); //must use this. reference to the chain
-                            if (transaction.input.amount.compareTo(trueBalance) == 0) {
-                                //System.out.println(LocalDateTime.now() + " ERROR [CryptoChain] Invalid input amount");
-                                //return false;
-                                trueBalanceMatch = true;
+                            if (i==chain.size()-1) {
+                                lastTransaction = transaction;
                             }
 
                             //Prevent Duplicate Transactions in Block
@@ -98,7 +90,21 @@ public class CryptoChain extends NetChain<List<Transaction>> {
         } catch (ClassCastException | NullPointerException exception) {
             return false;
         }
-        return trueBalanceMatch;
+
+        /** Validate Input Balances to make sure that every transaction
+         * input is based on the actual blockchain history
+         * @link https://git.okaut.com/Jesus/JBlock/-/issues/13
+         */
+        if (lastTransaction != null) {
+            BigDecimal trueBalance = Wallet.calculateBalance(this.getChain(),
+                    lastTransaction.input.address); //must use this. reference to the chain
+            if (lastTransaction.input.amount.compareTo(trueBalance) == 0) {
+                return true;
+            } else {
+                System.out.println(LocalDateTime.now() + " ERROR [CryptoChain] Invalid input amount");
+            }
+        }
+        return false;
     }
 
 }
