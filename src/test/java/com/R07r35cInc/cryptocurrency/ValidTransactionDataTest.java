@@ -73,7 +73,7 @@ public class ValidTransactionDataTest {
 
     @Test
     void malformedOutputMapNotRewardTransaction() {
-        transaction.outputMap.put(wallet.publicKey, BaseTest.tooHighAmount);
+        transaction.getOutputMap().put(wallet.publicKey, BaseTest.tooHighAmount);
         transactionList.add(transaction);
         transactionList.add(rewardTransaction);
         cryptoChain.addBlock(transactionList);
@@ -84,7 +84,7 @@ public class ValidTransactionDataTest {
 
     @Test
     void malformedOutputMapIsRewardTransaction() {
-        rewardTransaction.outputMap.put(wallet.publicKey, BaseTest.tooHighAmount);
+        rewardTransaction.getOutputMap().put(wallet.publicKey, BaseTest.tooHighAmount);
         transactionList.add(transaction);
         transactionList.add(rewardTransaction);
         cryptoChain.addBlock(transactionList);
@@ -108,8 +108,8 @@ public class ValidTransactionDataTest {
         evilInput.signature = wallet.sign(evilOutputMap);
 
         Transaction evilTransaction = new Transaction();
-        evilTransaction.input = evilInput;
-        evilTransaction.outputMap = evilOutputMap;
+        evilTransaction.setInput(evilInput);
+        evilTransaction.setOutputMap(evilOutputMap);
 
         transactionList.add(evilTransaction);
         transactionList.add(rewardTransaction);

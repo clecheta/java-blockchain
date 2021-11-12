@@ -48,7 +48,7 @@ public class CryptoChain extends NetChain<List<Transaction>> {
 
                 if (transactions != null) { //there is transactions in the block
                     for (Transaction transaction : transactions) {
-                        if (transaction.input.address.equals(Transaction.REWARD_INPUT)) {
+                        if (transaction.getInput().address.equals(Transaction.REWARD_INPUT)) {
                             rewardTransactionCount += 1;
 
                             if (rewardTransactionCount > 1) {
@@ -56,10 +56,10 @@ public class CryptoChain extends NetChain<List<Transaction>> {
                                 return false;
                             }
 
-                            Optional<String> firstKey = transaction.outputMap.keySet().stream().findFirst();
+                            Optional<String> firstKey = transaction.getOutputMap().keySet().stream().findFirst();
                             BigDecimal firstValue = null;
                             if (firstKey.isPresent()) {
-                                firstValue = transaction.outputMap.get(firstKey.get());
+                                firstValue = transaction.getOutputMap().get(firstKey.get());
                             }
                             if (firstValue == null || firstValue.compareTo(Transaction.MINER_REWARD) != 0) {
                                 System.out.println(LocalDateTime.now() + " ERROR [CryptoChain] Miner reward amount is invalid");
@@ -95,16 +95,17 @@ public class CryptoChain extends NetChain<List<Transaction>> {
          * input is based on the actual blockchain history
          * @link https://git.okaut.com/Jesus/JBlock/-/issues/13
          */
-        if (lastTransaction != null) {
-            BigDecimal trueBalance = Wallet.calculateBalance(this.getChain(),
-                    lastTransaction.input.address); //must use this. reference to the chain
-            if (lastTransaction.input.amount.compareTo(trueBalance) == 0) {
-                return true;
-            } else {
-                System.out.println(LocalDateTime.now() + " ERROR [CryptoChain] Invalid input amount");
-            }
+        if (lastTransaction == null) {
+            return false;
         }
-        return false;
+        BigDecimal trueBalance = Wallet.calculateBalance(this.getChain(),
+                lastTransaction.getInput().address); //must use this. reference to the chain
+        if (lastTransaction.getInput().amount.compareTo(trueBalance) != 0) {
+            System.out.println(LocalDateTime.now() + " ERROR [CryptoChain] Invalid input amount");
+            return false;
+        }
+
+        return true;
     }
 
 }

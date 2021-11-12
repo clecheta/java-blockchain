@@ -48,7 +48,7 @@ public class TransactionInputTest extends BaseTest {
 
     @Test
     void setsAmount() {
-        BigDecimal expectAmount = transaction.input.amount;
+        BigDecimal expectAmount = transaction.getInput().amount;
         BigDecimal actualAmount = senderWallet.balance;
         //ensure that the amount matches the balance that is contained in the sender wallet
         assertEquals(expectAmount, actualAmount, "sets the amount to the senderWallet balance");
@@ -56,7 +56,7 @@ public class TransactionInputTest extends BaseTest {
 
     @Test
     void setsAddress() {
-        String expectedAddress = transaction.input.address;
+        String expectedAddress = transaction.getInput().address;
         String actualAddress = senderWallet.publicKey;
         assertEquals(expectedAddress, actualAddress, "sets the address to the senderWallet publicKey");
     }
@@ -64,8 +64,8 @@ public class TransactionInputTest extends BaseTest {
     @Test
     void signInput() {
         ECDSA ec = new ECDSA();
-        String serializedData = new Parse().toJson(transaction.outputMap);
-        assertTrue(ec.verifySignature(senderWallet.publicKey, serializedData, transaction.input.signature),
+        String serializedData = new Parse().toJson(transaction.getOutputMap());
+        assertTrue(ec.verifySignature(senderWallet.publicKey, serializedData, transaction.getInput().signature),
                 "signs the input");
     }
 

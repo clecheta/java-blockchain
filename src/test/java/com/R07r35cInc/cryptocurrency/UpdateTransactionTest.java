@@ -34,8 +34,8 @@ public class UpdateTransactionTest extends BaseTest {
         amount = BigDecimal.TEN;
         transaction = new Transaction(senderWallet, recipient, amount);
 
-        originalSignature = transaction.input.signature;
-        originalSenderOutput = transaction.outputMap.get(senderWallet.publicKey);
+        originalSignature = transaction.getInput().signature;
+        originalSenderOutput = transaction.getOutputMap().get(senderWallet.publicKey);
         nextRecipient = "next-recipient";
         nextAmount = new BigDecimal(5);
 
@@ -58,13 +58,13 @@ public class UpdateTransactionTest extends BaseTest {
 
     @Test
     void isValidOutputAmountToTheNextRecipient() {
-        BigDecimal actualAmount = transaction.outputMap.get(nextRecipient);
+        BigDecimal actualAmount = transaction.getOutputMap().get(nextRecipient);
         assertEquals(nextAmount, actualAmount, "outputs the amount to the next recipient");
     }
 
     @Test
     void isValidSubtractsAmountFromOriginalSender() {
-        BigDecimal actualAmount = transaction.outputMap.get(senderWallet.publicKey);
+        BigDecimal actualAmount = transaction.getOutputMap().get(senderWallet.publicKey);
         BigDecimal expectedAmount = originalSenderOutput.subtract(nextAmount);
         assertEquals(expectedAmount, actualAmount,
                 "subtracts the amount from the original sender output amount");
@@ -72,14 +72,14 @@ public class UpdateTransactionTest extends BaseTest {
 
     @Test
     void isValidMaintainsTotalOutputThatMatchesInputAmount() {
-        BigDecimal outputTotal = Calculate.mapTotal(transaction.outputMap);
-        assertEquals(transaction.input.amount, outputTotal,
+        BigDecimal outputTotal = Calculate.mapTotal(transaction.getOutputMap());
+        assertEquals(transaction.getInput().amount, outputTotal,
                 "maintains a total output that matches the input amount");
     }
 
     @Test
     void isValidReSignTransaction() {
-        String actualSignature = transaction.input.signature;
+        String actualSignature = transaction.getInput().signature;
         assertNotEquals(originalSignature, actualSignature, "re-signs the transaction");
     }
 }

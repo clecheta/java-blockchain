@@ -55,7 +55,7 @@ public class ClearTransactionPoolTest extends BaseTest {
                 transactionList.add(transaction);
                 blockchain.addBlock(transactionList);
             } else { //odd
-                expectedTransactionMap.put(transaction.id.toString(), transaction);
+                expectedTransactionMap.put(transaction.getId().toString(), transaction);
             }
         }
 

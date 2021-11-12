@@ -45,7 +45,7 @@ public class WalletTransactionBalanceTest {
         transactions.add(fstTransaction);
         cryptoChain.addBlock(transactions);
 
-        BigDecimal expectedValue = fstTransaction.outputMap.get(wallet.publicKey);
+        BigDecimal expectedValue = fstTransaction.getOutputMap().get(wallet.publicKey);
         BigDecimal actualValue = Wallet.calculateBalance(cryptoChain.getChain(), wallet.publicKey);
         assertEquals(expectedValue, actualValue, "must return the output amount of the recent transaction");
 
@@ -54,7 +54,7 @@ public class WalletTransactionBalanceTest {
         transactions.add(scdTransaction);
         cryptoChain.addBlock(transactions);
 
-        expectedValue = scdTransaction.outputMap.get(wallet.publicKey);
+        expectedValue = scdTransaction.getOutputMap().get(wallet.publicKey);
         actualValue = Wallet.calculateBalance(cryptoChain.getChain(), wallet.publicKey);
         assertEquals(expectedValue, actualValue, "must return the output amount of the recent transaction");
 
@@ -76,9 +76,9 @@ public class WalletTransactionBalanceTest {
         transactions.add(nextBlockTransaction);
         cryptoChain.addBlock(transactions);
 
-        BigDecimal expectedValue = recentTransaction.outputMap.get(wallet.publicKey)
-                .add(sameBlockTransaction.outputMap.get(wallet.publicKey))
-                .add(nextBlockTransaction.outputMap.get(wallet.publicKey));
+        BigDecimal expectedValue = recentTransaction.getOutputMap().get(wallet.publicKey)
+                .add(sameBlockTransaction.getOutputMap().get(wallet.publicKey))
+                .add(nextBlockTransaction.getOutputMap().get(wallet.publicKey));
         BigDecimal actualValue = Wallet.calculateBalance(cryptoChain.getChain(), wallet.publicKey);
         assertEquals(expectedValue, actualValue, "includes the output amounts in the returned balance");
     }

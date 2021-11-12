@@ -96,9 +96,9 @@ public class ParseTest extends BaseTest {
         Transaction actualTransaction = parse.fromJson(json, new TypeReference<Transaction>() {
         });
 
-        assertEquals(originalTransaction.id, actualTransaction.id);
-        assertEquals(originalTransaction.input, actualTransaction.input);
-        assertEquals(originalTransaction.outputMap, actualTransaction.outputMap);
+        assertEquals(originalTransaction.getId(), actualTransaction.getId());
+        assertEquals(originalTransaction.getInput(), actualTransaction.getInput());
+        assertEquals(originalTransaction.getOutputMap(), actualTransaction.getOutputMap());
         assertEquals(originalTransaction, actualTransaction);
     }
 
@@ -124,10 +124,10 @@ public class ParseTest extends BaseTest {
     @Test
     /** Serialization-Deserialization with java.util.Map from JSON string */
     void outputMapSerDes() {
-        Map<String, BigDecimal> originalMap = transactions.get(0).outputMap;
+        Map<String, BigDecimal> originalMap = transactions.get(0).getOutputMap();
         //let's add more values to the original to enrich the test
         for (Transaction t : transactions) {
-            Iterator<Map.Entry<String, BigDecimal>> iterator = t.outputMap.entrySet().iterator();
+            Iterator<Map.Entry<String, BigDecimal>> iterator = t.getOutputMap().entrySet().iterator();
             while (iterator.hasNext()) {
                 Map.Entry<String, BigDecimal> entry = iterator.next();
                 originalMap.put(entry.getKey(), entry.getValue());

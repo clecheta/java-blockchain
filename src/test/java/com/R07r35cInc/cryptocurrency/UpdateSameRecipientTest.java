@@ -38,7 +38,7 @@ public class UpdateSameRecipientTest extends BaseTest {
 
     @BeforeEach
     void setup() {
-        originalSenderOutput = transaction.outputMap.get(senderWallet.publicKey);
+        originalSenderOutput = transaction.getOutputMap().get(senderWallet.publicKey);
         nextRecipient = "next-recipient";
         nextAmount = new BigDecimal(5);
 
@@ -50,11 +50,11 @@ public class UpdateSameRecipientTest extends BaseTest {
         addedAmount = new BigDecimal(7);
         transaction.update(senderWallet, nextRecipient, addedAmount);
 
-        BigDecimal expectedAmount = transaction.outputMap.get(nextRecipient);
+        BigDecimal expectedAmount = transaction.getOutputMap().get(nextRecipient);
         BigDecimal actualAmount = nextAmount.add(addedAmount);
         assertEquals(expectedAmount, actualAmount, "adds to the recipient amount");
 
-        assertEquals(Wallet.STARTING_BALANCE, Calculate.mapTotal(transaction.outputMap));
+        assertEquals(Wallet.STARTING_BALANCE, Calculate.mapTotal(transaction.getOutputMap()));
     }
 
     @Test
@@ -62,11 +62,11 @@ public class UpdateSameRecipientTest extends BaseTest {
         addedAmount = new BigDecimal(8);
         transaction.update(senderWallet, nextRecipient, addedAmount);
 
-        BigDecimal expectedAmount = transaction.outputMap.get(senderWallet.publicKey);
+        BigDecimal expectedAmount = transaction.getOutputMap().get(senderWallet.publicKey);
         BigDecimal actualAmount = originalSenderOutput.subtract(nextAmount).subtract(addedAmount);
         assertEquals(expectedAmount, actualAmount,
                 "subtracts the amount from the original sender output amount");
 
-        assertEquals(Wallet.STARTING_BALANCE, Calculate.mapTotal(transaction.outputMap));
+        assertEquals(Wallet.STARTING_BALANCE, Calculate.mapTotal(transaction.getOutputMap()));
     }
 }

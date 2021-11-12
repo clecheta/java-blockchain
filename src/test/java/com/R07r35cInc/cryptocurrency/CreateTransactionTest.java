@@ -49,13 +49,13 @@ public class CreateTransactionTest extends BaseTest {
     @Test
     void matchesTransactionInput() {
         String expectedValue = wallet.publicKey;
-        String actualValue = transaction.input.address;
+        String actualValue = transaction.getInput().address;
         assertEquals(expectedValue, actualValue, "matches the transaction input with the wallet");
     }
 
     @Test
     void outputAmount() {
-        BigDecimal actualAmount = transaction.outputMap.get(recipient);
+        BigDecimal actualAmount = transaction.getOutputMap().get(recipient);
         assertEquals(amount, actualAmount, "outputs the amount the recipient");
 
     }

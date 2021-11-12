@@ -24,7 +24,7 @@ public class TransactionPool {
     }
 
     public void setTransaction(Transaction transaction) {
-        this.transactionMap.put(transaction.id.toString(), transaction);
+        this.transactionMap.put(transaction.getId().toString(), transaction);
     }
 
     public void setMap(Map<String, Transaction> transactionMap) {
@@ -34,7 +34,7 @@ public class TransactionPool {
     public Transaction existingTransaction(String inputAddress) {
         List<Transaction> transactions = transactionMap.values().stream()
                 .filter(transaction -> transactionMap.values().stream()
-                        .anyMatch(t -> t.input.address.equals(inputAddress)))
+                        .anyMatch(t -> t.getInput().address.equals(inputAddress)))
                 .collect(Collectors.toList());
 
         if (transactions.size() > 0) {
@@ -72,7 +72,7 @@ public class TransactionPool {
                 if (!block.equals(Block.genesis())) {
                     List<Transaction> transactionList = (List<Transaction>) block.getData();
                     for (Transaction transaction : transactionList) {
-                        this.transactionMap.remove(transaction.id.toString());
+                        this.transactionMap.remove(transaction.getId().toString());
                     }
                 }
             } catch (ClassCastException | NullPointerException exceptions) {

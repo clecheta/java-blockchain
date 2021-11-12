@@ -14,14 +14,14 @@ import java.util.*;
  * https://encontreijesus.com
  */
 @JsonPropertyOrder({"id", "input", "outputMap"})
-public class Transaction {
+public class Transaction implements Tx {
 
     public static final String REWARD_INPUT = "*authorized-reward*"; //TODO read from config file/property
     public static final BigDecimal MINER_REWARD = new BigDecimal(1); //TODO: read from config file? - not sure yet
 
-    public UUID id;
-    public Input input;
-    public Map<String, BigDecimal> outputMap;
+    private UUID id;
+    private Input input;
+    private Map<String, BigDecimal> outputMap;
 
     public Transaction() {
         this.id = UUID.randomUUID();
@@ -79,7 +79,7 @@ public class Transaction {
     }
 
     public static Transaction rewardTransaction(Wallet minerWallet) {
-        Map<String, BigDecimal> outputMap = new HashMap<String, BigDecimal>();
+        Map<String, BigDecimal> outputMap = new HashMap<>();
         outputMap.put(minerWallet.publicKey, MINER_REWARD);
         Input input = createRewardInput(REWARD_INPUT);
 
@@ -140,4 +140,33 @@ public class Transaction {
         return Objects.hash(id, outputMap, input);
     }
 
+    @Override
+    public UUID getId() {
+        return this.id;
+    }
+
+    @Override
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    @Override
+    public Input getInput() {
+        return this.input;
+    }
+
+    @Override
+    public void setInput(Input input) {
+        this.input = input;
+    }
+
+    @Override
+    public Map<String, BigDecimal> getOutputMap() {
+        return this.outputMap;
+    }
+
+    @Override
+    public void setOutputMap(Map<String, BigDecimal> outputMap) {
+        this.outputMap = outputMap;
+    }
 }

@@ -45,8 +45,8 @@ public class WalletOutputsBalanceTest {
     void sumAllOutputs() { //wallet received two transactions
         BigDecimal actualBalance = Wallet.calculateBalance(cryptoChain.getChain(), wallet.publicKey);
         BigDecimal totalAmount = Wallet.STARTING_BALANCE
-                .add(t1.outputMap.get(wallet.publicKey))
-                .add(t2.outputMap.get(wallet.publicKey));
+                .add(t1.getOutputMap().get(wallet.publicKey))
+                .add(t2.getOutputMap().get(wallet.publicKey));
         assertEquals(actualBalance, totalAmount, "adds the sum of all outputs to the wallet balance");
     }
 

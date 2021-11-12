@@ -34,7 +34,7 @@ public class TransactionPoolTest extends BaseTest {
     @Test
     void addTransaction() {
         transactionPool.setTransaction(transaction);
-        Transaction expected = transactionPool.getTransactionMap().get(transaction.id.toString());
+        Transaction expected = transactionPool.getTransactionMap().get(transaction.getId().toString());
         assertEquals(expected, transaction, "added a transaction");
     }
 
