@@ -15,11 +15,11 @@ public class NetChain<T> extends BlockChain<T> {
     /** Identify sending node */
     public String origin;
 
-    public Block mineBlock(Block lastBlock, T data) { //here we can use a prof=true/false to decide use it or not
+    public Block<T> mineBlock(Block lastBlock, T data) { //here we can use a prof=true/false to decide use it or not
         Date date = new Date();
         String previousHash = lastBlock.getHash();
         long index = lastBlock.getIndex()+1;
-        return Miner.proofOfWork(date, previousHash, data, index);
+        return (Block<T>) Miner.proofOfWork(date, previousHash, data, index);
     }
 
     /**

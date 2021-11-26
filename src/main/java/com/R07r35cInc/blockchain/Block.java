@@ -18,7 +18,10 @@ public class Block<T> {
     private String hash;
     private T data;
     private Long nonce;
+
+    //database usage specific fields
     private Long index;
+    private String chain;
 
     /**
      * you must save the block with the timestamp that generated the crypto hash
@@ -98,6 +101,14 @@ public class Block<T> {
 
     public void setNonce(Long nonce) {
         this.nonce = nonce;
+    }
+
+    public String getChain() {
+        return chain;
+    }
+
+    public void setChain(String chain) {
+        this.chain = chain;
     }
 
     @Override

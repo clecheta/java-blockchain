@@ -32,6 +32,7 @@ public class Miner<T> {
             nonceFound = nonceHash.startsWith(nonceKey);
         }
 
+        //TODO refactor to no use proofOfWork as static method and return Block<T>
         return new Block(date,
                 previousHash, nonceHash,
                 data, index, nonce
