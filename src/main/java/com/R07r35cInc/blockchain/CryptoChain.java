@@ -98,6 +98,8 @@ public class CryptoChain extends NetChain<List<Transaction>> {
         if (lastTransaction == null) {
             return false;
         }
+        //FIXME https://git.okaut.com/Jesus/api.blockchain/-/issues/19
+        // this calc does not match when working with chain saved to the database
         BigDecimal trueBalance = Wallet.calculateBalance(this.getChain(),
                 lastTransaction.getInput().address); //must use this. reference to the chain
         if (lastTransaction.getInput().amount.compareTo(trueBalance) != 0) {
