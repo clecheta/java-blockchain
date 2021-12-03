@@ -44,13 +44,13 @@ public class ClearTransactionPoolTest extends BaseTest {
     @Test
     void clearBlockchainTransactionsOnly() {
         NetChain blockchain = new NetChain();
-        Map<String, Transaction> expectedTransactionMap = new HashMap<String, Transaction>();
+        Map<String, Tx> expectedTransactionMap = new HashMap<>();
         for (int i = 0; i < 6; i++) {
             TransactionCommand transactCmd = new TransactionCommand("foo", new BigDecimal(20));
-            Transaction transaction = new Wallet().createTransaction(transactCmd);
+            Tx transaction = new Wallet().createTransaction(transactCmd);
             transactionPool.setTransaction(transaction);
             if (i % 2 == 0) { //even
-                List<Transaction> transactionList = new ArrayList<Transaction>();
+                List<Tx> transactionList = new ArrayList<>();
                 transactionList.add(transaction);
                 blockchain.addBlock(transactionList);
             } else { //odd

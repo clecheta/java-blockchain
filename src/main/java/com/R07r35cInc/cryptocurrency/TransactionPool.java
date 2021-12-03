@@ -13,26 +13,26 @@ import java.util.stream.Collectors;
  */
 public class TransactionPool {
 
-    private Map<String, Transaction> transactionMap;
+    private Map<String, Tx> transactionMap;
 
     public TransactionPool() {
-        this.transactionMap = new HashMap<String, Transaction>();
+        this.transactionMap = new HashMap<String, Tx>();
     }
 
     public void clear() {
-        this.transactionMap = new HashMap<String, Transaction>();
+        this.transactionMap = new HashMap<String, Tx>();
     }
 
-    public void setTransaction(Transaction transaction) {
+    public void setTransaction(Tx transaction) {
         this.transactionMap.put(transaction.getId().toString(), transaction);
     }
 
-    public void setMap(Map<String, Transaction> transactionMap) {
+    public void setMap(Map<String, Tx> transactionMap) {
         this.transactionMap = transactionMap;
     }
 
-    public Transaction existingTransaction(String inputAddress) {
-        List<Transaction> transactions = transactionMap.values().stream()
+    public Tx existingTransaction(String inputAddress) {
+        List<Tx> transactions = transactionMap.values().stream()
                 .filter(transaction -> transactionMap.values().stream()
                         .anyMatch(t -> t.getInput().address.equals(inputAddress)))
                 .collect(Collectors.toList());
@@ -43,7 +43,7 @@ public class TransactionPool {
         return null;
     }
 
-    public Map<String, Transaction> getTransactionMap() {
+    public Map<String, Tx> getTransactionMap() {
         return transactionMap;
     }
 
@@ -51,7 +51,7 @@ public class TransactionPool {
      * Filter transactions in the poll in order to get only valid transactions
      * based on the static method Transaction.isValidTransaction()
      */
-    public List<Transaction> getValidTransactions() {
+    public List<Tx> getValidTransactions() {
         /* Before Java 8 way...
         List<Transaction> transactions = new ArrayList<Transaction>(transactionMap.values());
         List<Transaction> filteredTransaction = new ArrayList<>();

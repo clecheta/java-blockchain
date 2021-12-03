@@ -17,9 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 public class ValidTransactionDataTest {
     CryptoChain cryptoChain;
-    Transaction transaction, rewardTransaction;
+    Tx transaction, rewardTransaction;
     Wallet wallet, minerWallet;
-    List<Transaction> transactionList;
+    List<Tx> transactionList;
 
     @BeforeEach
     void init() {

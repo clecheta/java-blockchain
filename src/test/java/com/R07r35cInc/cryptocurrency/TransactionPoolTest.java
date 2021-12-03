@@ -14,8 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class TransactionPoolTest extends BaseTest {
 
-    private static final String recipient = "recipient-foo-public-key";
-
     TransactionPool transactionPool;
     Transaction transaction;
     Wallet senderWallet;
@@ -34,14 +32,14 @@ public class TransactionPoolTest extends BaseTest {
     @Test
     void addTransaction() {
         transactionPool.setTransaction(transaction);
-        Transaction expected = transactionPool.getTransactionMap().get(transaction.getId().toString());
+        Tx expected = transactionPool.getTransactionMap().get(transaction.getId().toString());
         assertEquals(expected, transaction, "added a transaction");
     }
 
     @Test
     void existingTransaction() {
         transactionPool.setTransaction(transaction);
-        Transaction expected = transactionPool.existingTransaction(senderWallet.publicKey);
+        Tx expected = transactionPool.existingTransaction(senderWallet.publicKey);
         assertEquals(expected, transaction, "returns an existing transaction given an input address");
     }
 

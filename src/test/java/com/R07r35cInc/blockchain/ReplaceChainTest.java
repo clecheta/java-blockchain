@@ -2,6 +2,7 @@ package com.R07r35cInc.blockchain;
 
 import com.BaseTest;
 import com.R07r35cInc.cryptocurrency.Transaction;
+import com.R07r35cInc.cryptocurrency.Tx;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -70,7 +71,7 @@ public class ReplaceChainTest extends BaseTest {
     @Test
     void validateTransactions() {
         Transaction transaction = new Transaction();
-        List<Transaction> transactions = new ArrayList<>();
+        List<Tx> transactions = new ArrayList<>();
         transactions.add(transaction);
         newCrytoChain.addBlock(transactions); //need a bigger chain then original to call replaceChain()
 

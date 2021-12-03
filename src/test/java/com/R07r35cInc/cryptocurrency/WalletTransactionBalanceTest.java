@@ -21,7 +21,7 @@ public class WalletTransactionBalanceTest {
 
     Wallet wallet;
     BlockChain cryptoChain;
-    Transaction t1, t2;
+    Tx transaction1, transaction2;
 
     @BeforeEach
     void init() {
@@ -29,23 +29,23 @@ public class WalletTransactionBalanceTest {
         cryptoChain = new BlockChain<List<Transaction>>();
 
         TransactionCommand transactCmdOne = new TransactionCommand(wallet.publicKey, new BigDecimal(5));
-        t1 = new Wallet().createTransaction(transactCmdOne);
+        transaction1 = new Wallet().createTransaction(transactCmdOne);
         TransactionCommand transactCmdTwo = new TransactionCommand(wallet.publicKey, new BigDecimal(10));
-        t2 = new Wallet().createTransaction(transactCmdTwo);
+        transaction2 = new Wallet().createTransaction(transactCmdTwo);
 
         //Add the transactions in the blockchain
-        List<Transaction> transactionList = new ArrayList<>();
-        transactionList.add(t1);
-        transactionList.add(t2);
+        List<Tx> transactionList = new ArrayList<>();
+        transactionList.add(transaction1);
+        transactionList.add(transaction2);
         cryptoChain.addBlock(transactionList);
     }
 
     @Test
     void walletHasMadeTransactions() {
-        List<Transaction> transactions = new ArrayList<>();
+        List<Tx> transactions = new ArrayList<>();
 
         TransactionCommand transactCmdOne = new TransactionCommand(BaseTest.publicKey, new BigDecimal(20));
-        Transaction fstTransaction = wallet.createTransaction(transactCmdOne);
+        Tx fstTransaction = wallet.createTransaction(transactCmdOne);
         transactions.add(fstTransaction);
         cryptoChain.addBlock(transactions);
 
@@ -54,7 +54,7 @@ public class WalletTransactionBalanceTest {
         assertEquals(expectedValue, actualValue, "must return the output amount of the recent transaction");
 
         TransactionCommand transactCmdTwo = new TransactionCommand(BaseTest.publicKey, new BigDecimal(10));
-        Transaction scdTransaction = wallet.createTransaction(transactCmdTwo);
+        Tx scdTransaction = wallet.createTransaction(transactCmdTwo);
         transactions = new ArrayList<>();
         transactions.add(scdTransaction);
         cryptoChain.addBlock(transactions);
@@ -68,17 +68,17 @@ public class WalletTransactionBalanceTest {
     /** There are outputs next to and after the recent transaction */
     @Test
     void outputsNextAndAfterRecentTransaction() {
-        List<Transaction> transactions = new ArrayList<>();
+        List<Tx> transactions = new ArrayList<>();
 
         TransactionCommand transactCmdOne = new TransactionCommand(BaseTest.publicKey, new BigDecimal(50));
-        Transaction recentTransaction = wallet.createTransaction(transactCmdOne);
+        Tx recentTransaction = wallet.createTransaction(transactCmdOne);
         Transaction sameBlockTransaction = Transaction.rewardTransaction(wallet);
         transactions.add(recentTransaction);
         transactions.add(sameBlockTransaction);
         cryptoChain.addBlock(transactions);
 
         TransactionCommand transactCmdTwo = new TransactionCommand(wallet.publicKey, new BigDecimal(33));
-        Transaction nextBlockTransaction = new Wallet().createTransaction(transactCmdTwo);
+        Tx nextBlockTransaction = new Wallet().createTransaction(transactCmdTwo);
         transactions = new ArrayList<>();
         transactions.add(nextBlockTransaction);
         cryptoChain.addBlock(transactions);

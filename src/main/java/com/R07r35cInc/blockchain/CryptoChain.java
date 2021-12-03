@@ -1,6 +1,7 @@
 package com.R07r35cInc.blockchain;
 
 import com.R07r35cInc.cryptocurrency.Transaction;
+import com.R07r35cInc.cryptocurrency.Tx;
 import com.R07r35cInc.cryptocurrency.Wallet;
 
 import java.math.BigDecimal;
@@ -17,9 +18,9 @@ import java.util.Set;
  * @author Cleber Lecheta
  * https://encontreijesus.com
  */
-public class CryptoChain extends NetChain<List<Transaction>> {
+public class CryptoChain extends NetChain<List<Tx>> {
 
-    public List<Block<List<Transaction>>> getChain() {
+    public List<Block<List<Tx>>> getChain() {
         return super.getChain();
     }
 
@@ -27,7 +28,7 @@ public class CryptoChain extends NetChain<List<Transaction>> {
      * Necessary because of the blockchain network interaction
      * not static method as it is specific to each instance of the blockchain
      **/
-    public Boolean replaceChain(List<Block<List<Transaction>>> chain) {
+    public Boolean replaceChain(List<Block<List<Tx>>> chain) {
         if (!this.isValidTransactionData(chain)) {
             throw new RuntimeException("The incoming chain has invalid data");
         }
@@ -36,18 +37,18 @@ public class CryptoChain extends NetChain<List<Transaction>> {
 
     //TODO: make a test to ensure this is a non static method
     //FIXME Is it really necessary to pass the chain here as argument?
-    public Boolean isValidTransactionData(List<Block<List<Transaction>>> chain) {
-        List<Transaction> transactions;
-        Transaction lastTransaction = null;
+    public Boolean isValidTransactionData(List<Block<List<Tx>>> chain) {
+        List<Tx> transactions;
+        Tx lastTransaction = null;
         try {
             for (int i = 1; i < chain.size(); i++) { //skip the Genesis block
-                Block<List<Transaction>> block = chain.get(i);
+                Block<List<Tx>> block = chain.get(i);
                 transactions = block.getData();
-                Set<Transaction> transactionSet = new HashSet<>();
+                Set<Tx> transactionSet = new HashSet<>();
                 int rewardTransactionCount = 0;
 
                 if (transactions != null) { //there is transactions in the block
-                    for (Transaction transaction : transactions) {
+                    for (Tx transaction : transactions) {
                         if (transaction.getInput().address.equals(Transaction.REWARD_INPUT)) {
                             rewardTransactionCount += 1;
 

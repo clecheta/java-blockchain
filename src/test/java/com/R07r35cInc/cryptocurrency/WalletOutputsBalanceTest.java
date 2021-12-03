@@ -24,8 +24,8 @@ public class WalletOutputsBalanceTest {
 
     Wallet wallet;
     BlockChain cryptoChain;
-    Transaction t1;
-    Transaction t2;
+    Tx transaction1;
+    Tx transaction2;
 
     @BeforeEach
     void init() {
@@ -33,14 +33,14 @@ public class WalletOutputsBalanceTest {
         cryptoChain = new BlockChain<List<Transaction>>();
 
         TransactionCommand transactCmdOne = new TransactionCommand(wallet.publicKey, new BigDecimal(5));
-        t1 = new Wallet().createTransaction(transactCmdOne);
+        transaction1 = new Wallet().createTransaction(transactCmdOne);
         TransactionCommand transactCmdTwo = new TransactionCommand(wallet.publicKey, new BigDecimal(10));
-        t2 = new Wallet().createTransaction(transactCmdTwo);
+        transaction2 = new Wallet().createTransaction(transactCmdTwo);
 
         //Add the transactions in the blockchain
-        List<Transaction> transactionList = new ArrayList<Transaction>();
-        transactionList.add(t1);
-        transactionList.add(t2);
+        List<Tx> transactionList = new ArrayList<>();
+        transactionList.add(transaction1);
+        transactionList.add(transaction2);
         cryptoChain.addBlock(transactionList);
     }
 
@@ -48,8 +48,8 @@ public class WalletOutputsBalanceTest {
     void sumAllOutputs() { //wallet received two transactions
         BigDecimal actualBalance = Wallet.calculateBalance(cryptoChain.getChain(), wallet.publicKey);
         BigDecimal totalAmount = Wallet.STARTING_BALANCE
-                .add(t1.getOutputMap().get(wallet.publicKey))
-                .add(t2.getOutputMap().get(wallet.publicKey));
+                .add(transaction1.getOutputMap().get(wallet.publicKey))
+                .add(transaction2.getOutputMap().get(wallet.publicKey));
         assertEquals(actualBalance, totalAmount, "adds the sum of all outputs to the wallet balance");
     }
 
@@ -88,7 +88,7 @@ class ClasseSendoTestada {
         this.dependencia = dependencia;
     }
 
-    void createTransaction(String recipient, BigDecimal amount, List<Block<List<Transaction>>> chain){
+    void createTransaction(String recipient, BigDecimal amount, List<Block<List<Tx>>> chain){
         TransactionCommand cmd = new TransactionCommand(recipient, amount);
         dependencia.createTransaction(cmd, chain);
     }

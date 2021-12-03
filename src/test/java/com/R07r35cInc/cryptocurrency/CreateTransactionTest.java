@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CreateTransactionTest extends BaseTest {
 
     Wallet wallet;
-    Transaction transaction;
+    Tx transaction;
     BigDecimal amount;
 
     @BeforeEach

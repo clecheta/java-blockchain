@@ -32,18 +32,18 @@ public class Wallet {
      * Goes to every transaction in the chain and if the address has an output
      * within the transaction output map, we add that to the outputs total
      */
-    public static BigDecimal calculateBalance(List<Block<List<Transaction>>> chain, String address) {
+    public static BigDecimal calculateBalance(List<Block<List<Tx>>> chain, String address) {
         Boolean hasConductedTransaction = false;
         BigDecimal outputsTotal = BigDecimal.ZERO;
 
-        Block<List<Transaction>> block;
-        List<Transaction> transactionList;
+        Block<List<Tx>> block;
+        List<Tx> transactionList;
         //iterate top-down as recent transactions are in the top of the list
         for (int i = chain.size()-1; i > 0; i--) { //do not iterate over Genesis data
             block = chain.get(i);
             transactionList = block.getData();
             if (transactionList != null) { //wallet has received a transaction
-                for (Transaction transaction : transactionList) {
+                for (Tx transaction : transactionList) {
                     if (transaction.getInput().address.equals(address)) {
                         /* Do not double count outputs. If the address already made a transaction
                            the balance should start from the output for the address*/
@@ -77,7 +77,7 @@ public class Wallet {
         return signature;
     }
 
-    public Transaction createTransaction(TransactionCommand cmd) {
+    public Tx createTransaction(TransactionCommand cmd) {
         if (cmd.amount.compareTo(this.balance) == 1) { //greater than val
             throw new RuntimeException("Amount exceeds balance");
         }
@@ -87,7 +87,7 @@ public class Wallet {
 
     /** This is the one that must be used in the network/cryptochain api, always passing the current version
      * of chain object as argument */
-    public Transaction createTransaction(TransactionCommand cmd, List<Block<List<Transaction>>> chain) {
+    public Tx createTransaction(TransactionCommand cmd, List<Block<List<Tx>>> chain) {
         if (chain != null) {
             this.balance = Wallet.calculateBalance(chain, this.publicKey);
         }

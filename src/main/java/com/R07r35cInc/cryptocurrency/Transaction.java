@@ -56,11 +56,11 @@ public class Transaction implements Tx {
     /**
      * Validate if the input amount is equal to the total values contained in the outputMap
      */
-    public static boolean isValidTransaction(Transaction transaction) {
-        String address = transaction.input.address;
-        BigDecimal amount = transaction.input.amount;
-        String signature = transaction.input.signature;
-        Map<String, BigDecimal> outputMap = transaction.outputMap;
+    public static boolean isValidTransaction(Tx transaction) {
+        String address = transaction.getInput().address;
+        BigDecimal amount = transaction.getInput().amount;
+        String signature = transaction.getInput().signature;
+        Map<String, BigDecimal> outputMap = transaction.getOutputMap();
 
         BigDecimal outputTotal = Calculate.mapTotal(outputMap);
         if (amount.compareTo(outputTotal) != 0) {
