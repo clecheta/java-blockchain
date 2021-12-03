@@ -8,7 +8,7 @@ package com.R07r35cInc.cryptocurrency;
  * all the other payment types meam that the money didn`t pass thry us
  */
 public enum PayTypeEnum {
-    WALLET, PIX, DEBIT, CREDIT, TRANSFER, MONEY, INTERCHANGE;
+    WALLET, REWARD, PIX, DEBIT, CREDIT, TRANSFER, MONEY, INTERCHANGE;
 
     public static boolean contains(String test) {
         for (PayTypeEnum selection : PayTypeEnum.values()) {

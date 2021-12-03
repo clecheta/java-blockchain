@@ -1,5 +1,7 @@
 package com.R07r35cInc.cryptocurrency;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.UUID;
@@ -8,6 +10,7 @@ import java.util.UUID;
  * @author Cleber Lecheta
  * https://encontreijesus.com
  */
+@JsonPropertyOrder({"id", "type", "input", "outputMap"})
 public class PayTypeTransaction implements Tx {
 
     private final Tx transaction;
