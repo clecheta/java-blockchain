@@ -22,7 +22,6 @@ public class Transaction implements Tx {
     private UUID id;
     private Input input;
     private Map<String, BigDecimal> outputMap;
-    private PayTypeEnum type;
 
     public Transaction() {
         this.id = UUID.randomUUID();
@@ -171,8 +170,4 @@ public class Transaction implements Tx {
         this.outputMap = outputMap;
     }
 
-    @Override
-    public PayTypeEnum getType() {
-        return type;
-    }
 }

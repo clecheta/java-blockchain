@@ -27,8 +27,11 @@ public class WalletTransactionBalanceTest {
     void init() {
         wallet = new Wallet();
         cryptoChain = new BlockChain<List<Transaction>>();
-        t1 = new Wallet().createTransaction(wallet.publicKey, new BigDecimal(5));
-        t2 = new Wallet().createTransaction(wallet.publicKey, new BigDecimal(10));
+
+        TransactionCommand transactCmdOne = new TransactionCommand(wallet.publicKey, new BigDecimal(5));
+        t1 = new Wallet().createTransaction(transactCmdOne);
+        TransactionCommand transactCmdTwo = new TransactionCommand(wallet.publicKey, new BigDecimal(10));
+        t2 = new Wallet().createTransaction(transactCmdTwo);
 
         //Add the transactions in the blockchain
         List<Transaction> transactionList = new ArrayList<>();
@@ -41,7 +44,8 @@ public class WalletTransactionBalanceTest {
     void walletHasMadeTransactions() {
         List<Transaction> transactions = new ArrayList<>();
 
-        Transaction fstTransaction = wallet.createTransaction(BaseTest.publicKey, new BigDecimal(20));
+        TransactionCommand transactCmdOne = new TransactionCommand(BaseTest.publicKey, new BigDecimal(20));
+        Transaction fstTransaction = wallet.createTransaction(transactCmdOne);
         transactions.add(fstTransaction);
         cryptoChain.addBlock(transactions);
 
@@ -49,7 +53,8 @@ public class WalletTransactionBalanceTest {
         BigDecimal actualValue = Wallet.calculateBalance(cryptoChain.getChain(), wallet.publicKey);
         assertEquals(expectedValue, actualValue, "must return the output amount of the recent transaction");
 
-        Transaction scdTransaction = wallet.createTransaction(BaseTest.publicKey, new BigDecimal(10));
+        TransactionCommand transactCmdTwo = new TransactionCommand(BaseTest.publicKey, new BigDecimal(10));
+        Transaction scdTransaction = wallet.createTransaction(transactCmdTwo);
         transactions = new ArrayList<>();
         transactions.add(scdTransaction);
         cryptoChain.addBlock(transactions);
@@ -65,13 +70,15 @@ public class WalletTransactionBalanceTest {
     void outputsNextAndAfterRecentTransaction() {
         List<Transaction> transactions = new ArrayList<>();
 
-        Transaction recentTransaction = wallet.createTransaction(BaseTest.publicKey, new BigDecimal(50));
+        TransactionCommand transactCmdOne = new TransactionCommand(BaseTest.publicKey, new BigDecimal(50));
+        Transaction recentTransaction = wallet.createTransaction(transactCmdOne);
         Transaction sameBlockTransaction = Transaction.rewardTransaction(wallet);
         transactions.add(recentTransaction);
         transactions.add(sameBlockTransaction);
         cryptoChain.addBlock(transactions);
 
-        Transaction nextBlockTransaction = new Wallet().createTransaction(wallet.publicKey, new BigDecimal(33));
+        TransactionCommand transactCmdTwo = new TransactionCommand(wallet.publicKey, new BigDecimal(33));
+        Transaction nextBlockTransaction = new Wallet().createTransaction(transactCmdTwo);
         transactions = new ArrayList<>();
         transactions.add(nextBlockTransaction);
         cryptoChain.addBlock(transactions);

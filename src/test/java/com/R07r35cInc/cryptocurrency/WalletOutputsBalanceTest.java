@@ -31,8 +31,11 @@ public class WalletOutputsBalanceTest {
     void init() {
         wallet = new Wallet();
         cryptoChain = new BlockChain<List<Transaction>>();
-        t1 = new Wallet().createTransaction(wallet.publicKey, new BigDecimal(5));
-        t2 = new Wallet().createTransaction(wallet.publicKey, new BigDecimal(10));
+
+        TransactionCommand transactCmdOne = new TransactionCommand(wallet.publicKey, new BigDecimal(5));
+        t1 = new Wallet().createTransaction(transactCmdOne);
+        TransactionCommand transactCmdTwo = new TransactionCommand(wallet.publicKey, new BigDecimal(10));
+        t2 = new Wallet().createTransaction(transactCmdTwo);
 
         //Add the transactions in the blockchain
         List<Transaction> transactionList = new ArrayList<Transaction>();
@@ -61,9 +64,11 @@ public class WalletOutputsBalanceTest {
 
     @Test
     void chainIsPassed() {
-        Transaction t3 = new Wallet().createTransaction(wallet.publicKey, new BigDecimal(10), cryptoChain.getChain());
+        TransactionCommand transactCmd = new TransactionCommand(wallet.publicKey, new BigDecimal(10));
+        Tx t3 = new Wallet().createTransaction(transactCmd, cryptoChain.getChain());
+
         assertNotNull(t3);
-        List<Transaction> transactionList = new ArrayList<>();
+        List<Tx> transactionList = new ArrayList<>();
         transactionList.add(t3);
         cryptoChain.addBlock(transactionList);
 
@@ -84,7 +89,8 @@ class ClasseSendoTestada {
     }
 
     void createTransaction(String recipient, BigDecimal amount, List<Block<List<Transaction>>> chain){
-        dependencia.createTransaction(recipient, amount, chain);
+        TransactionCommand cmd = new TransactionCommand(recipient, amount);
+        dependencia.createTransaction(cmd, chain);
     }
 
 }

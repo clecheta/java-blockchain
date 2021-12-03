@@ -17,6 +17,4 @@ public interface Tx {
 
     Map<String, BigDecimal> getOutputMap();
     void setOutputMap(Map<String, BigDecimal> outputMap);
-
-    PayTypeEnum getType();
 }

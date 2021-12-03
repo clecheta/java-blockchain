@@ -20,8 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 public class ClearTransactionPoolTest extends BaseTest {
 
-    private static final String anyRecipient = "any-recipient-public-key";
-
     static TransactionPool transactionPool;
     static Transaction transaction;
     static Wallet senderWallet;
@@ -32,7 +30,7 @@ public class ClearTransactionPoolTest extends BaseTest {
         senderWallet = new Wallet();
         transaction = new Transaction(
                 senderWallet,
-                anyRecipient,
+                recipient,
                 new BigDecimal(15)
         );
     }
@@ -48,7 +46,8 @@ public class ClearTransactionPoolTest extends BaseTest {
         NetChain blockchain = new NetChain();
         Map<String, Transaction> expectedTransactionMap = new HashMap<String, Transaction>();
         for (int i = 0; i < 6; i++) {
-            Transaction transaction = new Wallet().createTransaction("foo", new BigDecimal(20));
+            TransactionCommand transactCmd = new TransactionCommand("foo", new BigDecimal(20));
+            Transaction transaction = new Wallet().createTransaction(transactCmd);
             transactionPool.setTransaction(transaction);
             if (i % 2 == 0) { //even
                 List<Transaction> transactionList = new ArrayList<Transaction>();

@@ -26,7 +26,10 @@ public class ValidTransactionDataTest {
         cryptoChain = new CryptoChain();
         wallet = new Wallet();
         minerWallet = new Wallet();
-        transaction = wallet.createTransaction(BaseTest.publicKey, new BigDecimal(5), cryptoChain.getChain());
+
+        TransactionCommand cmd = new TransactionCommand(BaseTest.publicKey, new BigDecimal(5));
+        transaction = wallet.createTransaction(cmd, cryptoChain.getChain());
+
         rewardTransaction = Transaction.rewardTransaction(minerWallet);
         transactionList = new ArrayList<>();
     }

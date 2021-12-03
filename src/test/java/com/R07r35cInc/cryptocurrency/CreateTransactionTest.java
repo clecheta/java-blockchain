@@ -14,9 +14,6 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class CreateTransactionTest extends BaseTest {
 
-    BigDecimal tooHighAmount = new BigDecimal(999999);
-    String recipient = "foo-recipient";
-
     Wallet wallet;
     Transaction transaction;
     BigDecimal amount;
@@ -25,14 +22,16 @@ public class CreateTransactionTest extends BaseTest {
     void init() {
         wallet = new Wallet();
         amount = BigDecimal.TEN;
-        transaction = wallet.createTransaction(recipient, amount);
+        TransactionCommand transactCmd = new TransactionCommand(recipient, amount);
+        transaction = wallet.createTransaction(transactCmd);
     }
 
     @Test
     void exceedsBalance() {
+        TransactionCommand transactCmd = new TransactionCommand(recipient, tooHighAmount);
         RuntimeException thrown = assertThrows(
                 RuntimeException.class,
-                () -> wallet.createTransaction(recipient, tooHighAmount),
+                () -> wallet.createTransaction(transactCmd),
                 "the amount exceeds the balance"
         );
         assertTrue(thrown.getMessage().contains("Amount exceeds balance"),

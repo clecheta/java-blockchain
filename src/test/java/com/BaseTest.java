@@ -9,7 +9,7 @@ import java.math.BigDecimal;
  * https://encontreijesus.com
  */
 public class BaseTest {
-
+    public static final String recipient = "j3Su2";
     public static final String publicKey = "Bar-Jesus-pu8L1C-K3y"; //https://en.wikipedia.org/wiki/Elymas
     public static final BigDecimal tooHighAmount = new BigDecimal(9000);
 

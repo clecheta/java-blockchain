@@ -77,21 +77,21 @@ public class Wallet {
         return signature;
     }
 
-    public Transaction createTransaction(String recipient, BigDecimal amount) {
-        if (amount.compareTo(this.balance) == 1) { //greater than val
+    public Transaction createTransaction(TransactionCommand cmd) {
+        if (cmd.amount.compareTo(this.balance) == 1) { //greater than val
             throw new RuntimeException("Amount exceeds balance");
         }
 
-        return new Transaction(this, recipient, amount);
+        return new Transaction(this, cmd.recipient, cmd.amount);
     }
 
     /** This is the one that must be used in the network/cryptochain api, always passing the current version
      * of chain object as argument */
-    public Transaction createTransaction(String recipient, BigDecimal amount, List<Block<List<Transaction>>> chain) {
+    public Transaction createTransaction(TransactionCommand cmd, List<Block<List<Transaction>>> chain) {
         if (chain != null) {
             this.balance = Wallet.calculateBalance(chain, this.publicKey);
         }
-        return this.createTransaction(recipient, amount);
+        return this.createTransaction(cmd);
     }
 
 }
