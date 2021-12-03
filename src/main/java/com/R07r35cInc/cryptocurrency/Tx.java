@@ -17,4 +17,6 @@ public interface Tx {
 
     Map<String, BigDecimal> getOutputMap();
     void setOutputMap(Map<String, BigDecimal> outputMap);
+
+    void update(Wallet senderWallet, String recipient, BigDecimal amount);
 }

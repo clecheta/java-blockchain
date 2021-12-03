@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 public class TransactionCommand {
     public String recipient;
     public BigDecimal amount;
-    public PayTypeEnum payType;
+    public PayTypeEnum type;
 
     public TransactionCommand() {}
 
@@ -18,9 +18,9 @@ public class TransactionCommand {
         this.amount = amount;
     }
 
-    public TransactionCommand(String recipient, BigDecimal amount, PayTypeEnum payType) {
+    public TransactionCommand(String recipient, BigDecimal amount, PayTypeEnum type) {
         this.recipient = recipient;
         this.amount = amount;
-        this.payType = payType;
+        this.type = type;
     }
 }

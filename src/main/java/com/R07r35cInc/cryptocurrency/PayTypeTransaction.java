@@ -12,16 +12,15 @@ public class PayTypeTransaction implements Tx {
 
     private final Tx transaction;
 
-    private PayTypeEnum payType;
+    private PayTypeEnum type;
 
-    /*
-    protected PayTypeTransaction(Tx transaction) {
-        this.transaction = transaction;
-    }*/
+    public PayTypeTransaction() {
+        this.transaction = new Transaction();
+    }
 
-    public PayTypeTransaction(Tx transaction, PayTypeEnum payType) {
+    protected PayTypeTransaction(Tx transaction, PayTypeEnum type) {
         this.transaction = transaction;
-        this.payType = payType;
+        this.type = type;
     }
 
     @Override
@@ -54,8 +53,13 @@ public class PayTypeTransaction implements Tx {
         this.transaction.setOutputMap(outputMap);
     }
 
-    public PayTypeEnum getPayType() {
-        return payType;
+    @Override
+    public void update(Wallet senderWallet, String recipient, BigDecimal amount) {
+        this.transaction.update(senderWallet, recipient, amount);
+    }
+
+    public PayTypeEnum getType() {
+        return type;
     }
 
 }

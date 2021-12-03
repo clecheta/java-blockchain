@@ -65,13 +65,13 @@ public class TransactionPool {
                 .collect(Collectors.toList());
     }
 
-    public void clearBlockchainTransactions(List<Block<List<Transaction>>> chainBlockList) {
+    public void clearBlockchainTransactions(List<Block<List<Tx>>> chainBlockList) {
         for (int i = 0; i < chainBlockList.size(); i++) {
             Block block = chainBlockList.get(i);
             try {
                 if (!block.equals(Block.genesis())) {
-                    List<Transaction> transactionList = (List<Transaction>) block.getData();
-                    for (Transaction transaction : transactionList) {
+                    List<Tx> transactionList = (List<Tx>) block.getData();
+                    for (Tx transaction : transactionList) {
                         this.transactionMap.remove(transaction.getId().toString());
                     }
                 }

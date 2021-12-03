@@ -83,8 +83,8 @@ public class Wallet {
         }
 
         Tx transaction = new Transaction(this, cmd.recipient, cmd.amount);
-        if (cmd.payType != null && PayTypeEnum.contains(cmd.payType.name())) { //there is an associated pay type
-            PayTypeTransaction typedTransaction = new PayTypeTransaction(transaction, cmd.payType);
+        if (cmd.type != null && PayTypeEnum.contains(cmd.type.name())) { //there is an associated pay type
+            PayTypeTransaction typedTransaction = new PayTypeTransaction(transaction, cmd.type);
             return typedTransaction;
         } else {
             return transaction;
