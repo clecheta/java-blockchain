@@ -82,7 +82,13 @@ public class Wallet {
             throw new RuntimeException("Amount exceeds balance");
         }
 
-        return new Transaction(this, cmd.recipient, cmd.amount);
+        Tx transaction = new Transaction(this, cmd.recipient, cmd.amount);
+        if (cmd.payType != null && PayTypeEnum.contains(cmd.payType.name())) { //there is an associated pay type
+            PayTypeTransaction typedTransaction = new PayTypeTransaction(transaction, cmd.payType);
+            return typedTransaction;
+        } else {
+            return transaction;
+        }
     }
 
     /** This is the one that must be used in the network/cryptochain api, always passing the current version
