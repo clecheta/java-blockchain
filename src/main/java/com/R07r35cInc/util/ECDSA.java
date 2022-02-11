@@ -18,7 +18,7 @@ import java.util.Base64;
  */
 public class ECDSA {
 
-    private final ECGenParameterSpec ecSpec = new ECGenParameterSpec("secp256k1");
+    private final ECGenParameterSpec ecSpec = new ECGenParameterSpec("secp256r1");
 
     private KeyPairGenerator generator;
     private KeyPair keyPair;
