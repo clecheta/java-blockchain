@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class WalletTest {
 
-    private static final int BASE64_LENGHT = 120;
+    private static final int BASE64_LENGHT = 124;
 
     Wallet wallet;
     String data = "Jiu-jitsu";
@@ -44,6 +44,7 @@ public class WalletTest {
     void hasPublicKey() {
         assertTrue(wallet.publicKey != null);
         assertTrue(wallet.publicKey instanceof String);
+        System.out.println(wallet.publicKey.length());
         assertTrue(wallet.publicKey.length() == BASE64_LENGHT);
     }
 
