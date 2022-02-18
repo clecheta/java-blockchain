@@ -12,7 +12,6 @@ import java.util.UUID;
  */
 @JsonPropertyOrder({"id", "type", "input", "outputMap"})
 public class PayTypeTransaction implements Tx {
-
     public String serDes = "payTypeTransaction";
 
     private final Tx transaction;

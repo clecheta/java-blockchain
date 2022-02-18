@@ -15,7 +15,6 @@ import java.util.*;
  */
 @JsonPropertyOrder({"id", "input", "outputMap"})
 public class Transaction implements Tx {
-
     public String serDes = "transaction";
 
     public static final String REWARD_INPUT = "*authorized-reward*"; //TODO read from config file/property
