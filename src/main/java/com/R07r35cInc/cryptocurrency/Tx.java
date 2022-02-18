@@ -11,10 +11,10 @@ import java.util.UUID;
  * @author Cleber Lecheta
  * https://encontreiJesus.com
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "serDes")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "tx")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Transaction.class, name = "transaction"),
-        @JsonSubTypes.Type(value = PayTypeTransaction.class, name = "payTypeTransaction"),
+        @JsonSubTypes.Type(value = PayTypeTransaction.class, name = "payType"),
 })
 public interface Tx {
     UUID getId();
