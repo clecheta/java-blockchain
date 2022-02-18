@@ -78,7 +78,7 @@ public class Transaction implements Tx {
         return true;
     }
 
-    public static Transaction rewardTransaction(Wallet minerWallet) {
+    public static Tx rewardTransaction(Wallet minerWallet) {
         Map<String, BigDecimal> outputMap = new HashMap<>();
         outputMap.put(minerWallet.publicKey, MINER_REWARD);
         Input input = createRewardInput(REWARD_INPUT);

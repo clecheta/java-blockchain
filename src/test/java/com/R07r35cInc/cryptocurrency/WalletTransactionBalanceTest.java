@@ -72,7 +72,7 @@ public class WalletTransactionBalanceTest {
 
         TransactionCommand transactCmdOne = new TransactionCommand(BaseTest.publicKey, new BigDecimal(50));
         Tx recentTransaction = wallet.createTransaction(transactCmdOne);
-        Transaction sameBlockTransaction = Transaction.rewardTransaction(wallet);
+        Tx sameBlockTransaction = Transaction.rewardTransaction(wallet);
         transactions.add(recentTransaction);
         transactions.add(sameBlockTransaction);
         cryptoChain.addBlock(transactions);
