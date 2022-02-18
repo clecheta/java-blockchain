@@ -13,7 +13,7 @@ import java.util.*;
  * @author Cleber Lecheta
  * https://encontreiJesus.com
  */
-@JsonPropertyOrder({"id", "input", "outputMap"})
+@JsonPropertyOrder({"serDes", "id", "input", "outputMap"})
 public class Transaction implements Tx {
     public String serDes = "transaction";
 

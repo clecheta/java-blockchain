@@ -13,7 +13,7 @@ import java.util.Set;
 
 /**
  * A cryptocurrency blockchain to be used with Transactions
- * in the Peer Network API.
+ * typed with the payment form in the Peer Network API.
  *
  * @author Cleber Lecheta
  * https://encontreiJesus.com
