@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 /**
  * @author Cleber Lecheta
- * https://encontreijesus.com
+ * https://encontreiJesus.com
  */
 public class TransactionPool {
 

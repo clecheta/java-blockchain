@@ -16,7 +16,7 @@ import java.util.Set;
  * in the Peer Network API.
  *
  * @author Cleber Lecheta
- * https://encontreijesus.com
+ * https://encontreiJesus.com
  */
 public class CryptoChain extends NetChain<List<Tx>> {
 

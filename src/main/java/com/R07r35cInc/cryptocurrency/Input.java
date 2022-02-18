@@ -9,7 +9,7 @@ import java.util.Objects;
 
 /**
  * @author Cleber Lecheta
- * https://encontreijesus.com
+ * https://encontreiJesus.com
  */
 @JsonPropertyOrder({"date", "amount", "address", "signature"})
 public class Input {

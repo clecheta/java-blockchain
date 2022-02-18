@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 /**
  * @author Cleber Lecheta
- * https://encontreijesus.com
+ * https://encontreiJesus.com
  */
 public class TransactionCommand {
     public String recipient;

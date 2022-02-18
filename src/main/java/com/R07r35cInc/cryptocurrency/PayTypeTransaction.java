@@ -8,7 +8,7 @@ import java.util.UUID;
 
 /**
  * @author Cleber Lecheta
- * https://encontreijesus.com
+ * https://encontreiJesus.com
  */
 @JsonPropertyOrder({"id", "type", "input", "outputMap"})
 public class PayTypeTransaction implements Tx {

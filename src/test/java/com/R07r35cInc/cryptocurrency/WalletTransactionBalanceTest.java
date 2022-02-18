@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * The Wallet has made a transaction
  *
  * @author Cleber Lecheta
- * https://encontreijesus.com
+ * https://encontreiJesus.com
  */
 public class WalletTransactionBalanceTest {
 

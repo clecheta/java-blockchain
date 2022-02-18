@@ -6,7 +6,7 @@ import java.util.List;
  * A chain must return a list of Block
  *
  * @author Cleber Lecheta
- * https://encontreijesus.com
+ * https://encontreiJesus.com
  */
 public interface Chain<T> {
     List<Block<T>> getChain();

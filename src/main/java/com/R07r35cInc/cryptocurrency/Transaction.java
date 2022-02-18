@@ -11,7 +11,7 @@ import java.util.*;
 
 /**
  * @author Cleber Lecheta
- * https://encontreijesus.com
+ * https://encontreiJesus.com
  */
 @JsonPropertyOrder({"id", "input", "outputMap"})
 public class Transaction implements Tx {

@@ -13,7 +13,7 @@ import java.util.List;
  * Do not make usage of proofOfWork algorithm.
  *
  * @author Cleber Lecheta
- * https://encontreijesus.com
+ * https://encontreiJesus.com
  */
 public class BlockChain<T> implements Chain<T> {
 

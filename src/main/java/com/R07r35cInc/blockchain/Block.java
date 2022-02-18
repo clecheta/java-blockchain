@@ -9,7 +9,7 @@ import java.util.Objects;
 
 /**
  * @author Cleber Lecheta
- * https://encontreijesus.com
+ * https://encontreiJesus.com
  */
 @JsonPropertyOrder({"date", "previousHash", "hash", "data", "nonce", "index"})
 public class Block<T> {

@@ -2,7 +2,7 @@ package com.R07r35cInc.cryptocurrency;
 
 /**
  * @author Cleber Lecheta
- * https://encontreijesus.com
+ * https://encontreiJesus.com
  *
  * WALLET represent the amount transacted within the platafform
  * all the other payment types meam that the money didn`t pass thry us

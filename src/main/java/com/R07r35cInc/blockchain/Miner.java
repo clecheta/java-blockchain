@@ -14,7 +14,7 @@ import java.util.Date;
  * by each node.
  *
  * @author Cleber Lecheta
- * https://encontreijesus.com
+ * https://encontreiJesus.com
  */
 public class Miner<T> {
 

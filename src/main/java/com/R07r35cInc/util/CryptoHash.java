@@ -11,7 +11,7 @@ import java.util.Date;
 
 /**
  * @author Cleber Lecheta
- * https://encontreijesus.com
+ * https://encontreiJesus.com
  */
 public class CryptoHash {
 

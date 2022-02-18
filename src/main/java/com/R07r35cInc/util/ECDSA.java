@@ -14,7 +14,7 @@ import java.util.Base64;
  * ECDSA Digital Signature Verification
  *
  * @author Cleber Lecheta
- * https://encontreijesus.com
+ * https://encontreiJesus.com
  */
 public class ECDSA {
 

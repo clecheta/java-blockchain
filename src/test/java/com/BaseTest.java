@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 /**
  * @author Cleber Lecheta
- * https://encontreijesus.com
+ * https://encontreiJesus.com
  */
 public class BaseTest {
     public static final String recipient = "j3Su2";

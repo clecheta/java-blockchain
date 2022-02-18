@@ -8,7 +8,7 @@ import java.util.Date;
  * It does implement proofOfWork.
  *
  * @author Cleber Lecheta
- * https://encontreijesus.com
+ * https://encontreiJesus.com
  */
 public class NetChain<T> extends BlockChain<T> {
 

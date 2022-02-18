@@ -6,7 +6,7 @@ import java.util.UUID;
 
 /**
  * @author Cleber Lecheta
- * https://encontreijesus.com
+ * https://encontreiJesus.com
  */
 public interface Tx {
     UUID getId();
