@@ -10,7 +10,7 @@ import java.util.UUID;
  * @author Cleber Lecheta
  * https://encontreiJesus.com
  */
-@JsonPropertyOrder({"serDes", "id", "type", "input", "outputMap"})
+@JsonPropertyOrder({"id", "type", "input", "outputMap", "serDes"})
 public class PayTypeTransaction implements Tx {
     public String serDes = "payTypeTransaction";
 
