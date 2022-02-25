@@ -17,7 +17,7 @@ public class Wallet {
     public static final BigDecimal STARTING_BALANCE = new BigDecimal(100); //TODO: read from config file?
 
     private final ECDSA ECDSA; //utility class to work with ECDSA algorithms
-    private final KeyPair keyPair;
+    public final KeyPair keyPair;
     public BigDecimal balance;
     public String publicKey;
     public String uid; //the uuid or the tenantId that identifies a unique user from the app
@@ -27,6 +27,15 @@ public class Wallet {
         this.keyPair = ECDSA.genKeyPair();
         this.publicKey = ECDSA.getPublic();
         this.balance = STARTING_BALANCE;
+    }
+
+    public Wallet(KeyPair keyPair, BigDecimal balance, String uid) {
+        ECDSA = new ECDSA();
+        ECDSA.setKeyPair(keyPair);
+        this.keyPair = keyPair;
+        this.publicKey = ECDSA.getPublic();
+        this.balance = balance;
+        this.uid = uid;
     }
 
     /**
