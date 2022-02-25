@@ -42,7 +42,7 @@ public class NetChainTest extends BaseTest {
         Block block;
         for (int i = 1; i <= GENERATE_BLOCKS; i++) {
             block = (Block) netChain.getChain().get(i);
-            assertEquals(i, block.getIndex(), "get the right block");
+            assertEquals(i, block.getNumber(), "get the right block");
             assertTrue(block.getNonce() > 0, "nonce must be calculated");
         }
         logToConsole(netChain.getChain(), "netChain");

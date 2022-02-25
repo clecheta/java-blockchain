@@ -1,6 +1,5 @@
 package com.R07r35cInc.blockchain;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -18,8 +17,8 @@ public class NetChain<T> extends BlockChain<T> {
     public Block<T> mineBlock(Block lastBlock, T data) { //here we can use a prof=true/false to decide use it or not
         Date date = new Date();
         String previousHash = lastBlock.getHash();
-        long index = lastBlock.getIndex()+1;
-        return (Block<T>) Miner.proofOfWork(date, previousHash, data, index);
+        long number = lastBlock.getNumber()+1;
+        return (Block<T>) Miner.proofOfWork(date, previousHash, data, number);
     }
 
     /**

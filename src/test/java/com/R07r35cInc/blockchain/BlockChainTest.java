@@ -83,7 +83,7 @@ public class BlockChainTest extends BaseTest {
         String data = "mined data";
         minedBlock = blockChain.mineBlock(lastBlock, data);
         String calculatedHash = CryptoHash.calculateHash(minedBlock.getDate(),
-                lastBlock.getHash(), data, minedBlock.getIndex(), minedBlock.getNonce());
+                lastBlock.getHash(), data, minedBlock.getNumber(), minedBlock.getNonce());
 
         assertTrue(minedBlock instanceof Block, "returns a Block instance");
         assertEquals(minedBlock.getPreviousHash(), lastBlock.getHash(),

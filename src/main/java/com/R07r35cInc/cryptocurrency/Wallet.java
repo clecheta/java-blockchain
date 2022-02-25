@@ -7,6 +7,7 @@ import com.R07r35cInc.util.Parse;
 import java.math.BigDecimal;
 import java.security.KeyPair;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author Cleber Lecheta
@@ -20,6 +21,7 @@ public class Wallet {
     private final KeyPair keyPair;
     public BigDecimal balance;
     public String publicKey;
+    public String id; //the uuid or the tenantId that identifies a unique user from the app
 
     public Wallet() {
         ECDSA = new ECDSA();

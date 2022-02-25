@@ -11,7 +11,7 @@ import java.util.Objects;
  * @author Cleber Lecheta
  * https://encontreiJesus.com
  */
-@JsonPropertyOrder({"date", "previousHash", "hash", "data", "nonce", "index"})
+@JsonPropertyOrder({"date", "previousHash", "hash", "data", "nonce", "number"})
 public class Block<T> {
     private Date date;
     private String previousHash;
@@ -19,19 +19,23 @@ public class Block<T> {
     private T data;
     private Long nonce;
 
-    //database usage specific fields
-    private Long index;
+    //Database usage
+    private Long number;
+    /* TODO change this to a number (chainId)
+     * Thinking in multiple chains in the same network I can add a Chain Object to the models
+     * with name, tupe and id
+     */
     private String chain;
 
     /**
      * you must save the block with the timestamp that generated the crypto hash
      */
-    public Block(Date date, String previousHash, String hash, T data, Long index, Long nonce) {
+    public Block(Date date, String previousHash, String hash, T data, Long number, Long nonce) {
         this.date = date;
         this.previousHash = previousHash;
         this.hash = hash;
         this.data = data;
-        this.index = index;
+        this.number = number;
         this.nonce = nonce;
     }
 
@@ -87,12 +91,12 @@ public class Block<T> {
         this.data = data;
     }
 
-    public long getIndex() {
-        return index;
+    public long getNumber() {
+        return number;
     }
 
-    public void setIndex(Long index) {
-        this.index = index;
+    public void setNumber(Long number) {
+        this.number = number;
     }
 
     public Long getNonce() {

@@ -35,7 +35,7 @@ public class BlockTest extends BaseTest {
             } else if (f.getName().equals("date")) {
                 assertEquals(0, f.toGenericString().indexOf("private"));
                 assertEquals(true, f.toGenericString().contains("Date"));
-            } else if (f.getName().equals("index")) { //necessary Object class to json deserialization
+            } else if (f.getName().equals("number")) { //necessary Object class to json deserialization
                 assertEquals(0, f.toGenericString().indexOf("private"));
                 assertEquals(true, f.toGenericString().contains("Long"));
             } else if (f.getName().equals("nonce")) { //necessary Object class to json deserialization
@@ -100,7 +100,7 @@ public class BlockTest extends BaseTest {
         );
         assertEquals(genesisBlock, sameFirstBlock, "genesis block clones must match genesis data");
         //extra validation for the fields outside equals and hashCode
-        assertEquals(genesisBlock.getIndex(), 0L, "genesis block clones must match index data");
+        assertEquals(genesisBlock.getNumber(), 0L, "genesis block clones must match index data");
         assertEquals(genesisBlock.getNonce(), 0L, "genesis block clones must match nonce data");
     }
 
@@ -111,7 +111,7 @@ public class BlockTest extends BaseTest {
 
         Block blockParsed = parse.fromJson(genesisJson, new TypeReference<Block>() {});
         assertEquals(Block.genesis(), blockParsed, "parsed block must be the genesis block");
-        assertEquals(blockParsed.getIndex(), Block.genesis().getIndex());
+        assertEquals(blockParsed.getNumber(), Block.genesis().getNumber());
         assertEquals(blockParsed.getNonce(), Block.genesis().getNonce());
 
         Date today = new Date();
@@ -129,7 +129,7 @@ public class BlockTest extends BaseTest {
         assertEquals(aBlock.getPreviousHash(), blockParsed.getPreviousHash());
         assertEquals(aBlock.getHash(), blockParsed.getHash());
         assertEquals(aBlock.getData(), blockParsed.getData());
-        assertEquals(aBlock.getIndex(), blockParsed.getIndex());
+        assertEquals(aBlock.getNumber(), blockParsed.getNumber());
         assertEquals(aBlock.getNonce(), blockParsed.getNonce());
         assertEquals(aBlock, blockParsed, "parsed block must match initial block instance");
 

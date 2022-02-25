@@ -38,10 +38,10 @@ public class BlockChain<T> implements Chain<T> {
     public Block mineBlock(Block lastBlock, T data) {
         Date timestamp = new Date();
         String previousHash = lastBlock.getHash();
-        long index = lastBlock.getIndex() + 1;
+        long number = lastBlock.getNumber() + 1;
         long nonce = 00;
-        String hash = CryptoHash.calculateHash(timestamp, previousHash, data, index, nonce);
-        return new Block(timestamp, previousHash, hash, data, index, nonce);
+        String hash = CryptoHash.calculateHash(timestamp, previousHash, data, number, nonce);
+        return new Block(timestamp, previousHash, hash, data, number, nonce);
     }
 
     public Boolean isValidChain() {

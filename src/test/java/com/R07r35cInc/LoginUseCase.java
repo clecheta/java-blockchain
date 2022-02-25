@@ -56,7 +56,7 @@ public class LoginUseCase extends BaseTest {
             actualBlock = (Block) blockChain.getChain().get(userIndex.intValue());
             actualUser = (User) actualBlock.getData();
             expectedUser = "user" + randomInt;
-            assertEquals(userIndex, actualBlock.getIndex(), "index must match");
+            assertEquals(userIndex, actualBlock.getNumber(), "index must match");
             assertEquals(expectedUser, actualUser.username, "must find exact user in the chain");
             assertEquals("88169f6e-f67c-4835-873e-b5f0d7711c65", actualUser.tenantId);
         }

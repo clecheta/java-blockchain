@@ -23,7 +23,7 @@ public class CalculateTest extends BaseTest {
     void init() {
         amountValuesMap = new HashMap<String, BigDecimal>();
         for (int i = 0; i < 100; i++) {
-            amountValuesMap.put("index" + i, new BigDecimal(i));
+            amountValuesMap.put("number" + i, new BigDecimal(i));
         }
     }
 

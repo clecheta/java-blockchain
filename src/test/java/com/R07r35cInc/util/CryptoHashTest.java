@@ -30,16 +30,16 @@ public class CryptoHashTest extends BaseTest {
 
     @Test
     void changeMethodsSameResult() {
-        long index = 0L;
+        long number = 0L;
         long nonce = 0L;
         Block aBlock = new Block(new Date(),
                 "previous-hash", "hash",
-                "a-block", index, nonce);
+                "a-block", number, nonce);
 
         String serializedData = new Parse<>().toJson(aBlock.getData());
         String timestamp  = dateFormat.format(aBlock.getDate());
         String generatedHash = CryptoHash.generateHash(timestamp +
-                        aBlock.getPreviousHash() + serializedData + index + nonce);
+                        aBlock.getPreviousHash() + serializedData + number + nonce);
 
         String calculatedHashBlock = CryptoHash.calculateHash(aBlock);
 
@@ -47,7 +47,7 @@ public class CryptoHashTest extends BaseTest {
                 aBlock.getDate(),
                 aBlock.getPreviousHash(),
                 aBlock.getData(),
-                aBlock.getIndex(),
+                aBlock.getNumber(),
                 aBlock.getNonce());
 
         assertEquals(calculatedHashBlock, generatedHash);

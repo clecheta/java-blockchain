@@ -78,7 +78,7 @@ public class ParseTest extends BaseTest {
         assertEquals(originalBlockString, parsedBlockString, "block json string must match");
 
         String originalHash = CryptoHash.calculateHash(originalBlock.getDate(), originalBlock.getPreviousHash(),
-                originalBlock.getData(), originalBlock.getIndex(), originalBlock.getNonce());
+                originalBlock.getData(), originalBlock.getNumber(), originalBlock.getNonce());
         String actualHash = CryptoHash.calculateHash(parsedBlock);
         assertEquals(originalHash, actualHash, "hash from original data, and parsed block must match");
 

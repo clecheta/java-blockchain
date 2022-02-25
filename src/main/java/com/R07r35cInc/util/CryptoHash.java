@@ -45,10 +45,10 @@ public class CryptoHash {
     }
 
     //IN
-    public static String calculateHash(Date date, String previousHash, Object data, long index, long nonce) {
+    public static String calculateHash(Date date, String previousHash, Object data, long number, long nonce) {
         String dataAsString = new Parse().toJson(data);
         String timestamp = dateFormat.format(date);
-        String indexString = Long.toString(index);
+        String indexString = Long.toString(number);
         String nonceString = Long.toString(nonce);
         return applySha256(timestamp + previousHash + dataAsString + indexString + nonceString);
     }
@@ -57,7 +57,7 @@ public class CryptoHash {
     public static String calculateHash(Block block) {
         String dataAsString = new Parse().toJson(block.getData());
         String timestamp = dateFormat.format(block.getDate());
-        String indexString = Long.toString(block.getIndex());
+        String indexString = Long.toString(block.getNumber());
         String nonceString = Long.toString(block.getNonce());
         return applySha256(timestamp + block.getPreviousHash() + dataAsString + indexString + nonceString);
     }
