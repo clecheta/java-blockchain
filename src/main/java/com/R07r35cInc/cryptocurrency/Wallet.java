@@ -7,6 +7,7 @@ import com.R07r35cInc.util.Parse;
 import java.math.BigDecimal;
 import java.security.KeyPair;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author Cleber Lecheta
@@ -27,6 +28,7 @@ public class Wallet {
         this.keyPair = ECDSA.genKeyPair();
         this.publicKey = ECDSA.getPublic();
         this.balance = STARTING_BALANCE;
+        this.uid = UUID.randomUUID().toString();
     }
 
     public Wallet(KeyPair keyPair, BigDecimal balance, String uid) {
