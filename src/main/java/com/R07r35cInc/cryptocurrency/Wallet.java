@@ -18,10 +18,11 @@ public class Wallet {
     public static final BigDecimal STARTING_BALANCE = new BigDecimal(100); //TODO: read from config file?
 
     private final ECDSA ECDSA; //utility class to work with ECDSA algorithms
-    public final KeyPair keyPair;
+    public final KeyPair keyPair; //an account is the keypair for a user-owned
     public BigDecimal balance;
     public String publicKey;
-    public String uid; //the uuid or the tenantId that identifies a unique user from the app
+    public String uid; //identifies a unique user from the app
+    public Long nonce; //a counter that indicates the number of transactions sent from the account
 
     public Wallet() {
         ECDSA = new ECDSA();
