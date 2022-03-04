@@ -2,10 +2,9 @@ package com.R07r35cInc.util;
 
 import java.nio.charset.StandardCharsets;
 import java.security.*;
-import java.security.spec.ECGenParameterSpec;
-import java.security.spec.EncodedKeySpec;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.X509EncodedKeySpec;
+import java.security.interfaces.ECPrivateKey;
+import java.security.interfaces.ECPublicKey;
+import java.security.spec.*;
 import java.time.LocalDateTime;
 import java.util.Base64;
 
@@ -95,6 +94,30 @@ public class ECDSA {
             System.out.println(LocalDateTime.now() + " ERROR [ECDSA] " + e.getMessage());
         }
         return isValid;
+    }
+
+    public static ECPublicKey loadPublicKey(String pubKey) {
+        try {
+            byte[] encoded = Base64.getDecoder().decode(pubKey);
+            KeyFactory keyFactory = KeyFactory.getInstance("EC");
+            EncodedKeySpec keySpec = new X509EncodedKeySpec(encoded);
+            return (ECPublicKey)keyFactory.generatePublic(keySpec);
+        } catch (Exception e) {
+            System.out.println(LocalDateTime.now() + " ERROR [ECDSA] Failed to load public key " + e.getMessage());
+        }
+        return null;
+    }
+
+    public static ECPrivateKey loadPrivateKey(String privKey) {
+        try {
+            byte[] encoded = Base64.getDecoder().decode(privKey);
+            KeyFactory keyFactory = KeyFactory.getInstance("EC");
+            EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(encoded);
+            return  (ECPrivateKey)keyFactory.generatePrivate(keySpec);
+        } catch (Exception e) {
+            System.out.println(LocalDateTime.now() + " ERROR [ECDSA] Failed to load private key " + e.getMessage());
+        }
+        return null;
     }
 
 }

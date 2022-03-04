@@ -23,7 +23,7 @@ public class Block<T> {
     private Long number;
     /* TODO change this to a number (chainId)
      * Thinking in multiple chains in the same network I can add a Chain Object to the models
-     * with name, tupe and id
+     * with name, type and id also a start and end date
      */
     private String chain;
 
