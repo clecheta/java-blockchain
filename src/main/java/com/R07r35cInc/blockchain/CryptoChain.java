@@ -3,6 +3,7 @@ package com.R07r35cInc.blockchain;
 import com.R07r35cInc.cryptocurrency.Transaction;
 import com.R07r35cInc.cryptocurrency.Tx;
 import com.R07r35cInc.cryptocurrency.Wallet;
+import com.R07r35cInc.util.Calculate;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -101,8 +102,9 @@ public class CryptoChain extends NetChain<List<Tx>> {
         }
         //FIXME https://git.okaut.com/Jesus/api.blockchain/-/issues/19
         // this calc does not match when working with chain saved to the database
-        BigDecimal trueBalance = Wallet.calculateBalance(this.getChain(),
-                lastTransaction.getInput().address); //must use this. reference to the chain
+        //Fix the wallet value fixed in 100
+        BigDecimal trueBalance = Calculate.walletBalance(this.getChain(),
+                lastTransaction.getInput().address, new BigDecimal(100)); //must use this. reference to the chain
         if (lastTransaction.getInput().amount.compareTo(trueBalance) != 0) {
             System.out.println(LocalDateTime.now() + " ERROR [CryptoChain] Invalid input amount");
             return false;

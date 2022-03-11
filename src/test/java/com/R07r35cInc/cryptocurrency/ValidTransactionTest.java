@@ -21,7 +21,7 @@ public class ValidTransactionTest extends BaseTest {
 
     @BeforeEach
     void init() {
-        senderWallet = new Wallet();
+        senderWallet = new Wallet(STARTING_BALANCE);
         recipient = publicKey;
         amount = BigDecimal.TEN;
         transaction = new Transaction(senderWallet, recipient, amount);

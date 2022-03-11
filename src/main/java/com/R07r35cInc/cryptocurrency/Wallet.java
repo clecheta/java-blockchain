@@ -1,6 +1,7 @@
 package com.R07r35cInc.cryptocurrency;
 
 import com.R07r35cInc.blockchain.Block;
+import com.R07r35cInc.util.Calculate;
 import com.R07r35cInc.util.ECDSA;
 import com.R07r35cInc.util.Parse;
 
@@ -14,15 +15,15 @@ import java.util.UUID;
  * https://encontreiJesus.com
  */
 public class Wallet {
-
-    public static final BigDecimal STARTING_BALANCE = new BigDecimal(100); //TODO: read from config file?
-
     private final ECDSA ECDSA; //utility class to work with ECDSA algorithms
+
     public final KeyPair keyPair; //an account is the keypair for a user-owned
     public BigDecimal balance;
     public String publicKey;
     public String uid; //identifies a unique user from the app
-    public Long nonce; //a counter that indicates the number of transactions sent from the account
+
+    public Long nonce = 0L; //a counter that indicates the number of transactions sent from the account
+    private BigDecimal STARTING_BALANCE = BigDecimal.ZERO;
 
     public Wallet() {
         ECDSA = new ECDSA();
@@ -32,51 +33,32 @@ public class Wallet {
         this.uid = UUID.randomUUID().toString();
     }
 
-    public Wallet(KeyPair keyPair, BigDecimal balance, String uid) {
+    public Wallet(BigDecimal startingBalance) {
+        ECDSA = new ECDSA();
+        this.keyPair = ECDSA.genKeyPair();
+        this.publicKey = ECDSA.getPublic();
+        this.balance = startingBalance;
+        this.uid = UUID.randomUUID().toString();
+        this.STARTING_BALANCE = startingBalance;
+    }
+
+    public Wallet(KeyPair keyPair, BigDecimal balance, String uid, BigDecimal startingBalance, Long nonce) {
         ECDSA = new ECDSA();
         ECDSA.setKeyPair(keyPair);
         this.keyPair = keyPair;
         this.publicKey = ECDSA.getPublic();
         this.balance = balance;
         this.uid = uid;
+        this.nonce = nonce;
+        this.STARTING_BALANCE = startingBalance;
     }
 
     /**
      * Goes to every transaction in the chain and if the address has an output
      * within the transaction output map, we add that to the outputs total
      */
-    public static BigDecimal calculateBalance(List<Block<List<Tx>>> chain, String address) {
-        Boolean hasConductedTransaction = false;
-        BigDecimal outputsTotal = BigDecimal.ZERO;
-
-        Block<List<Tx>> block;
-        List<Tx> transactionList;
-        //iterate top-down as recent transactions are in the top of the list
-        for (int i = chain.size()-1; i > 0; i--) { //do not iterate over Genesis data
-            block = chain.get(i);
-            transactionList = block.getData();
-            if (transactionList != null) { //wallet has received a transaction
-                for (Tx transaction : transactionList) {
-                    if (transaction.getInput().address.equals(address)) {
-                        /* Do not double count outputs. If the address already made a transaction
-                           the balance should start from the output for the address*/
-                        hasConductedTransaction = true;
-                    }
-
-                    BigDecimal addressOutput = transaction.getOutputMap().get(address);
-                    if (addressOutput != null) {
-                        outputsTotal = outputsTotal.add(addressOutput);
-                    }
-                }
-
-                if (hasConductedTransaction) {
-                    break;
-                }
-            }
-        }
-
-        BigDecimal result = hasConductedTransaction ? outputsTotal : STARTING_BALANCE.add(outputsTotal);
-        return result;
+    public BigDecimal calculateBalance(List<Block<List<Tx>>> chain, String address) {
+        return Calculate.walletBalance(chain, address, STARTING_BALANCE);
     }
 
     /**
@@ -108,9 +90,13 @@ public class Wallet {
      * of chain object as argument */
     public Tx createTransaction(TransactionCommand cmd, List<Block<List<Tx>>> chain) {
         if (chain != null) {
-            this.balance = Wallet.calculateBalance(chain, this.publicKey);
+            this.balance = this.calculateBalance(chain, this.publicKey);
         }
         return this.createTransaction(cmd);
+    }
+
+    public BigDecimal getSTARTING_BALANCE() {
+        return STARTING_BALANCE;
     }
 
 }

@@ -27,7 +27,7 @@ public class ClearTransactionPoolTest extends BaseTest {
     @BeforeEach
     void init() {
         transactionPool = new TransactionPool();
-        senderWallet = new Wallet();
+        senderWallet = new Wallet(STARTING_BALANCE);
         transaction = new Transaction(
                 senderWallet,
                 recipient,
@@ -47,7 +47,7 @@ public class ClearTransactionPoolTest extends BaseTest {
         Map<String, Tx> expectedTransactionMap = new HashMap<>();
         for (int i = 0; i < 6; i++) {
             TransactionCommand transactCmd = new TransactionCommand("foo", new BigDecimal(20));
-            Tx transaction = new Wallet().createTransaction(transactCmd);
+            Tx transaction = new Wallet(STARTING_BALANCE).createTransaction(transactCmd);
             transactionPool.setTransaction(transaction);
             if (i % 2 == 0) { //even
                 List<Tx> transactionList = new ArrayList<>();

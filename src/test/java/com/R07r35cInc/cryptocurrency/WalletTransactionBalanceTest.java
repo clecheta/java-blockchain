@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Cleber Lecheta
  * https://encontreiJesus.com
  */
-public class WalletTransactionBalanceTest {
+public class WalletTransactionBalanceTest extends BaseTest {
 
     Wallet wallet;
     BlockChain cryptoChain;
@@ -25,13 +25,13 @@ public class WalletTransactionBalanceTest {
 
     @BeforeEach
     void init() {
-        wallet = new Wallet();
+        wallet = new Wallet(STARTING_BALANCE);
         cryptoChain = new BlockChain<List<Transaction>>();
 
         TransactionCommand transactCmdOne = new TransactionCommand(wallet.publicKey, new BigDecimal(5));
-        transaction1 = new Wallet().createTransaction(transactCmdOne);
+        transaction1 = new Wallet(STARTING_BALANCE).createTransaction(transactCmdOne);
         TransactionCommand transactCmdTwo = new TransactionCommand(wallet.publicKey, new BigDecimal(10));
-        transaction2 = new Wallet().createTransaction(transactCmdTwo);
+        transaction2 = new Wallet(STARTING_BALANCE).createTransaction(transactCmdTwo);
 
         //Add the transactions in the blockchain
         List<Tx> transactionList = new ArrayList<>();
@@ -50,7 +50,7 @@ public class WalletTransactionBalanceTest {
         cryptoChain.addBlock(transactions);
 
         BigDecimal expectedValue = fstTransaction.getOutputMap().get(wallet.publicKey);
-        BigDecimal actualValue = Wallet.calculateBalance(cryptoChain.getChain(), wallet.publicKey);
+        BigDecimal actualValue = wallet.calculateBalance(cryptoChain.getChain(), wallet.publicKey);
         assertEquals(expectedValue, actualValue, "must return the output amount of the recent transaction");
 
         TransactionCommand transactCmdTwo = new TransactionCommand(BaseTest.publicKey, new BigDecimal(10));
@@ -60,7 +60,7 @@ public class WalletTransactionBalanceTest {
         cryptoChain.addBlock(transactions);
 
         expectedValue = scdTransaction.getOutputMap().get(wallet.publicKey);
-        actualValue = Wallet.calculateBalance(cryptoChain.getChain(), wallet.publicKey);
+        actualValue = wallet.calculateBalance(cryptoChain.getChain(), wallet.publicKey);
         assertEquals(expectedValue, actualValue, "must return the output amount of the recent transaction");
 
     }
@@ -78,7 +78,7 @@ public class WalletTransactionBalanceTest {
         cryptoChain.addBlock(transactions);
 
         TransactionCommand transactCmdTwo = new TransactionCommand(wallet.publicKey, new BigDecimal(33));
-        Tx nextBlockTransaction = new Wallet().createTransaction(transactCmdTwo);
+        Tx nextBlockTransaction = new Wallet(STARTING_BALANCE).createTransaction(transactCmdTwo);
         transactions = new ArrayList<>();
         transactions.add(nextBlockTransaction);
         cryptoChain.addBlock(transactions);
@@ -86,10 +86,8 @@ public class WalletTransactionBalanceTest {
         BigDecimal expectedValue = recentTransaction.getOutputMap().get(wallet.publicKey)
                 .add(sameBlockTransaction.getOutputMap().get(wallet.publicKey))
                 .add(nextBlockTransaction.getOutputMap().get(wallet.publicKey));
-        BigDecimal actualValue = Wallet.calculateBalance(cryptoChain.getChain(), wallet.publicKey);
+        BigDecimal actualValue = wallet.calculateBalance(cryptoChain.getChain(), wallet.publicKey);
         assertEquals(expectedValue, actualValue, "includes the output amounts in the returned balance");
     }
-
-
 
 }

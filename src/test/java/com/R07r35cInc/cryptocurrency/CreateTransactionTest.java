@@ -20,7 +20,7 @@ public class CreateTransactionTest extends BaseTest {
 
     @BeforeEach
     void init() {
-        wallet = new Wallet();
+        wallet = new Wallet(STARTING_BALANCE);
         amount = BigDecimal.TEN;
         TransactionCommand transactCmd = new TransactionCommand(recipient, amount);
         transaction = wallet.createTransaction(transactCmd);

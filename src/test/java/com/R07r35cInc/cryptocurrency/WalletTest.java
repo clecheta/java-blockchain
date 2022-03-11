@@ -1,5 +1,6 @@
 package com.R07r35cInc.cryptocurrency;
 
+import com.BaseTest;
 import com.R07r35cInc.util.ECDSA;
 import com.R07r35cInc.util.Parse;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Cleber Lecheta
  * https://encontreiJesus.com
  */
-public class WalletTest {
+public class WalletTest extends BaseTest {
 
     private static final int BASE64_LENGHT = 124;
 
@@ -22,7 +23,7 @@ public class WalletTest {
 
     @BeforeEach
     void init() {
-        wallet = new Wallet();
+        wallet = new Wallet(STARTING_BALANCE);
     }
 
     @Test
@@ -34,10 +35,9 @@ public class WalletTest {
 
     @Test
     void balanceHasRightValue() {
-        BigDecimal startBalance = Wallet.STARTING_BALANCE;
-        assertTrue(startBalance.compareTo(new BigDecimal(100)) == 0,
+        assertTrue(STARTING_BALANCE.compareTo(new BigDecimal(100)) == 0,
                 "wallet balance must have the initial configured starting balance value");
-        assertEquals(startBalance, wallet.balance);
+        assertEquals(STARTING_BALANCE, wallet.balance);
     }
 
     @Test

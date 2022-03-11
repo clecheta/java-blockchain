@@ -1,5 +1,6 @@
 package com.R07r35cInc.cryptocurrency;
 
+import com.BaseTest;
 import com.R07r35cInc.blockchain.Block;
 import com.R07r35cInc.blockchain.BlockChain;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +21,7 @@ import static org.mockito.Mockito.*;
  */
 @ExtendWith(MockitoExtension.class)
 //@RunWith(JUnitPlatform.class)
-public class WalletOutputsBalanceTest {
+public class WalletOutputsBalanceTest extends BaseTest {
 
     Wallet wallet;
     BlockChain cryptoChain;
@@ -29,13 +30,13 @@ public class WalletOutputsBalanceTest {
 
     @BeforeEach
     void init() {
-        wallet = new Wallet();
+        wallet = new Wallet(STARTING_BALANCE);
         cryptoChain = new BlockChain<List<Transaction>>();
 
         TransactionCommand transactCmdOne = new TransactionCommand(wallet.publicKey, new BigDecimal(5));
-        transaction1 = new Wallet().createTransaction(transactCmdOne);
+        transaction1 = new Wallet(STARTING_BALANCE).createTransaction(transactCmdOne);
         TransactionCommand transactCmdTwo = new TransactionCommand(wallet.publicKey, new BigDecimal(10));
-        transaction2 = new Wallet().createTransaction(transactCmdTwo);
+        transaction2 = new Wallet(STARTING_BALANCE).createTransaction(transactCmdTwo);
 
         //Add the transactions in the blockchain
         List<Tx> transactionList = new ArrayList<>();
@@ -46,8 +47,8 @@ public class WalletOutputsBalanceTest {
 
     @Test
     void sumAllOutputs() { //wallet received two transactions
-        BigDecimal actualBalance = Wallet.calculateBalance(cryptoChain.getChain(), wallet.publicKey);
-        BigDecimal totalAmount = Wallet.STARTING_BALANCE
+        BigDecimal actualBalance = wallet.calculateBalance(cryptoChain.getChain(), wallet.publicKey);
+        BigDecimal totalAmount = STARTING_BALANCE
                 .add(transaction1.getOutputMap().get(wallet.publicKey))
                 .add(transaction2.getOutputMap().get(wallet.publicKey));
         assertEquals(actualBalance, totalAmount, "adds the sum of all outputs to the wallet balance");
@@ -65,7 +66,7 @@ public class WalletOutputsBalanceTest {
     @Test
     void chainIsPassed() {
         TransactionCommand transactCmd = new TransactionCommand(wallet.publicKey, new BigDecimal(10));
-        Tx t3 = new Wallet().createTransaction(transactCmd, cryptoChain.getChain());
+        Tx t3 = new Wallet(STARTING_BALANCE).createTransaction(transactCmd, cryptoChain.getChain());
 
         assertNotNull(t3);
         List<Tx> transactionList = new ArrayList<>();
@@ -73,7 +74,7 @@ public class WalletOutputsBalanceTest {
         cryptoChain.addBlock(transactionList);
 
         BigDecimal expectedBalance = new BigDecimal(125);
-        BigDecimal actualBalance = Wallet.calculateBalance(cryptoChain.getChain(), wallet.publicKey);
+        BigDecimal actualBalance = wallet.calculateBalance(cryptoChain.getChain(), wallet.publicKey);
         assertEquals(expectedBalance, actualBalance);
     }
 

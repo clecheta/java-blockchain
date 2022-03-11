@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Cleber Lecheta
  * https://encontreiJesus.com
  */
-public class ValidTransactionDataTest {
+public class ValidTransactionDataTest extends BaseTest {
     CryptoChain cryptoChain;
     Tx transaction, rewardTransaction;
     Wallet wallet, minerWallet;
@@ -24,8 +24,8 @@ public class ValidTransactionDataTest {
     @BeforeEach
     void init() {
         cryptoChain = new CryptoChain();
-        wallet = new Wallet();
-        minerWallet = new Wallet();
+        wallet = new Wallet(STARTING_BALANCE);
+        minerWallet = new Wallet(STARTING_BALANCE);
 
         TransactionCommand cmd = new TransactionCommand(BaseTest.publicKey, new BigDecimal(5));
         transaction = wallet.createTransaction(cmd, cryptoChain.getChain());

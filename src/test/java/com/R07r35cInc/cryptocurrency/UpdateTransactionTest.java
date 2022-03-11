@@ -15,8 +15,6 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class UpdateTransactionTest extends BaseTest {
 
-    BigDecimal tooHighAmount = new BigDecimal(999999);
-
     Transaction transaction;
     Wallet senderWallet;
     String recipient;
@@ -29,7 +27,7 @@ public class UpdateTransactionTest extends BaseTest {
 
     @BeforeEach
     void setup() {
-        senderWallet = new Wallet();
+        senderWallet = new Wallet(STARTING_BALANCE);
         recipient = publicKey;
         amount = BigDecimal.TEN;
         transaction = new Transaction(senderWallet, recipient, amount);
