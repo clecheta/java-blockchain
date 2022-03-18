@@ -24,6 +24,13 @@ public class CryptoChain extends NetChain<List<Tx>> {
     public List<Block<List<Tx>>> getChain() {
         return super.getChain();
     }
+    private final String REWARD_INPUT;
+    private final BigDecimal MINER_REWARD;
+
+    public CryptoChain(String rewardInput, BigDecimal minerReward) {
+        this.REWARD_INPUT = rewardInput;
+        this.MINER_REWARD = minerReward;
+    }
 
     /**
      * Necessary because of the blockchain network interaction
@@ -50,7 +57,7 @@ public class CryptoChain extends NetChain<List<Tx>> {
 
                 if (transactions != null) { //there is transactions in the block
                     for (Tx transaction : transactions) {
-                        if (transaction.getInput().address.equals(Transaction.REWARD_INPUT)) {
+                        if (transaction.getInput().address.equals(REWARD_INPUT)) {
                             rewardTransactionCount += 1;
 
                             if (rewardTransactionCount > 1) {
@@ -63,7 +70,7 @@ public class CryptoChain extends NetChain<List<Tx>> {
                             if (firstKey.isPresent()) {
                                 firstValue = transaction.getOutputMap().get(firstKey.get());
                             }
-                            if (firstValue == null || firstValue.compareTo(Transaction.MINER_REWARD) != 0) {
+                            if (firstValue == null || firstValue.compareTo(MINER_REWARD) != 0) {
                                 System.out.println(LocalDateTime.now() + " ERROR [CryptoChain] Miner reward amount is invalid");
                                 return false;
                             }
