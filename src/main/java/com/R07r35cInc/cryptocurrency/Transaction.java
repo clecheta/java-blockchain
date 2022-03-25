@@ -17,6 +17,9 @@ import java.util.*;
 public class Transaction implements Tx {
     public String tx = "transaction";
 
+    public static final String REWARD_INPUT = "*authorized-reward*"; //TODO read from config file/property
+    public static final BigDecimal MINER_REWARD = new BigDecimal(1); //TODO: read from config file? - not sure yet
+
     private UUID id;
     private Input input;
     private Map<String, BigDecimal> outputMap;
@@ -76,7 +79,7 @@ public class Transaction implements Tx {
         return true;
     }
 
-    public static Tx rewardTransaction(Wallet minerWallet, String REWARD_INPUT, BigDecimal MINER_REWARD) {
+    public static Tx rewardTransaction(Wallet minerWallet) {
         Map<String, BigDecimal> outputMap = new HashMap<>();
         outputMap.put(minerWallet.publicKey, MINER_REWARD);
         Input input = createRewardInput(REWARD_INPUT);

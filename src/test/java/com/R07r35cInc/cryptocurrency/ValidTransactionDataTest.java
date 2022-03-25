@@ -23,7 +23,7 @@ public class ValidTransactionDataTest extends BaseTest {
 
     @BeforeEach
     void init() {
-        cryptoChain = new CryptoChain(REWARD_INPUT, MINER_REWARD);
+        cryptoChain = new CryptoChain();
         wallet = new Wallet(STARTING_BALANCE);
         minerWallet = new Wallet(STARTING_BALANCE);
 
@@ -38,7 +38,7 @@ public class ValidTransactionDataTest extends BaseTest {
     void dataIsValid() { //TODO: review this method creation concept - what is trying to be achieved?
         transactionList.add(transaction);
         transactionList.add(rewardTransaction);
-        CryptoChain newChain = new CryptoChain(REWARD_INPUT, MINER_REWARD);
+        CryptoChain newChain = new CryptoChain();
         newChain.addBlock(transactionList);
 
         Boolean isValid = cryptoChain.isValidTransactionData(newChain.getChain());

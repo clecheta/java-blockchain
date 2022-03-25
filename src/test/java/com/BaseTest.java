@@ -13,8 +13,6 @@ public class BaseTest {
     public static final String publicKey = "Bar-Jesus-pu8L1C-K3y"; //https://en.wikipedia.org/wiki/Elymas
     public static final BigDecimal tooHighAmount = new BigDecimal(9000);
     public static final BigDecimal STARTING_BALANCE = new BigDecimal(100);
-    public static final String REWARD_INPUT = "*authorized-reward*";
-    public static final BigDecimal MINER_REWARD = new BigDecimal(1);
 
     //TODO read this value from a properties file
     public Boolean consoleLog = true;
