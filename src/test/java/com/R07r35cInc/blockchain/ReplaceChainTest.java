@@ -6,6 +6,7 @@ import com.R07r35cInc.cryptocurrency.Tx;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,7 +78,7 @@ public class ReplaceChainTest extends BaseTest {
 
         RuntimeException thrown = assertThrows(
                 RuntimeException.class,
-                () -> cryptoChain.replaceChain(newCrytoChain.getChain()),
+                () -> cryptoChain.replaceChain(newCrytoChain.getChain(), BigDecimal.ZERO),
                 "the validateTransactions flag is true"
         );
         assertTrue(thrown.getMessage().contains("The incoming chain has invalid data"),

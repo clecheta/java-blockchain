@@ -29,8 +29,8 @@ public class CryptoChain extends NetChain<List<Tx>> {
      * Necessary because of the blockchain network interaction
      * not static method as it is specific to each instance of the blockchain
      **/
-    public Boolean replaceChain(List<Block<List<Tx>>> chain) {
-        if (!this.isValidTransactionData(chain)) {
+    public Boolean replaceChain(List<Block<List<Tx>>> chain, BigDecimal startingBalance) {
+        if (!this.isValidTransactionData(chain, startingBalance)) {
             throw new RuntimeException("The incoming chain has invalid data");
         }
         return super.replaceChain(chain);
@@ -38,7 +38,7 @@ public class CryptoChain extends NetChain<List<Tx>> {
 
     //TODO: make a test to ensure this is a non static method
     //FIXME Is it really necessary to pass the chain here as argument?
-    public Boolean isValidTransactionData(List<Block<List<Tx>>> chain) {
+    public Boolean isValidTransactionData(List<Block<List<Tx>>> chain, BigDecimal startingBalance) {
         List<Tx> transactions;
         Tx lastTransaction = null;
         try {
@@ -73,9 +73,10 @@ public class CryptoChain extends NetChain<List<Tx>> {
                                 return false;
                             }
 
+                            /*
                             if (i==chain.size()-1) {
-                                lastTransaction = transaction;
-                            }
+                                lastTransaction = transaction; //TODO: maybe this should be last address transaction to be matched against true balance
+                            }*/
 
                             //Prevent Duplicate Transactions in Block
                             if (transactionSet.contains(transaction)) {
@@ -96,19 +97,17 @@ public class CryptoChain extends NetChain<List<Tx>> {
         /** Validate Input Balances to make sure that every transaction
          * input is based on the actual blockchain history
          * @link https://git.okaut.com/Jesus/JBlock/-/issues/13
-         */
+
         if (lastTransaction == null) {
             return false;
         }
         //FIXME https://git.okaut.com/Jesus/api.blockchain/-/issues/19
         // this calc does not match when working with chain saved to the database
-        //Fix the wallet value fixed in 100
-        BigDecimal trueBalance = Calculate.walletBalance(this.getChain(),
-                lastTransaction.getInput().address, new BigDecimal(100)); //must use this. reference to the chain
+        BigDecimal trueBalance = Calculate.walletBalance(chain, lastTransaction.getInput().address, startingBalance);
         if (lastTransaction.getInput().amount.compareTo(trueBalance) != 0) {
             System.out.println(LocalDateTime.now() + " ERROR [CryptoChain] Invalid input amount");
             return false;
-        }
+        }*/
 
         return true;
     }
