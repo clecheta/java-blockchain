@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.nio.ByteBuffer;
 import java.time.LocalDateTime;
 
 /**
@@ -49,5 +50,18 @@ public class Parse<T> {
             System.out.println(LocalDateTime.now() + " ERROR [Parse] Fail-json-to-object");
         }
         return jsonAsObject;
+    }
+
+    public static byte[] longToBytes(Long x) {
+        ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
+        buffer.putLong(x);
+        return buffer.array();
+    }
+
+    public static long bytesToLong(byte[] bytes) {
+        ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
+        buffer.put(bytes);
+        buffer.flip();//need flip
+        return buffer.getLong();
     }
 }
