@@ -7,6 +7,9 @@ import java.math.BigDecimal;
  * https://encontreiJesus.com
  */
 public class TransactionCommand {
+    /** From: origin */
+    public String uid;
+    /** To: destination */
     public String recipient;
     public BigDecimal amount;
     public PayTypeEnum type;

@@ -22,7 +22,8 @@ public class Wallet {
     public String publicKey;
     public String uid; //identifies a unique user from the app
 
-    public Long nonce = 0L; //a counter that indicates the number of transactions sent from the account
+    /** a counter that indicates the number of transactions sent from the account */
+    public Long nonce = 0L;
     private BigDecimal STARTING_BALANCE = BigDecimal.ZERO;
 
     public Wallet() {
