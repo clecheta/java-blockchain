@@ -40,6 +40,9 @@ cobertura: # Must be in a stage later than test's stage.
     - master
 
 package-repository:
+  before_script:
+    - rm target/JBlock-1.0-SNAPSHOT.jar
+    - mv target/JBlock-1.0-SNAPSHOT_obfuscated.jar target/JBlock-1.0-SNAPSHOT.jar
   stage: package
   script:
     - 'mvn deploy -s ci_settings.xml'
