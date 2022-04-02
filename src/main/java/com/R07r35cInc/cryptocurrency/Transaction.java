@@ -13,9 +13,9 @@ import java.util.*;
  * @author Cleber Lecheta
  * https://encontreiJesus.com
  */
-@JsonPropertyOrder({"id", "input", "outputMap","tx"})
+@JsonPropertyOrder({"id", "input", "outputMap","serialVersionUID"})
 public class Transaction implements Tx {
-    public String tx = "transaction";
+    public final String serialVersionUID = "2195246594648779488";
 
     public static final String REWARD_INPUT = "*authorized-reward*"; //TODO read from config file/property
     public static final BigDecimal MINER_REWARD = new BigDecimal(1); //TODO: read from config file? - not sure yet
