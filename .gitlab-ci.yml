@@ -26,23 +26,24 @@ Junit:
     paths:
       - target/site/jacoco/jacoco.xml
 
-cobertura: # Must be in a stage later than test's stage.
-  stage: visualize
-  image: registry.gitlab.com/haynes/jacoco2cobertura:1.0.7
-  script:
-    # convert report from jacoco to cobertura, using relative project path
-    - python /opt/cover2cover.py target/site/jacoco/jacoco.xml $CI_PROJECT_DIR/src/main/java/ > target/site/cobertura.xml
-  needs: ["Junit"]
-  artifacts:
-    reports:
-      cobertura: target/site/cobertura.xml
-  only:
-    - master
+# cobertura: # Must be in a stage later than test's stage.
+#   stage: visualize
+#   image: registry.gitlab.com/haynes/jacoco2cobertura:1.0.7
+#   script:
+#     # convert report from jacoco to cobertura, using relative project path
+#     - python /opt/cover2cover.py target/site/jacoco/jacoco.xml $CI_PROJECT_DIR/src/main/java/ > target/site/cobertura.xml
+#   needs: ["Junit"]
+#   artifacts:
+#     reports:
+#       cobertura: target/site/cobertura.xml
+#   only:
+#     - master
 
 package-repository:
   before_script:
-    - rm target/JBlock-1.0-SNAPSHOT.jar
-    - mv target/JBlock-1.0-SNAPSHOT_obfuscated.jar target/JBlock-1.0-SNAPSHOT.jar
+    - ls -lha
+    #- rm target/JBlock-1.0-SNAPSHOT.jar
+    #- mv target/JBlock-1.0-SNAPSHOT_obfuscated.jar target/JBlock-1.0-SNAPSHOT.jar
   stage: package
   script:
     - 'mvn deploy -s ci_settings.xml'
