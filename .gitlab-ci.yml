@@ -31,11 +31,11 @@ cobertura: # Must be in a stage later than test's stage.
   image: registry.gitlab.com/haynes/jacoco2cobertura:1.0.7
   script:
     # convert report from jacoco to cobertura, using relative project path
-    - python /opt/cover2cover.py target/jacoco-report/jacoco.xml $CI_PROJECT_DIR/src/main/java/ > target/cobertura.xml
+    - python /opt/cover2cover.py target/site/jacoco/jacoco.xml $CI_PROJECT_DIR/src/main/java/ > target/site/cobertura.xml
   needs: ["Junit"]
   artifacts:
     reports:
-      cobertura: target/cobertura.xml
+      cobertura: target/site/cobertura.xml
   only:
     - master
 
