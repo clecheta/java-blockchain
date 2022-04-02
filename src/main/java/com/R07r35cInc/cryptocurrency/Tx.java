@@ -11,7 +11,7 @@ import java.util.UUID;
  * @author Cleber Lecheta
  * https://encontreiJesus.com
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "serialVersionUID")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "tx")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Transaction.class, name = "2195246594648779488"),
         @JsonSubTypes.Type(value = PayTypeTransaction.class, name = "8594486971833484244"),

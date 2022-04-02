@@ -10,9 +10,9 @@ import java.util.UUID;
  * @author Cleber Lecheta
  * https://encontreiJesus.com
  */
-@JsonPropertyOrder({"id", "type", "input", "outputMap", "serialVersionUID"})
+@JsonPropertyOrder({"id", "type", "input", "outputMap", "tx"})
 public class PayTypeTransaction implements Tx {
-    public final String serialVersionUID = "8594486971833484244";
+    public String tx = "8594486971833484244";
 
     private final Tx transaction;
 
