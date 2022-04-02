@@ -16,12 +16,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.yworks</groupId>
-            <artifactId>yguard</artifactId>
-            <version>3.1.0</version>
-            <scope>compile</scope>
-        </dependency>
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -88,39 +82,6 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.8</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <id>obfuscate</id>
-                        <configuration>
-                            <tasks>
-                                <property name="runtime_classpath" refid="maven.runtime.classpath"/>
-                                <taskdef name="yguard" classname="com.yworks.yguard.YGuardTask" classpath="${runtime_classpath}"/>
-                                <yguard>
-                                    <inoutpair in="${project.build.directory}/${project.build.finalName}.jar" out="${project.build.directory}/${project.build.finalName}_obfuscated.jar" />
-
-                                    <shrink logfile="${project.build.directory}/yshrink.log.xml">
-                                        <keep>
-                                            <!-- main method -->
-                                            <method name="void main(java.lang.String[])" class="${mainclass}" />
-                                        </keep>
-                                    </shrink>
-
-                                    <rename mainclass="${mainclass}" logfile="${project.build.directory}/yguard.log.xml">
-                                        <property name="error-checking" value="pedantic"/>
-                                    </rename>
-                                </yguard>
-                            </tasks>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
