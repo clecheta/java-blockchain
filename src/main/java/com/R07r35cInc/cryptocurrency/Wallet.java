@@ -20,7 +20,7 @@ public class Wallet {
     public final KeyPair keyPair; //an account is the keypair for a user-owned
     public BigDecimal balance;
     public String publicKey;
-    public String uid; //identifies a unique user from the app
+    public String uid = UUID.randomUUID().toString(); //identifies a unique user from the app
 
     /** a counter that indicates the number of transactions sent from the account */
     public Long nonce = 0L;
@@ -30,17 +30,21 @@ public class Wallet {
         ECDSA = new ECDSA();
         this.keyPair = ECDSA.genKeyPair();
         this.publicKey = ECDSA.getPublic();
-        this.balance = STARTING_BALANCE;
-        this.uid = UUID.randomUUID().toString();
+        this.balance = BigDecimal.ZERO;
     }
 
     public Wallet(BigDecimal startingBalance) {
-        ECDSA = new ECDSA();
-        this.keyPair = ECDSA.genKeyPair();
-        this.publicKey = ECDSA.getPublic();
+        this();
         this.balance = startingBalance;
-        this.uid = UUID.randomUUID().toString();
         this.STARTING_BALANCE = startingBalance;
+    }
+
+    public Wallet(String uid) {
+        this();
+        if (uid == null || uid.length() < 8) {
+            throw new RuntimeException("Too short identification");
+        }
+        this.uid = uid;
     }
 
     public Wallet(KeyPair keyPair, BigDecimal balance, String uid, BigDecimal startingBalance, Long nonce) {
