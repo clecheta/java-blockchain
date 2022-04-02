@@ -108,11 +108,11 @@ public class ECDSA {
         return null;
     }
 
-    public static ECPrivateKey loadPrivateKey(String privKey) {
+    public static ECPrivateKey loadPrivateKey(byte[] privKey) {
         try {
-            byte[] encoded = Base64.getDecoder().decode(privKey);
+            //byte[] encoded = Base64.getDecoder().decode(privKey);
             KeyFactory keyFactory = KeyFactory.getInstance("EC");
-            EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(encoded);
+            EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(privKey);
             return  (ECPrivateKey)keyFactory.generatePrivate(keySpec);
         } catch (Exception e) {
             System.out.println(LocalDateTime.now() + " ERROR [ECDSA] Failed to load private key " + e.getMessage());
