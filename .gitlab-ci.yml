@@ -41,9 +41,9 @@ Junit:
 
 package-repository:
   before_script:
-    - ls -lha
-    #- rm target/JBlock-1.0-SNAPSHOT.jar
-    #- mv target/JBlock-1.0-SNAPSHOT_obfuscated.jar target/JBlock-1.0-SNAPSHOT.jar
+    #- ls -lha
+    - rm ./target/JBlock-1.0-SNAPSHOT.jar
+    - mv ./target/JBlock-1.0-SNAPSHOT_obfuscated.jar ./target/JBlock-1.0-SNAPSHOT.jar
   stage: package
   script:
     - 'mvn deploy -s ci_settings.xml'
