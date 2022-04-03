@@ -13,9 +13,9 @@ import java.util.*;
  * @author Cleber Lecheta
  * https://encontreiJesus.com
  */
-@JsonPropertyOrder({"id", "input", "outputMap","tx"})
+@JsonPropertyOrder({"id", "input", "outputMap", "serial"})
 public class Transaction implements Tx {
-    public String tx = "2195246594648779488";
+    public String serial = "2195246594648779488";
 
     public static final String REWARD_INPUT = "*authorized-reward*"; //TODO read from config file/property
     public static final BigDecimal MINER_REWARD = new BigDecimal(1); //TODO: read from config file? - not sure yet
@@ -36,15 +36,6 @@ public class Transaction implements Tx {
         //use outputMap so that we can have more than one recipient in the transaction
         this.outputMap = createOutputMap(senderWallet, recipient, amount);
         this.input = createInput(senderWallet, this.outputMap);
-    }
-
-    /**
-     * Override constructor to work with mining transactions
-     */
-    public Transaction(Map<String, BigDecimal> outputMap, Input input) {
-        this();
-        this.outputMap = outputMap;
-        this.input = input;
     }
 
     public static Input createRewardInput(String inputAddress) {
@@ -84,7 +75,7 @@ public class Transaction implements Tx {
         outputMap.put(minerWallet.publicKey, MINER_REWARD);
         Input input = createRewardInput(REWARD_INPUT);
 
-        return new Transaction(outputMap, input);
+        return new RewardTransaction(outputMap, input);
     }
 
     private Map createOutputMap(Wallet senderWallet, String recipient, BigDecimal amount) {
