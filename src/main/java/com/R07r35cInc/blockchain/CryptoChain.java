@@ -1,5 +1,6 @@
 package com.R07r35cInc.blockchain;
 
+import com.R07r35cInc.cryptocurrency.RewardTransaction;
 import com.R07r35cInc.cryptocurrency.Transaction;
 import com.R07r35cInc.cryptocurrency.Tx;
 import com.R07r35cInc.cryptocurrency.Wallet;
@@ -50,7 +51,7 @@ public class CryptoChain extends NetChain<List<Tx>> {
 
                 if (transactions != null) { //there is transactions in the block
                     for (Tx transaction : transactions) {
-                        if (transaction.getInput().address.equals(Transaction.REWARD_INPUT)) {
+                        if (transaction instanceof RewardTransaction) {
                             rewardTransactionCount += 1;
 
                             if (rewardTransactionCount > 1) {
@@ -77,6 +78,11 @@ public class CryptoChain extends NetChain<List<Tx>> {
                             if (i==chain.size()-1) {
                                 lastTransaction = transaction; //TODO: maybe this should be last address transaction to be matched against true balance
                             }*/
+                            BigDecimal trueBalance = Calculate.walletBalance(chain, transaction.getInput().address, startingBalance);
+                            if (transaction.getInput().amount.compareTo(trueBalance) != 0) {
+                                System.out.println(LocalDateTime.now() + " ERROR [CryptoChain] Invalid input amount");
+                                //return false;
+                            }
 
                             //Prevent Duplicate Transactions in Block
                             if (transactionSet.contains(transaction)) {
