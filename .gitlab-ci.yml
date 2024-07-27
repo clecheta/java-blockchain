@@ -13,8 +13,8 @@ before_script:
   - echo $CI_COMMIT_BRANCH
 
 code_quality:
-  tags:
-    - cq-sans-dind # Set this job to only run on our specialized runner
+  # tags:
+  #   - cq-sans-dind # Set this job to only run on our specialized runner
   artifacts:
     paths: [gl-code-quality-report.json]
 
