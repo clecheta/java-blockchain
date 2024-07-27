@@ -16,6 +16,10 @@ Block:
   stage: blockchain
   script:
     - mvn -Dtest=com.R07r35cInc.blockchain.BlockTest
+
+BlockChain:
+  stage: blockchain
+  script:
     - mvn -Dtest=com.R07r35cInc.blockchain.BlockChainTest
 
 code_quality:
