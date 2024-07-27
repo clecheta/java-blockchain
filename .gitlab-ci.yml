@@ -15,12 +15,27 @@ before_script:
 Block:
   stage: blockchain
   script:
-    - mvn -Dtest=com.R07r35cInc.blockchain.BlockTest
+    - mvn test -Dtest=com.R07r35cInc.blockchain.BlockTest
 
 BlockChain:
   stage: blockchain
   script:
-    - mvn -Dtest=com.R07r35cInc.blockchain.BlockChainTest
+    - mvn test -Dtest=com.R07r35cInc.blockchain.BlockChainTest
+
+Nonce:
+  stage: blockchain
+  script:
+    - mvn test -Dtest=com.R07r35cInc.blockchain.NonceTest
+
+NetChain:
+  stage: blockchain
+  script:
+    - mvn test -Dtest=com.R07r35cInc.blockchain.NetChainTest    
+
+ReplaceChain:
+  stage: blockchain
+  script:
+    - mvn test -Dtest=com.R07r35cInc.blockchain.ReplaceChainTest
 
 code_quality:
   stage: test
