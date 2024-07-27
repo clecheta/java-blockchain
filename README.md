@@ -1,4 +1,4 @@
-## POC Blockchain in Java (JBlock)
+## JBlock | POC Java Blockchain
 
 The project aims to prove the availability of an internal Java Blockchain able to store and maintain a chain of objects
 
