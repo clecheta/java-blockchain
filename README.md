@@ -5,8 +5,7 @@ The project aims to prove the availability of an internal Java Blockchain able t
 from a basic concept in
 src/doc/concept
 
-# Pipeline view
-https://gitlab.com/cleberlecheta/java-blockchain/-/pipelines/1390651485
+![Pipeline view](https://gitlab.com/cleberlecheta/java-blockchain/-/blob/master/src/doc/pipeline-view.png)
 
 # Mavem repository
 https://gitlab.com/cleberlecheta/java-blockchain/-/packages
