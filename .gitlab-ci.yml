@@ -3,7 +3,7 @@ image: maven:3.8.4-openjdk-17
 stages:
   - blockchain
   - cryptocurrency
-  - code
+  - test
   - package
 
 include:
@@ -48,13 +48,13 @@ Util:
   script:
     - mvn test -Dtest=com.R07r35cInc.util.**
 
-Use Cases:
+Use-Cases:
   stage: cryptocurrency
   script:
     - mvn test -Dtest=com.R07r35cInc.util.CryptocurrencyUseCase,com.R07r35cInc.util.LoginUseCase
 
-Quality:
-  stage: code
+code_quality:
+  stage: test
   artifacts:
     paths: [gl-code-quality-report.json]
 
