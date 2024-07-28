@@ -7,6 +7,7 @@ You can check this simple example by running:
 ``TestChain.java``
 
 Then I evolute the project to a full **Blockchain** using the network chains and miner as you can find in package `com.R07r35cInc.blockchain`
+You can find all the details of the implementation in the [project issues](https://gitlab.com/cleberlecheta/java-blockchain/-/issues/?sort=created_date&state=all&first_page_size=20).
 
 2. In this package I prepared the Block and Blockchain to store any kind of objects. We can store a Document, a Value, 
 a simple object, a complex object of you domain application any other kind of Transaction you may want.
