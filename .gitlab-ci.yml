@@ -56,7 +56,7 @@ Util:
 Use-Cases:
   stage: cryptocurrency
   script:
-    - mvn test -Dtest=com.R07r35cInc.util.CryptocurrencyUseCase,com.R07r35cInc.util.LoginUseCase
+    - mvn test -Dtest=com.R07r35cInc.CryptocurrencyUseCase,com.R07r35cInc.util.LoginUseCase
 
 Repository:
   before_script:
