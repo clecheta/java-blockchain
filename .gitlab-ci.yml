@@ -1,9 +1,9 @@
 image: maven:3.8.4-openjdk-17
 
 stages:
+  - test
   - blockchain
   - cryptocurrency
-  - test
   - package
 
 include:
