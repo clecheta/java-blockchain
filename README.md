@@ -7,3 +7,6 @@ src/doc/concept
 
 # Pipeline view
 https://gitlab.com/cleberlecheta/java-blockchain/-/pipelines/1390651485
+
+# Mavem repository
+https://gitlab.com/cleberlecheta/java-blockchain/-/packages
