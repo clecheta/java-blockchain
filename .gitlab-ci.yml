@@ -2,7 +2,8 @@ image: maven:3.8.4-openjdk-17
 
 stages:
   - blockchain
-  - test
+  - cryptocurrency
+  - code
   - package
 
 include:
@@ -37,12 +38,27 @@ ReplaceChain:
   script:
     - mvn test -Dtest=com.R07r35cInc.blockchain.ReplaceChainTest
 
-code_quality:
-  stage: test
+Cryptocurrency:
+  stage: cryptocurrency
+  script:
+    - mvn test -Dtest=com.R07r35cInc.cryptocurrency.**
+
+Util:
+  stage: cryptocurrency
+  script:
+    - mvn test -Dtest=com.R07r35cInc.util.**
+
+Use Cases:
+  stage: cryptocurrency
+  script:
+    - mvn test -Dtest=com.R07r35cInc.util.CryptocurrencyUseCase,com.R07r35cInc.util.LoginUseCase
+
+Quality:
+  stage: code
   artifacts:
     paths: [gl-code-quality-report.json]
 
-package-repository:
+Repository:
   before_script:
   stage: package
   script:
