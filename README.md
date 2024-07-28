@@ -5,6 +5,7 @@ The project aims to prove the availability of an internal Java Blockchain able t
 from a basic concept in
 src/doc/concept
 
+#Pipeline view
 ![Pipeline view](src/doc/pipeline-view.png)
 
 # Mavem repository
