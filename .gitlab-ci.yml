@@ -13,6 +13,11 @@ before_script:
   - echo "before script"
   - echo $CI_COMMIT_BRANCH
 
+code_quality:
+  stage: test
+  artifacts:
+    paths: [gl-code-quality-report.json]
+
 Block:
   stage: blockchain
   script:
@@ -52,11 +57,6 @@ Use-Cases:
   stage: cryptocurrency
   script:
     - mvn test -Dtest=com.R07r35cInc.util.CryptocurrencyUseCase,com.R07r35cInc.util.LoginUseCase
-
-code_quality:
-  stage: test
-  artifacts:
-    paths: [gl-code-quality-report.json]
 
 Repository:
   before_script:
