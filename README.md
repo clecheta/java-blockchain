@@ -1,4 +1,4 @@
-## JBlock | POC Java Blockchain
+## JBlock | Java Blockchain
 
 > **Honorable mention — craftsmanship era**  
 > From June 2021 through July 2024, this codebase was built by hand — line by line, the old way: software as craft.  
