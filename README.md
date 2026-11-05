@@ -1,5 +1,9 @@
 ## JBlock | POC Java Blockchain
 
+> **Honorable mention — craftsmanship era**  
+> From June 2021 through July 2024, this codebase was built by hand — line by line, the old way: software as craft.  
+> From November 2026 onward, evolution continues with AI as a collaborator, without erasing that artisan foundation.
+
 This project demonstrates an internal Java blockchain that can store and maintain a chain of arbitrary objects.
 
 1. A basic blockchain concept (based on public reference material) lives in `src/doc/concept`, with the `Block`, `Blockchain`, and `CryptoHash` classes.
