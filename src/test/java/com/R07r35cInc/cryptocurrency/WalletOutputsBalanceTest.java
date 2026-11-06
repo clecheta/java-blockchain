@@ -1,26 +1,21 @@
 package com.R07r35cInc.cryptocurrency;
 
 import com.BaseTest;
-import com.R07r35cInc.blockchain.Block;
 import com.R07r35cInc.blockchain.BlockChain;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * @author Cleber Lecheta
  * https://encontreiJesus.com
  */
-@ExtendWith(MockitoExtension.class)
-//@RunWith(JUnitPlatform.class)
 public class WalletOutputsBalanceTest extends BaseTest {
 
     Wallet wallet;
@@ -38,7 +33,6 @@ public class WalletOutputsBalanceTest extends BaseTest {
         TransactionCommand transactCmdTwo = new TransactionCommand(wallet.publicKey, new BigDecimal(10));
         transaction2 = new Wallet(STARTING_BALANCE).createTransaction(transactCmdTwo);
 
-        //Add the transactions in the blockchain
         List<Tx> transactionList = new ArrayList<>();
         transactionList.add(transaction1);
         transactionList.add(transaction2);
@@ -46,7 +40,7 @@ public class WalletOutputsBalanceTest extends BaseTest {
     }
 
     @Test
-    void sumAllOutputs() { //wallet received two transactions
+    void sumAllOutputs() {
         BigDecimal actualBalance = wallet.calculateBalance(cryptoChain.getChain(), wallet.publicKey);
         BigDecimal totalAmount = STARTING_BALANCE
                 .add(transaction1.getOutputMap().get(wallet.publicKey))
@@ -55,12 +49,12 @@ public class WalletOutputsBalanceTest extends BaseTest {
     }
 
     @Test
-    void ensureCalculateBalanceIsCalled() { //FIXME not really working
-        Wallet mockWallet = mock(Wallet.class);
-        ClasseSendoTestada classeSendoTestada = new ClasseSendoTestada(mockWallet);
-        classeSendoTestada.createTransaction(wallet.publicKey, new BigDecimal(10),
-                new BlockChain().getChain());
-        //verify(mockWallet, times(1)).calculateBalance(cryptoChain.getChain(), mockWallet.publicKey);
+    void createTransactionUsesChainBalance() {
+        Wallet sender = new Wallet(STARTING_BALANCE);
+        TransactionCommand cmd = new TransactionCommand(wallet.publicKey, new BigDecimal(10));
+        Tx tx = sender.createTransaction(cmd, cryptoChain.getChain());
+        assertNotNull(tx);
+        assertEquals(STARTING_BALANCE.subtract(new BigDecimal(10)), tx.getOutputMap().get(sender.publicKey));
     }
 
     @Test
@@ -76,22 +70,6 @@ public class WalletOutputsBalanceTest extends BaseTest {
         BigDecimal expectedBalance = new BigDecimal(125);
         BigDecimal actualBalance = wallet.calculateBalance(cryptoChain.getChain(), wallet.publicKey);
         assertEquals(expectedBalance, actualBalance);
-    }
-
-}
-
-
-class ClasseSendoTestada {
-
-    Wallet dependencia;
-
-    public ClasseSendoTestada(Wallet dependencia){
-        this.dependencia = dependencia;
-    }
-
-    void createTransaction(String recipient, BigDecimal amount, List<Block<List<Tx>>> chain){
-        TransactionCommand cmd = new TransactionCommand(recipient, amount);
-        dependencia.createTransaction(cmd, chain);
     }
 
 }

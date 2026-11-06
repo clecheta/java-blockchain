@@ -38,7 +38,7 @@ These tests are also grouped by responsibility in `.gitlab-ci.yml`. This is not 
 
 # Maven repository
 
-The project was initially developed with **Java 17** and is packaged and distributed with Maven so it can be used as a library in any Java project.
+The project targets **Java 25 LTS** (Temurin recommended via SDKMAN) and is packaged and distributed with Maven so it can be used as a library in any Java project. Jackson is aligned with the Quarkus **3.40.1.1** BOM (`jackson-databind` 2.21.7).
 
 https://gitlab.com/cleberlecheta/java-blockchain/-/packages
 
