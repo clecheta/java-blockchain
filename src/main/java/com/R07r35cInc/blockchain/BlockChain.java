@@ -97,6 +97,29 @@ public class BlockChain<T> implements Chain<T> {
         return true;
     }
 
+    /**
+     * Append a single peer-mined block when it extends the local tip.
+     * Used by incremental Kafka sync instead of full-chain replace.
+     */
+    public Boolean appendValidatedBlock(Block<T> block) {
+        if (block == null) {
+            throw new RuntimeException("The incoming block must not be null");
+        }
+        Block<T> tip = this.chain.get(this.chain.size() - 1);
+        if (!tip.getHash().equals(block.getPreviousHash())) {
+            throw new RuntimeException("The incoming block previousHash must match the local tip");
+        }
+        if (block.getNumber() != tip.getNumber() + 1) {
+            throw new RuntimeException("The incoming block number must be tip+1");
+        }
+        String validatedHash = CryptoHash.calculateHash(block);
+        if (!block.getHash().equals(validatedHash)) {
+            throw new RuntimeException("The incoming block hash is invalid");
+        }
+        this.chain.add(block);
+        return true;
+    }
+
     public List<Block<T>> getChain() {
         return this.chain;
     }

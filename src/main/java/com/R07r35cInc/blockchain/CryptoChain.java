@@ -8,6 +8,7 @@ import com.R07r35cInc.util.Calculate;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +36,27 @@ public class CryptoChain extends NetChain<List<Tx>> {
             throw new RuntimeException("The incoming chain has invalid data");
         }
         return super.replaceChain(chain);
+    }
+
+    /**
+     * Append a mined crypto block after structural validation, optionally
+     * checking transaction data for that block in the extended chain context.
+     */
+    public Boolean appendValidatedBlock(Block<List<Tx>> block, BigDecimal startingBalance) {
+        if (block == null) {
+            throw new RuntimeException("The incoming block must not be null");
+        }
+        List<Block<List<Tx>>> candidate = new ArrayList<>(this.getChain());
+        candidate.add(block);
+        if (startingBalance != null && !this.isValidTransactionData(candidate, startingBalance)) {
+            throw new RuntimeException("The incoming chain has invalid data");
+        }
+        return super.appendValidatedBlock(block);
+    }
+
+    @Override
+    public Boolean appendValidatedBlock(Block<List<Tx>> block) {
+        return appendValidatedBlock(block, null);
     }
 
     //TODO: make a test to ensure this is a non static method
@@ -96,7 +118,13 @@ public class CryptoChain extends NetChain<List<Tx>> {
                     }
                 }
             }
-        } catch (ClassCastException | NullPointerException exception) {
+        } catch (ClassCastException exception) {
+            System.out.println(LocalDateTime.now() + " ERROR [CryptoChain] ClassCastException validating txs: "
+                    + exception.getMessage());
+            return false;
+        } catch (NullPointerException exception) {
+            System.out.println(LocalDateTime.now() + " ERROR [CryptoChain] NullPointerException validating txs: "
+                    + exception.getMessage());
             return false;
         }
 
