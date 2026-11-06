@@ -43,4 +43,19 @@ public class TransactionPoolTest extends BaseTest {
         assertEquals(expected, transaction, "returns an existing transaction given an input address");
     }
 
+    @Test
+    void reservesMultiplePendingTransactionsPerSender() {
+        Wallet funded = new Wallet(new BigDecimal("100"));
+        Transaction first = new Transaction(funded, recipient, new BigDecimal("10"));
+        transactionPool.setTransaction(first);
+
+        funded.balance = new BigDecimal("90");
+        Transaction second = new Transaction(funded, publicKey, new BigDecimal("10"));
+        transactionPool.setTransaction(second);
+
+        assertEquals(2, transactionPool.size());
+        assertEquals(new BigDecimal("80"),
+                transactionPool.availableBalance(funded.publicKey, new BigDecimal("100")));
+    }
+
 }

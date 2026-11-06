@@ -47,6 +47,17 @@ public class CryptoHash {
     //IN
     public static String calculateHash(Date date, String previousHash, Object data, long number, long nonce) {
         String dataAsString = new Parse().toJson(data);
+        return calculateHashFromSerializedData(
+                date, previousHash, dataAsString, number, nonce);
+    }
+
+    /**
+     * Mining hot path: callers that try many nonces can serialize immutable
+     * block data once instead of once per hash attempt.
+     */
+    public static String calculateHashFromSerializedData(
+            Date date, String previousHash, String dataAsString,
+            long number, long nonce) {
         String timestamp = dateFormat.format(date);
         String indexString = Long.toString(number);
         String nonceString = Long.toString(nonce);

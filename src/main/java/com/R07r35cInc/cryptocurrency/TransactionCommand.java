@@ -1,5 +1,7 @@
 package com.R07r35cInc.cryptocurrency;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import java.math.BigDecimal;
 
 /**
@@ -11,6 +13,7 @@ public class TransactionCommand {
     public String uid;
     /** To: destination */
     public String recipient;
+    @JsonDeserialize(using = LosslessBigDecimalDeserializer.class)
     public BigDecimal amount;
     public PayTypeEnum type;
 

@@ -1,6 +1,7 @@
 package com.R07r35cInc.blockchain;
 
 import com.R07r35cInc.util.CryptoHash;
+import com.R07r35cInc.util.Parse;
 
 import java.util.Date;
 
@@ -24,11 +25,13 @@ public class Miner<T> {
         long nonce = 0;
         boolean nonceFound = false;
         String nonceHash = "";
+        String serializedData = Parse.toJson(data);
 
         while (!nonceFound) {
             date = new Date();
             nonce++;
-            nonceHash = CryptoHash.calculateHash(date, previousHash, data, number, nonce);
+            nonceHash = CryptoHash.calculateHashFromSerializedData(
+                    date, previousHash, serializedData, number, nonce);
             nonceFound = nonceHash.startsWith(nonceKey);
         }
 

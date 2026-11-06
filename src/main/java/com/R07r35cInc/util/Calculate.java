@@ -29,7 +29,6 @@ public class Calculate {
      * within the transaction output map, we add that to the outputs total
      */
     public static BigDecimal walletBalance(List<Block<List<Tx>>> chain, String address, BigDecimal STARTING_BALANCE) {
-        Boolean hasConductedTransaction = false;
         BigDecimal outputsTotal = BigDecimal.ZERO;
 
         Block<List<Tx>> block;
@@ -39,11 +38,17 @@ public class Calculate {
             block = chain.get(i);
             transactionList = block.getData();
             if (transactionList != null) { //wallet has received a transaction
-                for (Tx transaction : transactionList) {
+                // Newest transaction first. Once the wallet spends, its change
+                // output is the balance base; earlier history must not be added.
+                for (int transactionIndex = transactionList.size() - 1;
+                     transactionIndex >= 0; transactionIndex--) {
+                    Tx transaction = transactionList.get(transactionIndex);
                     if (transaction.getInput().address.equals(address)) {
-                        /* Do not double count outputs. If the address already made a transaction
-                           the balance should start from the output for the address*/
-                        hasConductedTransaction = true;
+                        BigDecimal change = transaction.getOutputMap().get(address);
+                        if (change != null) {
+                            outputsTotal = outputsTotal.add(change);
+                        }
+                        return outputsTotal;
                     }
 
                     BigDecimal addressOutput = transaction.getOutputMap().get(address);
@@ -51,15 +56,10 @@ public class Calculate {
                         outputsTotal = outputsTotal.add(addressOutput);
                     }
                 }
-
-                if (hasConductedTransaction) {
-                    break;
-                }
             }
         }
 
-        BigDecimal result = hasConductedTransaction ? outputsTotal : STARTING_BALANCE.add(outputsTotal);
-        return result;
+        return STARTING_BALANCE.add(outputsTotal);
     }
 
 }
