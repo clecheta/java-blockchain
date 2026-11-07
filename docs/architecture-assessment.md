@@ -7,7 +7,7 @@ Not a gated feature proposal — use as context when starting Analysis/Architect
 | Artifact | Repository | Role |
 |----------|------------|------|
 | **JBlock** | `java-blockchain` | Domain Maven library (chain, mining, wallet, transactions) |
-| **JBlock API** | `java-blockchain-api` | Quarkus app: REST, MongoDB, Kafka, React demo UI |
+| **JBlock API** | `java-blockchain-api` | Quarkus app: REST, PostgreSQL ledger, Kafka fan-out, React demo UI |
 
 Product / market positioning lives in the private `java-blockchain-docs` workspace (`strategy/`), not in the open-source API docs.
 
@@ -39,7 +39,7 @@ The ecosystem is strong in **tests + CI**, **REST**, **Docker**, **React demo**,
 │  Web / JAX-RS Resources  ──► Transaction Scripts / coordinators  │
 │       │                         │                                │
 │       │                         ├── Vert.x EventBus (in-proc)    │
-│       │                         ├── Mongo repositories           │
+│       │                         ├── PostgreSQL / Panache repos    │
 │       │                         └── Kafka Publish/Subscribe      │
 │       └── React SPA (same origin, polling-style fetch)           │
 │                                                                  │
@@ -87,7 +87,7 @@ Stage 1/2 scale thinking: single deployable, optional second-node profile, async
 
 | Area | Evidence |
 |------|----------|
-| **Tests** | JBlock: Surefire + JaCoCo, CI by responsibility. API: `@QuarkusTest`, Mongo+Kafka in CI. Run: `mvn test` in each repo. |
+| **Tests** | JBlock: Surefire + JaCoCo, CI by responsibility. API: `@QuarkusTest`, Postgres+Kafka in CI. Run: `mvn test` in each repo. |
 | **Evolution** | README: `src/doc/concept` → packages; `BlockChain` → `NetChain` → `CryptoChain`. |
 | **GoF in code** | `Block.genesis`; mine override; `Tx` + `@JsonSubTypes`; repos; `@Observes` / `@ConsumeEvent`; CDI `@Singleton`. |
 | **REST / UI / Docker** | JAX-RS resources + `/q/health*`; React under `webapp/`; Dockerfiles under `src/main/docker/`; compose = Kafka/ZK only. |
@@ -121,10 +121,10 @@ How teaching names map to skill vocabulary: Hexagonal ≈ DIP+Adapter at edges; 
 
 | Pattern | Where | Assessment |
 |---------|-------|------------|
-| **Repository** (named) | `BlockRepository`, `WalletRepository` | Good naming; closer to Mongo gateway than pure domain repo. |
+| **Repository** (named) | `BlockRepository`, `WalletRepository` | Good naming; Panache gateways over PostgreSQL ledger tables. |
 | **Data Mapper** (spirit) | `BlockCodec`, `WalletCodec` | Owns impedance mismatch well. |
 | **Active Record** | Not used | Keep it that way. |
-| **Unit of Work** | **Not explicit** | Mine: memory → EventBus → Mongo + wallets → Kafka. No atomic boundary. **Highest architecture risk.** |
+| **Unit of Work** | DB transaction + advisory lease | Mine: pending → Postgres block/wallets/fence → commit → Kafka. Peers hydrate memory. |
 | **DTO / Remote Facade** | `WalletInfo`, Kafka deserializers | Coarse remote API is good; path/method conventions hurt evolution. |
 
 **PoEAA recommendations:** enrich Domain Model invariants in JBlock; promote API scripts to Service Layer (`MineTransactions`, `ConductTransaction`, `ReplacePeerChain`); keep Data Mapper + Repository (no generic repo-for-everything); name consistency as best-effort eventual today — or tighten the mine pipeline.
@@ -140,7 +140,7 @@ Applied as **design filters**, not a purity score.
 | **SRP** | Dense `Wallet`, `TransactionMiner`, `ApplicationLifeCycle` | Application services; avoid micro-class explosion. |
 | **OCP** | Chain inheritance; `Tx` subtypes | Prefer composition if inheritance deepens; Strategy for pay types only if variants explode. |
 | **LSP / ISP** | Subchains OK; small `Chain`/`Tx` | Keep fat interfaces out. |
-| **DIP** | `new ECDSA()`, `new CryptoChain()`, concrete repos | Ports + adapters at Mongo/Kafka/(crypto) seams. |
+| **DIP** | `new ECDSA()`, `new CryptoChain()`, concrete repos | Ports + adapters at Postgres/Kafka/(crypto) seams. |
 | **YAGNI / KISS** | No speculative MS/GraphQL — good | No Hexagonal folder theater in JBlock; normalize REST; encapsulate state. |
 
 | GoF | Status | Guidance |
@@ -148,9 +148,9 @@ Applied as **design filters**, not a purity score.
 | Factory Method (`Block.genesis`) | Keep | |
 | Template Method (mine hierarchy) | Keep carefully | Prefer Strategy/composition if more chain kinds appear. |
 | Observer (EventBus, `@Observes`) | Keep | Document ordering for cross-module effects. |
-| Repository | Keep name; tighten | Hide Mongo details. |
+| Repository | Keep name; tighten | Hide SQL/Panache details. |
 | Singleton + public fields | **Antipattern default** | Single instance via DI **behind an interface**. |
-| Adapter | Introduce | Mongo + Kafka behind ports. |
+| Adapter | Introduce | Postgres + Kafka behind ports. |
 | Facade / app service | Formalize lightly | `mineTransactions` coordinator without god-object growth. |
 | Strategy / State | Defer | Until variants or workflows demand them. |
 
@@ -167,11 +167,11 @@ Applied as **design filters**, not a purity score.
 
 | Topic | Current | Guidance |
 |-------|---------|----------|
-| Store | Mongo + BSON codecs | Keep owning the mismatch. |
-| Integrity | Mostly app-level exceptions | Document what Mongo cannot enforce; prefer DB constraints where possible. |
+| Store | PostgreSQL + Flyway/Panache | Append-only blocks; NUMERIC money. |
+| Integrity | App + SQL constraints | Unique height/hash, pending reservation, settled fence. |
 | Transaction boundary | Unclear across mine/persist/broadcast | **Name** UoW scope in any redesign — money/identity-critical. |
 | Money | `BigDecimal` — good | Keep; Money value type only if rules accumulate. |
-| Consistency | Strong in JVM memory; eventual vs peers/Mongo | Call out in feature constraints. |
+| Consistency | Strong in PostgreSQL; peers eventual via Kafka + HTTP catch-up | Call out in feature constraints. |
 | Cache / LB / shard | Not needed | YAGNI; keep health for future LB. |
 
 | EDA topic | Assessment |
@@ -195,7 +195,7 @@ Applied as **design filters**, not a purity score.
 | **Hazard** | Mine-then-async-persist can broadcast before DB success | Gate broadcast on persist or use outbox. |
 | **Security** | ECDSA in domain; keys in process/DB | Name key storage, authn/z, secrets in design — not “harden later”. |
 | **Reuse** | `src/doc/concept` separate from main | Keep out of artifact; re-validate copied assumptions. |
-| **Observability** | Logs + health | Correlate mine id across EventBus + Mongo + Kafka. |
+| **Observability** | Logs + health | Correlate mine id across Postgres settlement + Kafka. |
 
 ---
 
@@ -221,7 +221,7 @@ Applied as **design filters**, not a purity score.
 | High | **OpenAPI + idiomatic REST** (`/api/v1/...`, GET for reads) | DX and evolution |
 | Medium | Selective DDD in JBlock (domain services for replace / pay types) | Stronger invariants |
 | Medium | Testcontainers, builders, frontend CI, Jacoco gates | Local/CI parity |
-| Medium | Full `docker-compose` (API + Mongo + Kafka); align JVM Dockerfile to Java 17 | Onboarding / demo |
+| Medium | Full `docker-compose` (API + Postgres + Kafka); align JVM Dockerfile to Java 25 | Onboarding / demo |
 
 ### Defer
 
@@ -235,7 +235,7 @@ Saga · CQRS / Event Sourcing · microservices split · GraphQL/gRPC/BFF · form
 - [ ] Idempotency / outbox on Kafka; gate broadcast on persist  
 - [ ] Encapsulate `@Singleton` node state  
 - [ ] Domain services in JBlock for replace and pay-type rules  
-- [ ] `docker-compose` with API + Mongo + Kafka  
+- [ ] `docker-compose` with API + Postgres + Kafka  
 - [ ] Re-enable frontend build in CI; coverage gates  
 
 ### Gated features (need Phase 1/2 approval)

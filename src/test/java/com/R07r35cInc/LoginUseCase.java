@@ -65,7 +65,7 @@ public class LoginUseCase extends BaseTest {
     @Test
     void findUserByUsername() {
         /*
-         Storing Blocks in mongo after they were mined/added to the chain is one approach, it allows me to:
+         Storing Blocks in PostgreSQL after they were mined/added to the chain is one approach, it allows me to:
          - find user by hash or e-mail directly in the database, use the block index to validated is the
          just loaded block is equal the ones in the chain
          - load the list of blocks findAll() into a blockchain by using the replaceChain() method, and thus validate
