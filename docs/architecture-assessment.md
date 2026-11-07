@@ -9,7 +9,7 @@ Not a gated feature proposal — use as context when starting Analysis/Architect
 | **JBlock** | `java-blockchain` | Domain Maven library (chain, mining, wallet, transactions) |
 | **JBlock API** | `java-blockchain-api` | Quarkus app: REST, MongoDB, Kafka, React demo UI |
 
-Related product doc: [`java-blockchain-api/docs/public-vs-private-posicionamento-jblock.md`](../../java-blockchain-api/docs/public-vs-private-posicionamento-jblock.md)
+Product / market positioning lives in the private `java-blockchain-docs` workspace (`strategy/`), not in the open-source API docs.
 
 ---
 

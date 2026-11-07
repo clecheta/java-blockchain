@@ -1,22 +1,16 @@
 image: maven:3.9.11-eclipse-temurin-25
 
 stages:
-  - test
   - blockchain
   - cryptocurrency
   - package
 
-include:
-  - template: Code-Quality.gitlab-ci.yml
+# CodeClimate-based Code-Quality.gitlab-ci.yml is deprecated and broken:
+# codeclimate/* engine images were removed from Docker Hub (GitLab support #31261247595932).
 
 before_script:
   - echo "before script"
   - echo $CI_COMMIT_BRANCH
-
-code_quality:
-  stage: test
-  artifacts:
-    paths: [gl-code-quality-report.json]
 
 Block:
   stage: blockchain
