@@ -98,6 +98,18 @@ public class BlockChain<T> implements Chain<T> {
     }
 
     /**
+     * Hydrate the in-memory chain from a persisted ledger without re-running
+     * peer-style validation. PostgreSQL (or an equivalent SoT) already accepted
+     * these blocks; boot must not CPU-spin revalidating full history.
+     */
+    public void hydrateFromLedger(List<Block<T>> chain) {
+        if (chain == null || chain.isEmpty()) {
+            throw new RuntimeException("Persisted chain must not be empty");
+        }
+        this.chain = new ArrayList<>(chain);
+    }
+
+    /**
      * Append a single peer-mined block when it extends the local tip.
      * Used by incremental Kafka sync instead of full-chain replace.
      */

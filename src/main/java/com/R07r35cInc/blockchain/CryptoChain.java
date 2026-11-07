@@ -39,6 +39,14 @@ public class CryptoChain extends NetChain<List<Tx>> {
     }
 
     /**
+     * Boot/recovery hydrate: trust persisted ledger bytes without replaying
+     * {@link #isValidTransactionData} across the entire history.
+     */
+    public void hydrateFromLedger(List<Block<List<Tx>>> chain) {
+        super.hydrateFromLedger(chain);
+    }
+
+    /**
      * Append a mined crypto block after structural validation, optionally
      * checking transaction data for that block in the extended chain context.
      */
